@@ -5,6 +5,7 @@
 #define max_users 10
 #define max_quizes 10
 #define max_answer_length 1000
+#define max_question_length 2000
 #define max_alternative_q 5
 #define max_q_per_quiz 200
      
