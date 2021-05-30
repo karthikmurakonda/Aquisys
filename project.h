@@ -38,13 +38,14 @@ void smart_fgets(char *str, int n, FILE *stream) {  //Alternative to fgets to en
   }
 }
 
-int scanf_int() {
-    int input;
-    if (scanf("%i", &input)==1) {                   //Check if input is an integer
-        clearBuf();
-        return input;
-    }
-    printf("Invalid input, please try again!\n");
+int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower limit is second arg
+    int res;
+    int out;
+    out = scanf("%d",&res);
     clearBuf();
-    return scanf_int();
+    if(out == 1){
+        if(res <= uplimit && res >= lowlimit)    return res;  //checks whether the input is in range or not.
+    }
+    printf("Not a valid response try agian(should be a number between %d and %d)\n",lowlimit,uplimit);
+    scanf_int(uplimit,lowlimit);
 }
