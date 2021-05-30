@@ -8,7 +8,7 @@ int main() {
     currentuser.ID = 0;
     appdata_read();
     printf("Choose what to do:\n1: Admin Page\n2: Quiz\n");
-    int com = scanf_int();
+    int com = scanf_int(1,2);
     if (com==1) {
         welcomepage_admin();
     }
