@@ -3,18 +3,28 @@
 #include "quiz.h"
 #include "admin.h"
 #include "file.h"
+#include "login.h"
 
 int main() {
     appdata_read();
-    printf("Choose what to do:\n1: Admin Page\n2: Quiz\n");
-    int com = scanf_int();
-    if (com==1) {
-        welcomepage_admin();
+
+    loginpage();
+    switch (currentuser.type) {
+        case 0:
+            takeQuiz(0);
+            break;
+        case 1:
+            welcomepage_admin();
+            break;
+        default:
+            printf("Error!\nInvalid user type\n");
     }
-    else if (com==2) {
-        currentuser.ID=0;
-        takeQuiz(0);
-    }
+
+    //Make User
+    /*strcpy(userlist[1].username,"admin");
+    strcpy(userlist[1].password,"password");
+    userlist[1].type=1;*/
+
     appdata_save();
     return 0;
 }
