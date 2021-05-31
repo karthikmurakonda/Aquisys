@@ -1,3 +1,5 @@
 *.exe
 *.out
 .vscode
+.appdata.dat
+run
