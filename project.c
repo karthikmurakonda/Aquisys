@@ -3,7 +3,6 @@
 #include "quiz.h"
 #include "admin.h"
 #include "file.h"
-#include "login.h"
 
 int main() {
     appdata_read();
