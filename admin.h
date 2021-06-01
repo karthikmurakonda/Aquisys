@@ -4,7 +4,6 @@ void addquiz();
 void change_marks(int quiz_id);
 void response_admin(int quiz_id);
 void showqlist_admin();
-void welcomepage_admin();
 void add_extra_questions();
 void edit_questions(int quiz_id);
 void preveiw_quiz(int quiz_Id);

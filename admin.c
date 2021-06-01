@@ -348,7 +348,7 @@ void welcomepage_admin(){
         showqlist_admin();
         }
     else if (x=='q'){
-       /*bharghav's function */
+       //loginpage();
     }
     else{
         printf("Invalid response try again(y or q)\n");

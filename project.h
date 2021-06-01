@@ -1,6 +1,14 @@
+#include "common.h"
+#include "quiz.h"
+#include "admin.h"
+#include "file.h"
+#include "login.h"
+
 struct Quizlist quizlist;
 struct User userlist[max_users];
 struct User currentuser;
+
+int login_status;
 
 void clearscr(void) {
   #ifdef _WIN32
@@ -46,6 +54,39 @@ int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower
     if(out == 1){
         if(res <= uplimit && res >= lowlimit)    return res;  //checks whether the input is in range or not.
     }
-    printf("Not a valid response try agian(should be a number between %d and %d)\n",lowlimit,uplimit);
+    printf("\nNot a valid response try again (should be a number between %d and %d)\n",lowlimit,uplimit);
     scanf_int(uplimit,lowlimit);
+}
+
+void student_nav() {
+  if (quizlist.no_of_quizes!=0) {
+    for (int  i = 0; i < quizlist.no_of_quizes; i++) {
+        printf("%d : %s\t\t Attempts-   %d/%d\n\n",i+1, quizlist.quiz[i].name, userlist[currentuser.ID].quizes_attempted[i].no_attempts, quizlist.quiz[i].no_of_max_attempts);
+    }
+    printf("What would you like to do?\n");
+    printf("- Attempt a quiz (Enter q)\n");
+    printf("- View analysis of a quiz (Enter a)\n");
+    char com;
+    E:
+    scanf("%c", &com);
+    clearBuf();
+    if (com=='q') {
+        printf("\nPlease choose a quiz to give (enter the quiz number):\n");
+        int n = scanf_int(quizlist.no_of_quizes,1)-1;
+        takeQuiz(n);
+        student_nav();
+    }
+    else if (com=='a') {
+        /* code */
+    }
+    else {
+        printf("\nInvalid input! Please try again,\n");
+        goto E;
+    }
+  }
+  else {
+    printf("Sorry no quizes have been assigned yet! Try again later,\n\nPress ENTER to exit\n");
+    getchar();
+    clearBuf();
+  }
 }

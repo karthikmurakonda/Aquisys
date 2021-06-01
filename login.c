@@ -7,6 +7,7 @@
 }*/
 
 void login() {
+    login_status=0;
     char c, username[100], password[1000];
     int z = 0, id, i, type, status=1;
     int checku, checkp, checkid;
@@ -27,6 +28,7 @@ void login() {
                 strcpy(currentuser.password, userlist[i].password);
                 currentuser.type=userlist[i].type;
                 status=0;
+                login_status=1;
                 clearscr();
                 break;
             } else if (checku == 0 && checkp != 0) {
@@ -43,7 +45,6 @@ void login() {
     if (status) {
         printf("No such user found!\n");
     }
-    getchar();
 }
 
 void loginpage() {
@@ -54,23 +55,20 @@ void loginpage() {
     printf("\n\n\n\n\t\t\tPress Enter to proceed...!!\n");
     if (getchar() == 13)
         clearscr();
-    XY:
-        printf("\n\n\n\t\t\t1. LOGIN\t\t2. EXIT");
-    printf("\n\n\n\t\t\t\tENTER YOUR CHOICE: ");
-    scanf("%d", & n);
-    switch (n) {
-    case 1:
-        clearscr();
-        login();
-        break;
-    case 2:
-        clearscr();
-        exit(1);
-        break;
-    default:
-        printf("\n\n\t\t\tPress Enter to re-Enter the choice");
-        if (getchar() == 13)
-            clearscr();
-        goto XY;
+    clearscr();
+    login();
+    clearBuf();
+    if (login_status) {
+        switch (currentuser.type) {
+            case 0:
+                printf("Welcome to the quiz portal!\n\n");
+                student_nav();
+                break;
+            case 1:
+                welcomepage_admin();
+                break;
+            default:
+                printf("Error!\nInvalid user type\n");
+        }
     }
 }
