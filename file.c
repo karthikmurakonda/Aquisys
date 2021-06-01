@@ -14,6 +14,7 @@ void appdata_save() {
 		exit (1);
 	}
 
+	printf("Saving data...\n");
 	fwrite(&quizlist, sizeof(struct Quizlist), 1, datafile);
 	fwrite(&userlist, sizeof(struct User), max_users, datafile);
 	fclose(datafile);

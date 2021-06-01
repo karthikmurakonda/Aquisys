@@ -81,6 +81,8 @@ void qMatrix(int index, int attempt) {
       clearscr();
       printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
       printf("-------------------------------------------\n");
+      //Save data
+      appdata_save();
       printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
       getchar();
     }
