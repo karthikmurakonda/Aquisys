@@ -1,10 +1,119 @@
 #include "common.h"
 #include "admin.h"
+#include "login.h"
 
 /*int main(){
     welcomepage_admin();
     return 0;
 }*/
+
+void preview_all_questions(int quiz_id){     //displays all questions without edit option
+    clearscr();
+    printf("Quiz name : %s",quizlist.quiz[quiz_id].name);
+    for (int i = 0; i < quizlist.quiz[quiz_id].no_of_questions; i++){
+        for (int alt = 0; alt < max_alternative_q; alt++){
+            if(quizlist.quiz[quiz_id].question[i][alt].response[0].status != 'E') {
+                printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",i+1,alt+1);
+                printf("Marks - %d\n\n",quizlist.quiz[quiz_id].question[i][alt].marks);
+                printf("Statement:\n%s\n",quizlist.quiz[quiz_id].question[i][alt].statement);
+                printf("Solution:\n%s\n",quizlist.quiz[quiz_id].question[i][alt].solution);
+                printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+            }
+    }
+    }
+    printf("press any button to proceed");
+    getchar();
+    clearBuf();
+    admin_quizdetails(quiz_id);
+}
+
+void change_max_attempts(int quiz_id){
+    clearscr();
+    printf("Quiz : %s\n",quizlist.quiz[quiz_id].name);
+    printf("Type new max_attempts\n");
+    int response;
+    response = scanf_int(5,1);
+    if (response < quizlist.quiz[quiz_id].no_of_max_attempts){
+        for (int i = 0; i < max_users; i++){
+            if(response>userlist[i].quizes_attempted[quiz_id].no_attempts){
+                printf("Cann't change becouse few users already attempted more than this number\nType enter to go back");
+                getchar();
+                clearBuf();
+                admin_quizdetails(quiz_id);
+                return;
+            }
+        }
+        printf("Are you sure to change the maximum attempts from %d to %d?\n",quizlist.quiz[quiz_id].no_of_max_attempts,response);
+            char res;
+            do{
+                scanf("%c",&res);
+                clearBuf();
+                if(res == 'y' || res == 'Y'){
+                    quizlist.quiz[quiz_id].no_of_max_attempts = response;
+                    printf("maximum attempts changed successfully, Type enter to continue\n");
+                    getchar();
+                    clearBuf();
+                    admin_quizdetails(quiz_id);
+                    return;
+                }
+                else if(res == 'n' || res == 'N'){
+                    admin_quizdetails(quiz_id);   
+                    return;
+                }
+                else printf("Invalid response try again\n");
+            }while(1);
+    }
+    else{
+        printf("you are going to increase the number of max attempts for the quiz to make this change you may need to add few more questions\nmake sure that there are sufficient alternate questions by editing question option\n");
+        printf("continue?(y/n)\n");
+        char res1;
+        do{
+            scanf("%c",&res1);
+            clearBuf();
+            if(res1 == 'y' || res1 == 'Y'){
+                for (int ques = 0; ques < quizlist.quiz[quiz_id].no_of_questions; ques++){
+                    int alts= 0 ;
+                    for (int  alt = 0; alt < max_alternative_q; alt++){
+                        if (quizlist.quiz[quiz_id].question[ques][alt].statement[0] != '\0') alts++; 
+                    }
+                    if(alts < response) {
+                        printf("few alternate questions found at %d question, please go back and add enough alternate questions\nType any key to go back'\n",ques+1);
+                        getchar();
+                        clearBuf();
+                        admin_quizdetails(quiz_id);
+                        return;
+                    }
+                }
+                printf("Are you sure to change the maximum attempts from %d to %d?\n",quizlist.quiz[quiz_id].no_of_max_attempts,response);
+                char res;
+                do{
+                    scanf("%c",&res);
+                    clearBuf();
+                    if(res == 'y' || res == 'Y'){
+                        quizlist.quiz[quiz_id].no_of_max_attempts = response;
+                        printf("maximum attempts changed successfully, press any key to continue\n");
+                        getchar();
+                        clearBuf();
+                        admin_quizdetails(quiz_id);
+                        return;
+                    }
+                    else if(res == 'n' || res == 'N'){
+                        admin_quizdetails(quiz_id);   
+                        return;
+                    }
+                    else printf("Invalid response try again\n");
+                }while(1);
+            }
+            else if (res1 == 'n'||res1=='N'){
+                admin_quizdetails(quiz_id);
+                return;
+            }
+            else printf("not a valid response try again\n");
+        }while(1);
+    }
+}
+    
+
 void preview_question(int quiz_id,int ques_id){
     int alts= 0;
     for (int alt = 0; alt < max_alternative_q; alt++){
@@ -283,31 +392,39 @@ void admin_quizdetails(int n){
     printf("Quiz name : %s\n",quizlist.quiz[n].name);
     printf("No.of questions %d\n",quizlist.quiz[n].no_of_questions);
     printf("No.of maximum attempts : %d\n",quizlist.quiz[n].no_of_max_attempts);
-    printf("Type\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n 0 : to go back to quizzes list\n");
+    printf("Type\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n 0 : to go back to quizzes list\n");
     char res;
-    int dm = 0;
 	do {
 	scanf("%c",&res);
 	clearBuf();
   	if(res=='r'){
         response_admin(n);
-        dm = 1;
+        return;
     }
 	else if(res == 'e'){
         edit_questions(n);
-        dm = 1;
+        return;
 	}
     else if(res == 'm'){
         preveiw_quiz(n);
         change_marks(n);
-        dm = 1;
+       return;
     }
     else if(res == '0'){
         showqlist_admin();
-        dm = 1;
+        return;
     }
+    else if(res == 'p'){
+        preview_all_questions(n);
+        return;
+    }
+    else if (res == 'c'){
+        change_max_attempts(n);
+        return;
+    }
+    
     else printf("Not a valid response try agian\n");
-	}while(dm != 1);
+	}while(1);
 }
 
 void showqlist_admin(){
@@ -348,7 +465,14 @@ void welcomepage_admin(){
         showqlist_admin();
         }
     else if (x=='q'){
-       /*bharghav's function */
+        clearscr();
+        printf("loged out succesfully\n press any key to vist login page\n");
+        do{
+            getchar();
+            clearBuf();
+           loginpage(); //goes back to login page
+           return;
+        }while(1);
     }
     else{
         printf("Invalid response try again(y or q)\n");
