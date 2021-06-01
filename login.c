@@ -19,7 +19,7 @@ void login() {
     scanf("%s", password);
     clearBuf();
     for (i = 0; i < max_users; i++) {
-        if (userlist[i].username[0] != 0) {
+        if (userlist[i].username != 0) {
             checku = strcmp(username, userlist[i].username);
             checkp = strcmp(password, userlist[i].password);
             if (checku == 0 && checkp == 0) {
