@@ -7,6 +7,7 @@
 }*/
 
 void login() {
+    login_status=0;
     char c, username[100], password[1000];
     int z = 0, id, i, type, status=1;
     int checku, checkp, checkid;
@@ -29,6 +30,7 @@ void login() {
                 strcpy(currentuser.password, userlist[i].password);
                 currentuser.type=userlist[i].type;
                 status=0;
+                login_status=1;
                 clearscr();
                 return;
             }
@@ -54,32 +56,36 @@ void login() {
         return;
     }
 
-
 void loginpage() {
-    int n;
     clearscr();
-    printf("\n\n\n\n\n\t\t\t\tWELCOME TO QUIZ");
-    printf("\n\t\t\t\t__*_");
-    printf("\n\n\n\n\t\t\tPress Enter to proceed...!!\n");
-    if (getchar() == 13)
-        clearscr();
-    do{
-        printf("\n\n\n\t\t\t1. LOGIN\t\t2. EXIT");
-    printf("\n\n\n\t\t\t\tENTER YOUR CHOICE: ");
-    scanf("%d", & n);
-    switch (n) {
-    case 1:
+    printf("\n\n\n\t\tWELCOME TO QUIZ!\n");
+    printf("\n\t\tPress l to login\n\t\tPress q to quit\n");
+    char com;
+    E:
+    com=getchar();
+    clearBuf();
+    if (com=='l') {
         clearscr();
         login();
-        return;
-    case 2:
-        clearscr();
-        exit(1);
-        return;
-    default:
-        printf("\n\n\t\t\tPress Enter to re-Enter the choice");
-        if (getchar() == 13)
-            clearscr();
+        if (login_status) {
+            switch (currentuser.type) {
+                case 0:
+                    printf("Welcome to the quiz portal!\n\n");
+                    student_nav();
+                    break;
+                case 1:
+                    welcomepage_admin();
+                    break;
+                default:
+                    printf("Error!\nInvalid user type\n");
+            }
+        }
     }
-    }while(1);
+    else if (com=='q') {
+        return;
+    }
+    else {
+        printf("\tInvalid option! Please try again,\n");
+        goto E;
+    }
 }

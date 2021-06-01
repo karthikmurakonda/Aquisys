@@ -27,7 +27,7 @@ void init(int index) {
 void takeQuiz(int index) {
   clearscr();
   //If reattempt is possible
-  if (quizlist.quiz[index].attempt_list[currentuser.ID]<quizlist.quiz[index].no_of_max_attempts) {
+  if (quizlist.quiz[index].attempt_list[currentuser.ID]<=quizlist.quiz[index].no_of_max_attempts) {
     //Set next attempt number
     int attempt=quizlist.quiz[index].attempt_list[currentuser.ID];
     //Make quiz
@@ -40,10 +40,11 @@ void takeQuiz(int index) {
     userlist[currentuser.ID].quizes_attempted[index].no_attempts++;
     //Autograde this attempt
     autoGradeAttempt(index, attempt);
+    clearscr();
   }
   //If reattempt not possible
   else {
-    printf("No more reattempts are allowed!\n");
+    printf("No more reattempts are allowed!\n\n");
   }
 }
 
