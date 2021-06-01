@@ -12,3 +12,5 @@ void addquestions_initial(int questart_id,int quiz_id);
 void add_question(int quiz_id,int qustion_no,int alt);
 void preview_question(int quiz_id,int ques_id);
 void admin_quizdetails(int n);
+void preview_all_questions(int quiz_id);
+void change_max_attempts(int quiz_id);

@@ -6,7 +6,7 @@
 * * [ ] Expand admin features by 3rd June
     * * [ ] Manual checking
     * * [ ] Adding users
-    * * [ ] Increase allowed number of attempts after making a quiz
+    * * [x] Increase allowed number of attempts after making a quiz
     * * [ ] Delete quizzes
     * * [ ] Assigning quiz to specific users
 * * [ ] Expand quiz features by 3rd June
