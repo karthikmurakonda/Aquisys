@@ -66,6 +66,7 @@ void student_nav() {
     printf("What would you like to do?\n");
     printf("- Attempt a quiz (Enter q)\n");
     printf("- View analysis of a quiz (Enter a)\n");
+    printf("- Log out (Enter l)\n");
     char com;
     E:
     scanf("%c", &com);
@@ -79,6 +80,9 @@ void student_nav() {
     else if (com=='a') {
         /* code */
     }
+    else if (com=='l') {
+        loginpage();
+    }
     else {
         printf("\nInvalid input! Please try again,\n");
         goto E;
@@ -87,6 +91,5 @@ void student_nav() {
   else {
     printf("Sorry no quizes have been assigned yet! Try again later,\n\nPress ENTER to exit\n");
     getchar();
-    clearBuf();
   }
 }

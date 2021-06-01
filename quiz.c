@@ -83,7 +83,6 @@ void qMatrix(int index, int attempt) {
       printf("-------------------------------------------\n");
       printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
       getchar();
-      clearBuf();
     }
     else {            //If not 'n' or y'
       clearscr();
