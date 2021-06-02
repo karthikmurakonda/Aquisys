@@ -1,6 +1,6 @@
 # CS_101-project
 ## Goals(to be done by 3rd June)
-* * [ ] Analytics portal by 27th May
+* * [x] Analytics portal by 27th May
 * * [x] Save all data in files by 3rd June
 * * [ ] Allow changing password by 3rd June
 * * [ ] Expand admin features by 3rd June
