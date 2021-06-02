@@ -250,7 +250,7 @@ void ques_initialize(int questart_id,int quiz_id){
 void addquestions_initial(int questart_id,int quiz_id){
     preveiw_quiz(quiz_id);
     printf("press ENTER to start entering questions\n");
-    clearBuf();
+    getchar();
     for (int i = questart_id; i < quizlist.quiz[quiz_id].no_of_questions; i++){
         clearscr();
         printf("%s\n",quizlist.quiz[quiz_id].name);
@@ -470,7 +470,7 @@ void welcomepage_admin(){
         do{
             getchar();
             clearBuf();
-            main(); //goes back to login page
+            loginpage(); //goes back to login page
            return;
         }while(1);
     }

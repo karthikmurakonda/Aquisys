@@ -1,2 +1,1 @@
-void loginpage(void);
-void homepage();
+void login();

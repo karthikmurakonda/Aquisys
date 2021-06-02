@@ -58,15 +58,27 @@ struct Quiz {
 
 struct Quizlist {
    int no_of_quizes;            //current available no.of quizzes
-   struct Quiz quiz[max_quizes] ;      //all 1000 elements are initialised but “no_of_quizes” decides what to call
+   struct Quiz quiz[max_quizes];      //all 1000 elements are initialised but “no_of_quizes” decides what to call
 };                              /*store quiz*/
 
 extern struct Quizlist quizlist;
 extern struct User userlist[max_users];
 extern struct User currentuser;
+extern int login_status;
 
 void clearscr(void);
 void clearBuf();
 void smart_fgets(char *str, int n, FILE *stream);
 int scanf_int();
 int main();
+
+void welcomepage_admin();
+
+void appdata_save();
+void appdata_read();
+
+void loginpage(void);
+
+void takeQuiz(int index);
+
+void student_nav();
