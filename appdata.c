@@ -1,5 +1,4 @@
 #include "common.h"
-#include "file.h"
 
 void appdata_save() {
 	FILE *datafile;
@@ -10,7 +9,7 @@ void appdata_save() {
 	//Check if open
 	if (datafile == NULL)
 	{
-		printf("\nError 2.1: Could not open appdata\n");
+		printf("\nError!\nCould not open appdata\n");
 		exit (1);
 	}
 
@@ -40,7 +39,7 @@ void appdata_read() {
 			appdata_read();
 		}
 		else if (com=='n'||com=='N') {
-			printf("Error!\nAppdata not found!");
+			printf("Error!\nAppdata not found");
 			exit(1);
 		}
 		else {

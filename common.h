@@ -81,3 +81,5 @@ void loginpage(void);
 void takeQuiz(int index);
 
 void student_nav();
+
+void aMatrix(int index, int attempt);
