@@ -9,7 +9,7 @@
 
 void preview_all_questions(int quiz_id){     //displays all questions without edit option
     clearscr();
-    printf("Quiz name : %s",quizlist.quiz[quiz_id].name);
+    printf("Quiz name : %s\n",quizlist.quiz[quiz_id].name);
     for (int i = 0; i < quizlist.quiz[quiz_id].no_of_questions; i++){
         for (int alt = 0; alt < max_alternative_q; alt++){
             if(quizlist.quiz[quiz_id].question[i][alt].response[0].status != 'E') {
@@ -21,7 +21,7 @@ void preview_all_questions(int quiz_id){     //displays all questions without ed
             }
     }
     }
-    printf("press any button to proceed");
+    printf("press any button to proceed\n");
     getchar();
     clearBuf();
     admin_quizdetails(quiz_id);
@@ -462,7 +462,7 @@ void welcomepage_admin(){
         scanf("%c",&x);
         clearBuf();
     if (x =='y'){
-        showqlist_admin();
+        showqlist_admin();  // goes to quizlist
         }
     else if (x=='q'){
         clearscr();
