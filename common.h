@@ -20,6 +20,7 @@ struct Attempt {
     int q_bank[max_q_per_quiz][2];      //Stores randomised q_bank for this attempt, first index is Q. No. other is Q alternative
     int marks[max_q_per_quiz];          //Stores marks obtained for each answer (As per q_bank)
     struct Result result;
+    int time_taken;                     //In seconds
 };                                      //quiz id is index of that quiz in quiz array.
 
 struct Quizes_attempted {
@@ -51,6 +52,8 @@ struct Quiz {
     int no_of_questions;
     int no_of_students_attempted;                       //Number of students attempted in total
     int no_of_max_attempts;
+    int attempt_list[max_users];                        //Stores number of times users have attempted the quiz (index is corresponding user ID)
+    int max_time;                                       //In seconds
 };        /*nst to quizlist*/
 
 struct Quizlist {
