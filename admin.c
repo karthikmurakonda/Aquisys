@@ -465,14 +465,7 @@ void welcomepage_admin(){
         showqlist_admin();  // goes to quizlist
         }
     else if (x=='q'){
-        clearscr();
-        printf("loged out succesfully\n press any key to vist login page\n");
-        do{
-            getchar();
-            clearBuf();
-            loginpage(); //goes back to login page
-           return;
-        }while(1);
+       loginpage();
     }
     else{
         printf("Invalid response try again(y or q)\n");

@@ -27,7 +27,7 @@ void init(int index) {
 void takeQuiz(int index) {
   clearscr();
   //If reattempt is possible
-  if (quizlist.quiz[index].attempt_list[currentuser.ID]<=quizlist.quiz[index].no_of_max_attempts) {
+  if (quizlist.quiz[index].attempt_list[currentuser.ID]<quizlist.quiz[index].no_of_max_attempts) {
     //Set next attempt number
     int attempt=quizlist.quiz[index].attempt_list[currentuser.ID];
     //Make quiz
@@ -174,11 +174,14 @@ void makeQuiz(int index, int attempt) {
     }
     //Randomise Question Order
     for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {
+      //Check random questions until unassigned one is found
       while(userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]==-1) {
         rand=randNum(0,quizlist.quiz[index].no_of_questions-1);
-        if (q_status[i]==0) {
+        //If not assigned
+        if (q_status[rand]==0) {
+          //Assign
           userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]=rand;
-          q_status[i]=1;
+          q_status[rand]=1;
         }
       }
     }
@@ -187,13 +190,13 @@ void makeQuiz(int index, int attempt) {
       //Run until the alternative is set
       while(userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]==-1) {
         //Generate random alternative number
-        rand=randNum(0,max_alternative_q);
+        rand=randNum(0,max_alternative_q-1);
         //See if this alternative has 'N' status
-        if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].response[currentuser.ID].status==78) {
+        if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].response[currentuser.ID].status=='N') {
           //Set the alternative
           userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]=rand;
           //Set status of this alternative to 'U'
-          quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].response[currentuser.ID].status=85;
+          quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].response[currentuser.ID].status='U';
         }
       }
     }
@@ -203,12 +206,13 @@ void makeQuiz(int index, int attempt) {
 void autoGradeAttempt(int index, int attempt) {
   for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {  //Grade individual questions
     //If status is attempted
-    if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status==65) {
+    if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status=='A') {
       //Check if correct
-      if (strcmp(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].solution)) {
+      if (!strcmp(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].solution)) {
         //Give full marks
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i] = quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks;
         //Update result for this attempt
+        quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='C';
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.attempted++;
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.correct++;
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.score += userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i];
@@ -218,6 +222,7 @@ void autoGradeAttempt(int index, int attempt) {
         //Give zero marks
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i] = 0;
         //Update result for this attempt
+        quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='W';
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.attempted++;
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.incorrect++;
       }
