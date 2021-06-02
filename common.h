@@ -69,3 +69,4 @@ void clearscr(void);
 void clearBuf();
 void smart_fgets(char *str, int n, FILE *stream);
 int scanf_int();
+int main();

@@ -13,9 +13,12 @@ void appdata_save() {
 		printf("\nError 2.1: Could not open appdata\n");
 		exit (1);
 	}
+	fwrite(&quizlist.no_of_quizes,sizeof(int),1,datafile);
+	
+	fwrite(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
 
-	fwrite(&quizlist, sizeof(struct Quizlist), 1, datafile);
 	fwrite(&userlist, sizeof(struct User), max_users, datafile);
+	fclose(datafile);
 }
 
 void appdata_read() {
@@ -30,7 +33,8 @@ void appdata_read() {
 		printf("\nError 2.1: Could not open appdata\n");
 		exit (1);
 	}
-
-	fread(&quizlist, sizeof(struct Quizlist), 1, datafile);
+	fread(&quizlist.no_of_quizes,sizeof(int),1,datafile);
+	fread(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
 	fread(&userlist, sizeof(struct User), max_users, datafile);
+	fclose(datafile);
 }

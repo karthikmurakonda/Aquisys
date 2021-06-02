@@ -470,7 +470,7 @@ void welcomepage_admin(){
         do{
             getchar();
             clearBuf();
-           loginpage(); //goes back to login page
+            main(); //goes back to login page
            return;
         }while(1);
     }
