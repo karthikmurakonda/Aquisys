@@ -6,6 +6,8 @@
 struct Quizlist quizlist;
 struct User userlist[max_users];
 struct User currentuser;
+struct Question question[max_quizes][max_q_per_quiz][max_alternative_q];   //Questions and their alternatives
+struct Response response[max_users][max_quizes][max_alternative_q][max_q_per_quiz];   //Responses (index should be user ID)
 
 int login_status;
 

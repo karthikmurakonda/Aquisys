@@ -4,8 +4,8 @@
 
 #define max_users 10
 #define max_quizes 10
-#define max_answer_length 1000
-#define max_question_length 2000
+#define max_answer_length 500
+#define max_question_length 1000
 #define max_alternative_q 5
 #define max_q_per_quiz 200
      
@@ -43,7 +43,6 @@ struct Response {
 struct Question {
    char statement[2000];
    char solution[max_answer_length];      //Correct answer given by teacher
-   struct Response response[max_users];   //Responses (index should be user ID)
    int marks;
 };
 
@@ -51,9 +50,7 @@ struct Quiz {
     char name[100];
     int no_of_questions;
     int no_of_students_attempted;                       //Number of students attempted in total
-    struct Question question[max_q_per_quiz][max_alternative_q];   //Questions and their alternatives
     int no_of_max_attempts;
-    int attempt_list[max_users];                        //Stores number of times users have attempted the quiz (index is corresponding user ID)
 };        /*nst to quizlist*/
 
 struct Quizlist {
@@ -65,6 +62,8 @@ extern struct Quizlist quizlist;
 extern struct User userlist[max_users];
 extern struct User currentuser;
 extern int login_status;
+extern struct Question question[max_q_per_quiz][max_alternative_q];   //Questions and their alternatives
+extern struct Response response[max_users][max_quizes][max_alternative_q][max_q_per_quiz];
 
 void clearscr(void);
 void clearBuf();
