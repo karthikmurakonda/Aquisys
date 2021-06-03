@@ -17,3 +17,8 @@ void quiz_result_admin(int stu_id,int index, int attempt);
 void see_response_admin(int stu_id,int i, int index, int attempt);
 void admin_Matrix(int stu_id,int index, int attempt);
 void delete_quiz(int quiz_id);
+void delete_user(int id);
+void view_user(int id);
+void take_password(int id);
+int authenticate();
+char takeyorno();

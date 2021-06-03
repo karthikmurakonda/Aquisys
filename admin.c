@@ -611,6 +611,139 @@ void showqlist_admin(){
 
 }
 
+void delete_user(int id){
+    printf("are you sure to delete this user?(y/n)\n");
+    char res = takeyorno();
+    if(res == 'y'){
+        int auth = authenticate();
+        if(auth == 0){
+            for (int mem = id; mem < no_of_currentusers; mem++){
+                userlist[mem] = userlist[mem+1];
+            }
+            no_of_currentusers--;
+            printf("User deleted press any charachter to go back\n");
+            getchar();
+            clearBuf();
+            clearscr();
+            view_userlist();
+            return;
+        }
+        else{
+            clearscr();
+            view_user(id);
+        }
+    }
+
+}
+
+void view_user(int id){
+    if(userlist[id].type == 1)  printf("username :\n%s\npassword :\n%s\nType :\nAdmin\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
+    else if(userlist[id].type == 0)  printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
+    int response = scanf_int(1,-1);
+    if(response == 1){
+        take_password(id);
+        clearscr();
+        view_user(id);
+    }
+    else if(response == 0){
+        clearscr();
+        view_userlist();
+    }
+    else{
+        delete_user(id);
+    }
+}
+
+void add_user(){
+    printf("Type new Username :\n");
+    char response[16];
+    smart_fgets(response,18,stdin);
+    for (int id = 0; id < no_of_currentusers; id++){
+        if (strcmp(response,userlist[id].username)==0){
+            printf("This username already exists\ntry again\n");
+            add_user();
+        }
+    }
+    strcpy( userlist[no_of_currentusers+1].username,response);
+    printf("type account type(0 for user and 1 for admin\n");
+    userlist[no_of_currentusers+1].type = scanf_int(1,0);
+    take_password(no_of_currentusers+1);
+    no_of_currentusers++;
+    view_userlist();
+}
+
+void take_password(int id){
+    printf("Type new password for the user:\n");
+    char resp[18];
+    smart_fgets(resp,18,stdin);
+    char resp2[18];
+    smart_fgets(resp2,18,stdin);
+    if(strcmp(resp,resp2)==0){
+        printf("password created/changed successfully\nType any charachter to go back\n");
+        strcpy(userlist[id].password,resp);
+        getchar();
+        clearBuf();
+    } 
+    
+}
+
+int authenticate(){
+    printf("please type your password:\n");
+    char resp[18];
+    smart_fgets(resp,18,stdin);
+    if(strcmp(resp,currentuser.password)==0){
+        return 1;
+    }
+    else{
+        printf("wrong password\n Like to try again?(y/n)\n");
+        if(takeyorno() == 'y'){
+            return authenticate();
+        }
+        else{
+            return 0;
+        }
+
+    }
+}
+
+char takeyorno(){
+    char c;
+    scanf("%c",&c);
+    clearBuf();
+    if(c == 'y' || c == 'Y') return 'y';
+    else if(c == 'n' ||c == 'N') return 'n';
+    else{
+        printf("Invalid response type again(y/n)\n");
+        c = takeyorno();
+    }
+    return c;
+}
+
+void view_userlist(){
+    printf("S.no~~~~~~~Account_type~~~~~~~~Username\n");
+    for (int id = 0; id < no_of_currentusers; id++){
+        if(userlist[id].type == 1)  printf("%d\t\tAdmin\t\t%s\n",id+1,userlist[id].username);
+        else if(userlist[id].type == 0)  printf("%d\t\tUser\t\t%s\n",id+1,userlist[id].username);
+    }
+    printf("\nType a serial number to view about user\nType 0 is add a user\nType -1 to goback\n");
+    int response = scanf_int(no_of_currentusers,-1);
+    if (response == -1){
+        welcomepage_admin();
+        return;
+    }
+    else if (response == 0){
+        clearscr();
+        add_user();
+    }
+    else{
+        view_user(response-1);
+    }
+}
+
+void manage_tags(){
+
+}
+
 void welcomepage_admin(){
     clearscr();
     printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\npress l to logout and goback to login page\n",currentuser.username);
@@ -626,9 +759,16 @@ void welcomepage_admin(){
     else if (x=='l'){
        loginpage();
     }
+    else if(x = 'a'){
+        clearscr();
+        view_userlist();
+    }
+    else if(x = 't'){
+        manage_tags();
+    }
     else{
         printf("Invalid response try again(y or q)\n");
     }
-    }while (x!='y'&&x!='q');
+    }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a');
 
 }
