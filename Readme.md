@@ -14,15 +14,15 @@ gcc project.c quiz.c admin.c appdata.c login.c nav.c analytics.c -o run
 ## Goals
 - [x] Analytics portal by 27th May
 - [x] Save all data in files by 3rd June
-- [ ] Allow changing password by 3rd June (Bhargav)
+- [x] Allow changing password by 3rd June (Bhargav)
 - [ ] Expand admin features by 3rd June (Karthik)
   - [x] Manual checking
-  - [ ] Adding users 
+  - [x] Adding users 
   - [x] Increase allowed number of attempts after making a quiz
-  - [ ] Delete quizzes
+  - [x] Delete quizzes
   - [ ] Assigning quiz to specific users
 - [ ] Expand quiz features by 3rd June 
-  - [ ] Time limit (Abhishek)
+  - [x] Time limit (Abhishek)
   - [ ] Types of questions (Om)
 - [ ] Sync data by 10th June.
 - [ ] UI (Using GTK) by June 10th
