@@ -52,6 +52,7 @@ void takeQuiz(int index) {
 }
  
 int cheat;
+int k=0;
 
 void qMatrix(int index, int attempt) {
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
@@ -72,7 +73,6 @@ void qMatrix(int index, int attempt) {
   printf("\n\nEnter question number you wish to view or '0' to submit quiz,\n");
   int num;
   scanf("%d", &num);
-  int k=0;
   if (k<1)
   {
     cheat=num;
