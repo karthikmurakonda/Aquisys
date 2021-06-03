@@ -8,6 +8,7 @@ struct User userlist[max_users];
 struct User currentuser;
 
 int login_status;
+int no_of_currentusers;
 
 void clearscr(void) {
   #ifdef _WIN32

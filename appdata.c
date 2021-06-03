@@ -16,7 +16,8 @@ void appdata_save() {
 	printf("Saving data...\n");
 	fwrite(&quizlist.no_of_quizes,sizeof(int),1,datafile);
 	fwrite(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
-	fwrite(&userlist, sizeof(struct User), max_users, datafile);
+	fwrite(&no_of_currentusers,sizeof(int),1,datafile);
+	fwrite(&userlist, sizeof(struct User), no_of_currentusers, datafile);
 	fclose(datafile);
 }
 
@@ -40,6 +41,8 @@ void appdata_read() {
 		    strcpy(userlist[1].username,"admin");
 		    strcpy(userlist[1].password,"1");
 		    userlist[1].type=1;
+		    quizlist.no_of_quizes = 0;
+			no_of_currentusers = 2;
 		    appdata_save();
 			//Then try again
 			appdata_read();
@@ -56,7 +59,8 @@ void appdata_read() {
 	else {
 		fread(&quizlist.no_of_quizes,sizeof(int),1,datafile);
 		fread(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
-		fread(&userlist, sizeof(struct User), max_users, datafile);
+		fread(&no_of_currentusers,sizeof(int),1,datafile);
+		fread(&userlist, sizeof(struct User), no_of_currentusers, datafile);
 		fclose(datafile);
 	}
 }

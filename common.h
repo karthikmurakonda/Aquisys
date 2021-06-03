@@ -4,10 +4,11 @@
 
 #define max_users 10
 #define max_quizes 10
-#define max_answer_length 1000
-#define max_question_length 2000
+#define max_answer_length 200
+#define max_question_length 700
 #define max_alternative_q 5
 #define max_q_per_quiz 200
+#define max_tags 5
      
 struct Result {
     int attempted;
@@ -29,10 +30,11 @@ struct Quizes_attempted {
 };
 
 struct  User {
-    char username[100];
-    char password[100];
+    char username[16];
+    char password[16];
     int ID;                                           // Unique ID of each user
     int type;                                         // 0 (student) or 1 (admin)
+    int tags[max_tags];                               // 0 or 1 at a tag id index. 1 -> user has that tag.
     struct Quizes_attempted quizes_attempted[max_quizes];    //attempts related to a quiz are stored at quiz’s Id.   
 }; 
 
@@ -55,7 +57,8 @@ struct Quiz {
     struct Question question[max_q_per_quiz][max_alternative_q];   //Questions and their alternatives
     int no_of_max_attempts;
     int attempt_list[max_users];                        //Stores number of times users have attempted the quiz (index is corresponding user ID)
-    int max_time;                                       //In seconds
+    int max_time;                                           //In seconds
+    int tag_ids[max_tags];                               //if 1 in i th place suggests that quiz has a tag with id i.
 };        /*nst to quizlist*/
 
 struct Quizlist {
@@ -67,6 +70,8 @@ extern struct Quizlist quizlist;
 extern struct User userlist[max_users];
 extern struct User currentuser;
 extern int login_status;
+extern int no_of_currentusers;  //no.of users currently present in database.
+extern char taglist[max_tags][13]; //tag has id. 
 
 void clearscr(void);
 void clearBuf();
