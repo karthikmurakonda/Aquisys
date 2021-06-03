@@ -33,9 +33,14 @@ void appdata_read() {
 		scanf("%c", &com);
 		clearBuf();
 		if (com=='y'||com=='Y') {
-			//Make empty appdata file
-			datafile = fopen(".appdata.dat", "w");
-			fclose(datafile);
+			//Make default appdata
+		    strcpy(userlist[0].username,"s");
+		    strcpy(userlist[0].password,"1");
+		    userlist[0].type=0;
+		    strcpy(userlist[1].username,"a");
+		    strcpy(userlist[1].password,"1");
+		    userlist[1].type=1;
+		    appdata_save();
 			//Then try again
 			appdata_read();
 		}
