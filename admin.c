@@ -313,6 +313,9 @@ void addquiz(){
 		clearBuf();
 	}
 	quizlist.quiz[i].no_of_max_attempts = res;
+    printf("duration of quiz?(type number in minutes)\n");
+    int response =  scanf_int(10000,1);
+    quizlist.quiz[i].max_time = response * 60 ;  // in seconds.
 	//conformation.
 	printf("you have to add atleast %d questions\nWould you like to continue?(y/n)\n",quizlist.quiz[i].no_of_max_attempts*quizlist.quiz[i].no_of_questions);
 	char res2;
@@ -381,6 +384,7 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
   printf("Solution:\n%s\n\n",quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].solution);
   printf("Response:\n%s\n\n", quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].answer);
   printf("Score: %d/%d\n\n", userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1], quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
+  printf("Time taken : %d (in min)\n",userlist[stu_id].quizes_attempted[index].attempt[attempt].time_taken/60);
   printf("Enter 'e' to exit ,'m' to grade question manually or  'n' to proceed to next question\n");
   char com;
   E:
