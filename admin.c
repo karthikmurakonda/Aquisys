@@ -505,12 +505,32 @@ void change_marks(int quiz_id){
  }
 
 void delete_quiz(int quiz_id){
-    printf("coming soon...\n");
-    admin_quizdetails(quiz_id);
-    for(int id ; id < quizlist.no_of_quizes;id++){
+    printf("Are you sure to delete this quiz?(y/n)\n");
+    do{
+        char res;
+        scanf("%c",&res);
+        if(res == 'y' || res == 'Y'){
 
-    }
+                for(int id= quiz_id ; id < quizlist.no_of_quizes;id++){
+                    quizlist.quiz[id] = quizlist.quiz[id+1];
+                }
+                quizlist.no_of_quizes--;
+                printf("quiz deleted succesfully\nType any key to go back\n");
+                getchar();
+                clearBuf();
+                showqlist_admin();
+                return;
+        }
+        else if (res = 'n' || res == 'N'){
+            admin_quizdetails(quiz_id);
+            return;
+        }
+        else{
+            printf("Invalid response please type again!");
+        }
+    }while(1);
 }
+
 
 void admin_quizdetails(int n){
     clearscr();
@@ -555,6 +575,10 @@ void admin_quizdetails(int n){
             delete_quiz(n);
             return;
         }
+        else{
+            admin_quizdetails(n);
+            return;
+        }
     }
     
     else printf("Not a valid response try agian\n");
@@ -575,6 +599,7 @@ void showqlist_admin(){
     }
 	else if(res>0 && res <= quizlist.no_of_quizes){
         admin_quizdetails(res-1);
+        return;
 	}
     else if(res == -1) welcomepage_admin();
     else {
@@ -588,17 +613,17 @@ void showqlist_admin(){
 
 void welcomepage_admin(){
     clearscr();
-    printf("Welcome %s!\npress y to see quizlist or add one\npress q to logout and goback to login page\n",currentuser.username);
+    printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\npress l to logout and goback to login page\n",currentuser.username);
     int b = 0;
     char x;
 
     do{
         scanf("%c",&x);
         clearBuf();
-    if (x =='y'){
+    if (x =='q'){
         showqlist_admin();  // goes to quizlist
         }
-    else if (x=='q'){
+    else if (x=='l'){
        loginpage();
     }
     else{

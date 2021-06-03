@@ -29,8 +29,8 @@ struct Quizes_attempted {
 };
 
 struct  User {
-    char username[100];
-    char password[100];
+    char username[16];
+    char password[16];
     int ID;                                           // Unique ID of each user
     int type;                                         // 0 (student) or 1 (admin)
     struct Quizes_attempted quizes_attempted[max_quizes];    //attempts related to a quiz are stored at quiz’s Id.   
