@@ -668,10 +668,10 @@ void add_user(){
             add_user();
         }
     }
-    strcpy( userlist[no_of_currentusers+1].username,response);
+    strcpy( userlist[no_of_currentusers].username,response);
     printf("type account type(0 for user and 1 for admin\n");
-    userlist[no_of_currentusers+1].type = scanf_int(1,0);
-    take_password(no_of_currentusers+1);
+    userlist[no_of_currentusers].type = scanf_int(1,0);
+    take_password(no_of_currentusers);
     no_of_currentusers++;
     view_userlist();
 }
@@ -750,7 +750,7 @@ void manage_tags(){
 
 void welcomepage_admin(){
     clearscr();
-    printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\npress l to logout and goback to login page\n",currentuser.username);
+    printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\nType c to change password\n press l to logout and goback to login page\n",currentuser.username);
     int b = 0;
     char x;
 
@@ -770,9 +770,12 @@ void welcomepage_admin(){
     else if(x = 't'){
         manage_tags();
     }
+    else if(x = 'c'){
+        
+    } 
     else{
         printf("Invalid response try again(y or q)\n");
     }
-    }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a');
+    }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c');
 
 }
