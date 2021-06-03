@@ -8,8 +8,8 @@ gcc project.c quiz.c admin.c appdata.c login.c nav.c analytics.c -o run
 ## Default Logins (Temporary)
 | Username | Password | Account Type |
 | -------- | -------- | ------------ |
-| s | 1 | Student |
-| a | 1 | Admin |
+| student | 1 | Student |
+| admin | 1 | Admin |
 
 ## Goals
 - [x] Analytics portal by 27th May
