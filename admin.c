@@ -666,6 +666,7 @@ void add_user(){
         if (strcmp(response,userlist[id].username)==0){
             printf("This username already exists\ntry again\n");
             add_user();
+            return;
         }
     }
     strcpy( userlist[no_of_currentusers].username,response);
