@@ -751,7 +751,11 @@ void manage_tags(){
 
 void welcomepage_admin(){
     clearscr();
-    printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\nType c to change password\npress l to logout and goback to login page\n",currentuser.username);
+    printf("Welcome %s!\n\n",currentuser.username);
+    printf("What would you like to do?\n");
+    printf("- See or manage quizzes (Enter y)\n");
+    printf("- Log out (Enter q)\n");
+    printf("- Change password (Enter c)\n");
     int b = 0;
     char x;
 
@@ -761,8 +765,11 @@ void welcomepage_admin(){
     if (x =='q'){
         showqlist_admin();  // goes to quizlist
         }
-    else if (x=='l'){
-       loginpage();
+    else if (x=='q'){
+        loginpage();
+    }
+    else if (x=='c'){
+        change_password();
     }
     else if(x = 'a'){
         clearscr();

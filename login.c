@@ -3,10 +3,11 @@
 
 /*int main()
 {
-   homepage();
+   loginpage();
 }*/
 
-void login() {
+void login()
+{
     login_status=0;
     char c, username[100], password[1000];
     int z = 0, id, i, type, status=1;
@@ -19,12 +20,14 @@ void login() {
     printf("\n\n\t\t\t\t  ENTER PASSWORD: ");
     scanf("%s", password);
     clearBuf();
-    for (i = 0; i < max_users; i++) {
-        if (userlist[i].username != 0) {
+    for (i = 0; i < max_users; i++) 
+    {
+        if (userlist[i].username != 0) 
+        {
             checku = strcmp(username, userlist[i].username);
             checkp = strcmp(password, userlist[i].password);
-            if (checku == 0 && checkp == 0) {
-                clearscr();
+            if (checku == 0 && checkp == 0) 
+            {
                 currentuser.ID = i;
                 strcpy(currentuser.username, userlist[i].username);
                 strcpy(currentuser.password, userlist[i].password);
@@ -34,17 +37,21 @@ void login() {
                 clearscr();
                 return;
             }
-            else if (checku == 0 && checkp != 0) {
-                printf("\n\n\n\t\t\tWRONG PASSWORD");
-                printf("\n\n\t\t\t\t  (Press 'Y' to re-login)\n");
-                do{
-                char res = getchar();
-                clearBuf();
-                if (res == 'y' || res == 'Y'){
-                    login();
-                    return;
-                }
-                printf("Invalid response try again.\n");         
+            else if (checku == 0 && checkp != 0) 
+            {
+                printf("\n\n\n\t\t\tWRONG PASSWORD!");
+                printf("\n\n\t\t\t\t  (Press 'r' to re-login)\n");
+                do
+                {
+                    char res = getchar();
+                    clearBuf();
+                    if (res == 'r')
+                    {
+                        clearscr();
+                        login();
+                        return;
+                    }
+                    printf("Invalid response try again.\n");         
                 }while(1);
             }
         }
@@ -54,7 +61,7 @@ void login() {
         clearBuf();
         loginpage();
         return;
-    }
+}
 
 void loginpage() {
     clearscr();
@@ -87,5 +94,31 @@ void loginpage() {
     else {
         printf("\tInvalid option! Please try again,\n");
         goto E;
+    }
+}
+
+void change_password(){
+    char newpassword[100],conformpassword[100];
+    int checkn, np;
+    printf("\n\t\t\t\tEnter your new password\n");
+    scanf("%s",newpassword);
+    printf("\n\t\t\t\tConform your password\n");
+    scanf("%s",conformpassword);
+    clearBuf();
+    checkn=strcmp(newpassword,conformpassword);
+    if (checkn==0)
+    {
+        strcpy(userlist[currentuser.ID].password,newpassword);
+        printf("\n\t\t\t\tpassword successfully changed");
+        printf("\n\n\t\t\t\t  Press ENTER to login again\n");
+        loginpage();
+    } 
+    else
+    {
+      printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to login");
+      getchar();
+      clearBuf();
+      login();
+      return;
     }
 }
