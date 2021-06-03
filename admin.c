@@ -753,9 +753,11 @@ void welcomepage_admin(){
     clearscr();
     printf("Welcome %s!\n\n",currentuser.username);
     printf("What would you like to do?\n");
-    printf("- See or manage quizzes (Enter y)\n");
-    printf("- Log out (Enter q)\n");
+    printf("- See or manage quizzes (Enter q)\n");
+    printf("-see or add users (a)");
+    printf("- Log out (Enter l)\n");
     printf("- Change password (Enter c)\n");
+
     int b = 0;
     char x;
 
@@ -765,7 +767,7 @@ void welcomepage_admin(){
     if (x =='q'){
         showqlist_admin();  // goes to quizlist
         }
-    else if (x=='q'){
+    else if (x=='l'){
         loginpage();
     }
     else if (x=='c'){
