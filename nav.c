@@ -9,6 +9,7 @@ void student_nav() {
     printf("- Attempt a quiz (Enter q)\n");
     printf("- View analysis of a quiz (Enter a)\n");
     printf("- Log out (Enter l)\n");
+    printf("- Change password (Enter c)\n");
     char com;
     E:
     scanf("%c", &com);
@@ -29,6 +30,9 @@ void student_nav() {
     }
     else if (com=='l') {
         loginpage();
+    }
+    else if (com=='c') {
+        change_password();
     }
     else {
         printf("\nInvalid input! Please try again,\n");

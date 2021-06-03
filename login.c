@@ -47,6 +47,7 @@ void login()
                     clearBuf();
                     if (res == 'y' || res == 'Y')
                     {
+                        clearscr();
                         login();
                         return;
                     }
@@ -100,9 +101,10 @@ void change_password(){
     char newpassword[100],conformpassword[100];
     int checkn, np;
     printf("\n\t\t\t\tEnter your new password\n");
-    scanf("%s ",newpassword);
+    scanf("%s",newpassword);
     printf("\n\t\t\t\tConform your password\n");
-    scanf("%s ",conformpassword);
+    scanf("%s",conformpassword);
+    clearBuf();
     checkn=strcmp(newpassword,conformpassword);
     if (checkn==0)
     {
@@ -115,6 +117,7 @@ void change_password(){
     {
       printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to login");
       getchar();
+      clearBuf();
       login();
       return;
     }
