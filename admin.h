@@ -13,3 +13,7 @@ void preview_question(int quiz_id,int ques_id);
 void admin_quizdetails(int n);
 void preview_all_questions(int quiz_id);
 void change_max_attempts(int quiz_id);
+void quiz_result_admin(int stu_id,int index, int attempt);
+void see_response_admin(int stu_id,int i, int index, int attempt);
+void admin_Matrix(int stu_id,int index, int attempt);
+void delete_quiz(int quiz_id);

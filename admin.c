@@ -1,6 +1,7 @@
 #include "common.h"
 #include "admin.h"
 #include "login.h"
+#include "analytics.h"
 
 /*int main(){
     welcomepage_admin();
@@ -330,24 +331,140 @@ void addquiz(){
 	}while(res2 != 'n' && res2 != 'y' && res2!= 'N' && res2!='Y');
 }
 
+void admin_Matrix(int stu_id,int index, int attempt) {
+  printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+  printf("-------------------------------------------\n          %s's Analysis Matrix             \n\n",userlist[stu_id].username);
+  quiz_result_admin(stu_id,index, attempt);
+  for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {
+    if (i%5==0) {
+      printf("\n");
+    }
+    if (i+1<10) {
+      printf(" %d) [%c] (%d/%d)   ", i+1, quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[stu_id].status, userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i] ,quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+    }
+    else {
+      printf("%d) [%c] (%d/%d)   ", i+1, quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[stu_id].status, userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i], quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+    }
+  }
+
+  printf("\n\nKey:\n[U] Unattempted            (p/q) p Marks Obtained Out of q\n[C] Correct\n[W] Wrong\n");
+  printf("\n\nEnter question number you wish to analyse or '0' to exit analytics,\n");
+  int num;
+  scanf("%d", &num);
+  clearBuf();
+  if (num==0) {
+    clearscr();
+    response_admin(index);
+  }
+  else if (num>0&&num<=quizlist.quiz[index].no_of_questions) {
+    clearscr();
+    see_response_admin(stu_id,num, index, attempt);
+  }
+  else {
+    clearscr();
+    printf("Invalid Input!\n");
+    admin_Matrix(stu_id,index, attempt);
+  }
+}
+
+void quiz_result_admin(int stu_id,int index, int attempt) {
+  printf("The details are: \n");
+  printf("%s's score is %d \n",userlist[stu_id].username,userlist[stu_id].quizes_attempted[index].attempt[attempt].result.score);
+  printf("No. of correct answers are %d \n",userlist[stu_id].quizes_attempted[index].attempt[attempt].result.correct);
+  printf("No. of incorrect answers are %d \n\n",userlist[stu_id].quizes_attempted[index].attempt[attempt].result.incorrect);
+}
+
+void see_response_admin(int stu_id,int i, int index, int attempt) {
+  printf("-------------------------------------------\n               %s-%s               \n", quizlist.quiz[index].name,userlist[stu_id].username);
+  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i, quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
+  printf("\nQuestion:\n%s\n\n", quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].statement);
+  printf("Solution:\n%s\n\n",quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].solution);
+  printf("Response:\n%s\n\n", quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].answer);
+  printf("Score: %d/%d\n\n", userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1], quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
+  printf("Enter 'e' to exit ,'m' to grade question manually or  'n' to proceed to next question\n");
+  char com;
+  E:
+  com=getchar();
+  clearBuf();
+  if (com=='e') {
+    admin_Matrix(stu_id,index, attempt);
+  }
+  else if (com=='n') {
+    clearscr();
+    if (i+1<quizlist.quiz[index].no_of_questions) {   //next question index is less than equal last question index
+      see_response_admin(stu_id, ++i , index, attempt);
+    }
+    else {                                            //If not go to first question
+      see_response_admin(stu_id,1, index, attempt);
+    }
+  }
+  else if(com =='m'){
+      printf("Enter new marks\n");
+      int res = scanf_int(quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks,0);
+      if(res != 0 && userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1] == 0){
+          userlist[stu_id].quizes_attempted[index].attempt[attempt].result.correct++;
+          userlist[stu_id].quizes_attempted[index].attempt[attempt].result.incorrect--;
+          quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].status = 'C';
+
+        }
+      if(res == 0 && userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1] != 0){
+          userlist[stu_id].quizes_attempted[index].attempt[attempt].result.correct--;
+          userlist[stu_id].quizes_attempted[index].attempt[attempt].result.incorrect++;
+          quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].status = 'W';
+        }
+      userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1] = res;
+      printf("score changed successfully\nType any character to proceed\n");
+      getchar();
+      clearBuf();
+      clearscr();
+      see_response_admin(stu_id, i,index,attempt);
+      return;
+  }
+  else {
+    printf("Invalid option! Please try again,\n");
+    goto E;
+  }
+}
+
 void response_admin(int quiz_id){
     clearscr();
+    printf("Quiz name: %s\n",quizlist.quiz[quiz_id].name);
     if (quizlist.quiz[quiz_id].no_of_students_attempted != 0){
-    printf("ID~~~~~~~~~~~~User name~~~~~~~~~~attempt_number~~~~~~~~~~~~score\n");
-    for (int i = 0; i < max_users; i++){
-        for (int atm = 0; atm < userlist[i].quizes_attempted[quiz_id].no_attempts; atm++){
-            printf("%d               %s            %d                %d",userlist[i].ID,userlist[i].username,atm+1,userlist[i].quizes_attempted[quiz_id].attempt[atm].result.score);
+        int ids[no_of_currentusers];
+        int max =0;
+        printf("S.no~~~~~~~~~~~~User name~~~~~~~~~~attempts\n");
+        for (int i = 0; i < no_of_currentusers; i++){
+            if(userlist[i].quizes_attempted[quiz_id].no_attempts != 0){
+                ids[max] = i;
+                printf("%d                %s                 %d\n",++max,userlist[i].username,quizlist.quiz[quiz_id].no_of_students_attempted);            
+            }
+            
         }
-        
+        printf("Type corresponding serial number to veiw responses\nType 0 to go back\n");
+        int res;
+        res = scanf_int(max,0);
+        if(res ==0){
+            admin_quizdetails(quiz_id);
+            return;
+        }
+        else{
+            if(userlist[ids[res]].quizes_attempted[quiz_id].no_attempts == 1){
+                admin_Matrix(ids[res],quiz_id,0);
+                clearscr();
+                return;
+            }
+            else{
+                printf("User has attempted this quiz %d times\nType an attempt number to veiw responses(greater number implies recent attempt)\n",userlist[ids[res]].quizes_attempted[quiz_id].no_attempts);
+                int resp = scanf_int(userlist[ids[res]].quizes_attempted[quiz_id].no_attempts,1);
+                clearscr();
+                admin_Matrix(ids[res],quiz_id,resp-1);
+                return;
+            }
+        }
+
+            
     }
-    
-    int res;
-    res = scanf_int(max_users*max_alternative_q-1,0);
-  	if(res >= 0 && res <max_users*max_alternative_q){
-          //abhishek's function
-    }
-    else printf("Not a valid response try agian\n");
-    }
+
     else {
         printf("no one attempted the quiz\nPress ENTER to goback");
         getchar();
@@ -387,12 +504,20 @@ void change_marks(int quiz_id){
 	}while(check == 0);
  }
 
+void delete_quiz(int quiz_id){
+    printf("coming soon...\n");
+    admin_quizdetails(quiz_id);
+    for(int id ; id < quizlist.no_of_quizes;id++){
+
+    }
+}
+
 void admin_quizdetails(int n){
     clearscr();
     printf("Quiz name : %s\n",quizlist.quiz[n].name);
     printf("No.of questions %d\n",quizlist.quiz[n].no_of_questions);
     printf("No.of maximum attempts : %d\n",quizlist.quiz[n].no_of_max_attempts);
-    printf("Type\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n 0 : to go back to quizzes list\n");
+    printf("Type\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n 0 : to go back to quizzes list\n");
     char res;
 	do {
 	scanf("%c",&res);
@@ -421,6 +546,15 @@ void admin_quizdetails(int n){
     else if (res == 'c'){
         change_max_attempts(n);
         return;
+    }
+    else if(res == 'd'){
+        printf("Type your password\nType a wrong password to cancel deletion\n");
+        char resp[14];
+        smart_fgets(resp,14,stdin);
+        if(strcmp(currentuser.password,resp) == 0 ){
+            delete_quiz(n);
+            return;
+        }
     }
     
     else printf("Not a valid response try agian\n");

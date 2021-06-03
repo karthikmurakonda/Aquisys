@@ -4,8 +4,8 @@
 
 #define max_users 10
 #define max_quizes 10
-#define max_answer_length 1000
-#define max_question_length 2000
+#define max_answer_length 200
+#define max_question_length 700
 #define max_alternative_q 5
 #define max_q_per_quiz 200
      
@@ -67,6 +67,7 @@ extern struct Quizlist quizlist;
 extern struct User userlist[max_users];
 extern struct User currentuser;
 extern int login_status;
+extern int no_of_currentusers; //no.of users currently present in database.
 
 void clearscr(void);
 void clearBuf();

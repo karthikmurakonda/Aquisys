@@ -16,7 +16,7 @@ gcc project.c quiz.c admin.c appdata.c login.c nav.c analytics.c -o run
 - [x] Save all data in files by 3rd June
 - [ ] Allow changing password by 3rd June (Bhargav)
 - [ ] Expand admin features by 3rd June (Karthik)
-  - [ ] Manual checking
+  - [x] Manual checking
   - [ ] Adding users 
   - [x] Increase allowed number of attempts after making a quiz
   - [ ] Delete quizzes
