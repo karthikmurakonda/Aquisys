@@ -1,6 +1,6 @@
 #include "common.h"
 #include "quiz.h"
-
+#include <time.h>
 /*int main() {
   init(0);
   takeQuiz(0);
@@ -33,6 +33,8 @@ void takeQuiz(int index) {
     //Make quiz
     makeQuiz(index, attempt);
     //Go to quiz matrix
+    // record start
+    take_time(index,attempt,"start");
     qMatrix(index, attempt);
     //Update attempt data
     quizlist.quiz[index].no_of_students_attempted++;
@@ -78,6 +80,8 @@ void qMatrix(int index, int attempt) {
       qMatrix(index, attempt);
     }
     else if (com==121) {            //If 'y'
+      //record submit quiz time
+      take_time(index,attempt,"submit");
       clearscr();
       printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
       printf("-------------------------------------------\n");
@@ -104,6 +108,11 @@ void qMatrix(int index, int attempt) {
 }
 
 void askQuestion(int i, int index, int attempt) {
+  //cheat checking
+  
+  //record q-start time
+  record_timeq(i,index,attempt,"start");
+
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
   printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
   printf("Question:\n");
@@ -128,6 +137,12 @@ void askQuestion(int i, int index, int attempt) {
     //Mark as attempted
     quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='A';
   }
+  // submit time of question
+  record_timeq(i,index,attempt,"submit");
+
+  //time checker
+  time_autosubmit(i,index,attempt);
+  
   clearscr();
   quizNav(i, index, attempt);
 }
