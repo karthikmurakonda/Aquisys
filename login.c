@@ -9,9 +9,9 @@
 void login()
 {
     login_status=0;
-    char c, username[100], password[1000],newpassword[100],conformpassword[100];
-    int z = 0, id, i, type, status=1,np;
-    int checku, checkp, checkid,checkn;
+    char c, username[100], password[1000];
+    int z = 0, id, i, type, status=1;
+    int checku, checkp, checkid;
     printf("\n\n\t\t\t\tWELCOME TO LOGIN");
     printf("\n\t\t\t\t---------------------------");
     printf("\n\n\t\t\t\t  ENTER USERNAME: ");
@@ -28,66 +28,14 @@ void login()
             checkp = strcmp(password, userlist[i].password);
             if (checku == 0 && checkp == 0) 
             {
+                currentuser.ID = i;
+                strcpy(currentuser.username, userlist[i].username);
+                strcpy(currentuser.password, userlist[i].password);
+                currentuser.type=userlist[i].type;
+                status=0;
+                login_status=1;
                 clearscr();
-                printf("\n\t\tpress 1 to change password\n\t\tpress 2 for navigation page");
-                scanf("%d",&np);
-                switch(np) 
-                {
-                    case 1:
-                      printf("\n\t\t\t\tEnter your new password\n");
-                      scanf("%s ",newpassword);
-                      printf("\n\t\t\t\tConform your password\n");
-                      scanf("%s ",conformpassword);
-                      checkn=strcmp(newpassword,conformpassword);
-                      if (checkn==0)
-                      {
-                          strcpy(userlist[i].password,newpassword);
-                          printf("\n\t\t\t\tpassword successfully changed");
-                          printf("\n\n\t\t\t\t  Press 'Y' to login again\n\t\t\t\tpress 'C' to continue");
-                          do
-                          {
-                              char res = getchar();
-                              clearBuf();
-                              if (res == 'y' || res == 'Y')
-                              {
-                                  login();
-                                  return;
-                              }
-                              else if (res=='C'|| res == 'c')
-                              {
-                                  currentuser.ID = i;
-                                  strcpy(currentuser.username, userlist[i].username);
-                                  strcpy(currentuser.password, userlist[i].password);
-                                  currentuser.type=userlist[i].type;
-                                  status=0;
-                                  login_status=1;
-                                  clearscr();
-                                  return;
-                              }
-                              
-                         }while(1);
-                      } 
-                      else
-                      {
-                          printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to login");
-                          getchar();
-                          login();
-                          return;
-                      }
-                    break;
-                    case 2:
-                      clearscr();
-                      currentuser.ID = i;
-                      strcpy(currentuser.username, userlist[i].username);
-                      strcpy(currentuser.password, userlist[i].password);
-                      currentuser.type=userlist[i].type;
-                      status=0;
-                      login_status=1;
-                      clearscr();
-                      return;
-                      break;
-                 }
-            return;
+                return;
             }
             else if (checku == 0 && checkp != 0) 
             {
@@ -145,5 +93,29 @@ void loginpage() {
     else {
         printf("\tInvalid option! Please try again,\n");
         goto E;
+    }
+}
+
+void change_password(){
+    char newpassword[100],conformpassword[100];
+    int checkn, np;
+    printf("\n\t\t\t\tEnter your new password\n");
+    scanf("%s ",newpassword);
+    printf("\n\t\t\t\tConform your password\n");
+    scanf("%s ",conformpassword);
+    checkn=strcmp(newpassword,conformpassword);
+    if (checkn==0)
+    {
+        strcpy(userlist[currentuser.ID].password,newpassword);
+        printf("\n\t\t\t\tpassword successfully changed");
+        printf("\n\n\t\t\t\t  Press ENTER to login again\n");
+        loginpage();
+    } 
+    else
+    {
+      printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to login");
+      getchar();
+      login();
+      return;
     }
 }
