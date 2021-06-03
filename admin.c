@@ -680,13 +680,13 @@ void take_password(int id){
     printf("Type new password for the user:\n");
     char resp[18];
     smart_fgets(resp,18,stdin);
+    printf("conform password:\n");
     char resp2[18];
     smart_fgets(resp2,18,stdin);
     if(strcmp(resp,resp2)==0){
-        printf("password created/changed successfully\nType any charachter to go back\n");
+        printf("password created/changed successfully\nType Enter to go back\n");
         strcpy(userlist[id].password,resp);
         getchar();
-        clearBuf();
     } 
     
 }
@@ -750,7 +750,7 @@ void manage_tags(){
 
 void welcomepage_admin(){
     clearscr();
-    printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\nType c to change password\n press l to logout and goback to login page\n",currentuser.username);
+    printf("Welcome %s!\npress q to see quizlist or add one\nPress a to add/veiw userslist\npress t to veiw/edit tags\nType c to change password\npress l to logout and goback to login page\n",currentuser.username);
     int b = 0;
     char x;
 
