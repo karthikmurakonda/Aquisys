@@ -39,13 +39,13 @@ void login()
             }
             else if (checku == 0 && checkp != 0) 
             {
-                printf("\n\n\n\t\t\tWRONG PASSWORD");
-                printf("\n\n\t\t\t\t  (Press 'Y' to re-login)\n");
+                printf("\n\n\n\t\t\tWRONG PASSWORD!");
+                printf("\n\n\t\t\t\t  (Press 'r' to re-login)\n");
                 do
                 {
                     char res = getchar();
                     clearBuf();
-                    if (res == 'y' || res == 'Y')
+                    if (res == 'r')
                     {
                         clearscr();
                         login();

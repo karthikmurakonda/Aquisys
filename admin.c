@@ -454,7 +454,11 @@ void showqlist_admin(){
 
 void welcomepage_admin(){
     clearscr();
-    printf("Welcome %s!\npress y to see quizlist or add one\npress q to logout and goback to login page\n",currentuser.username);
+    printf("Welcome %s!\n\n",currentuser.username);
+    printf("What would you like to do?\n");
+    printf("- See or manage quizzes (Enter y)\n");
+    printf("- Log out (Enter q)\n");
+    printf("- Change password (Enter c)\n");
     int b = 0;
     char x;
 
@@ -465,7 +469,10 @@ void welcomepage_admin(){
         showqlist_admin();
         }
     else if (x=='q'){
-       loginpage();
+        loginpage();
+    }
+    else if (x=='c'){
+        change_password();
     }
     else{
         printf("Invalid response try again(y or q)\n");
