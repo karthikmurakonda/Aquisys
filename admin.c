@@ -754,7 +754,7 @@ void welcomepage_admin(){
     printf("Welcome %s!\n\n",currentuser.username);
     printf("What would you like to do?\n");
     printf("- See or manage quizzes (Enter q)\n");
-    printf("-see or add users (a)");
+    printf("-see or add users (a)\n");
     printf("- Log out (Enter l)\n");
     printf("- Change password (Enter c)\n");
 
