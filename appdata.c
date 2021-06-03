@@ -34,16 +34,16 @@ void appdata_read() {
 		scanf("%c", &com);
 		clearBuf();
 		if (com=='y'||com=='Y') {
-			//Make empty appdata file
-			strcpy(userlist[0].username,"s");
-    		strcpy(userlist[0].password,"1");
-    		userlist[0].type=0;
-    		strcpy(userlist[1].username,"a");
-    		strcpy(userlist[1].password,"1");
-    		userlist[1].type=1;
-			quizlist.no_of_quizes = 0;
+			//Make default appdata
+		    strcpy(userlist[0].username,"student");
+		    strcpy(userlist[0].password,"1");
+		    userlist[0].type=0;
+		    strcpy(userlist[1].username,"admin");
+		    strcpy(userlist[1].password,"1");
+		    userlist[1].type=1;
+		    quizlist.no_of_quizes = 0;
 			no_of_currentusers = 2;
-			appdata_save();
+		    appdata_save();
 			//Then try again
 			appdata_read();
 		}
