@@ -36,15 +36,16 @@ void take_time(int index,int attempt,char s[15]) // for quiz start and end
     }    
 }
 
-void time_autosubmit(int i,int index,int attempt)
+int time_autosubmit(int i,int index,int attempt)
 {
     if ( (user[currentuser.ID][index][attempt].start_time-user[currentuser.ID][index][attempt].q_start[i])>=quizlist.quiz[index].max_time)
     {
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].time_taken =(user[currentuser.ID][index][attempt].start_time-user[currentuser.ID][index][attempt].q_start[i]);
-        appdata_save();
-        printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
-        getchar();
-        exit(0);
+        return 0;
     }
-    
+
+    if ((user[currentuser.ID][index][attempt].start_time-user[currentuser.ID][index][attempt].q_start[i])<quizlist.quiz[index].max_time)
+    {
+        return 1;
+    }
 }

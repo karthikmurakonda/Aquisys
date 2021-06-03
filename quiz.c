@@ -1,6 +1,7 @@
 #include "common.h"
 #include "quiz.h"
 #include <time.h>
+#include "time.h"
 /*int main() {
   init(0);
   takeQuiz(0);
@@ -49,6 +50,8 @@ void takeQuiz(int index) {
     printf("No more reattempts are allowed!\n\n");
   }
 }
+ 
+int cheat;
 
 void qMatrix(int index, int attempt) {
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
@@ -69,6 +72,13 @@ void qMatrix(int index, int attempt) {
   printf("\n\nEnter question number you wish to view or '0' to submit quiz,\n");
   int num;
   scanf("%d", &num);
+  int k=0;
+  if (k<1)
+  {
+    cheat=num;
+    k++;
+  }
+  
   clearBuf();
   if (num==0) {
     printf("\nAre you sure you want to submit the quiz?\nAnswer 'y' for yes and 'n' for no,\n");
@@ -109,7 +119,19 @@ void qMatrix(int index, int attempt) {
 
 void askQuestion(int i, int index, int attempt) {
   //cheat checking
-  
+  if(user[currentuser.ID][index][attempt].q_start[cheat]<user[currentuser.ID][index][attempt].q_start[cheat-1]){
+    clearscr();
+     //record submit quiz time
+      take_time(index,attempt,"submit");
+      clearscr();
+      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+      printf("-------------------------------------------\n");
+      //Save data
+      appdata_save();
+      printf("Time out!!\n");
+      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+      getchar();
+  }
   //record q-start time
   record_timeq(i,index,attempt,"start");
 
@@ -141,10 +163,26 @@ void askQuestion(int i, int index, int attempt) {
   record_timeq(i,index,attempt,"submit");
 
   //time checker
-  time_autosubmit(i,index,attempt);
-  
+  int chk;
+  chk = time_autosubmit(i,index,attempt);
+  if (chk==0){
+    clearscr();
+     //record submit quiz time
+      take_time(index,attempt,"submit");
+      clearscr();
+      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+      printf("-------------------------------------------\n");
+      //Save data
+      appdata_save();
+      printf("Time out!!\n");
+      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+      getchar();
+  }
+  if(chk==1){
   clearscr();
+  cheat++;
   quizNav(i, index, attempt);
+  }
 }
 
 void quizNav(int i, int index, int attempt) {
