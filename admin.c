@@ -745,7 +745,48 @@ void view_userlist(){
     }
 }
 
+void view_tagged(int id){
+
+}
+
+void delete_tag(int id){
+
+}
+
+void add_tag(){
+
+}
+
 void manage_tags(){
+    printf("list of tags :\n\n");
+    int tg;
+    for (int id = 0; id < max_tags; id++){
+        if(strcmp(taglist[id], "\0")!= 0){
+            printf("%d\t\t\t%s\n",id+1,taglist[id]);
+        }
+        else if(id == 0)  {
+            printf("No tags are present in the system\n");
+            tg = id;
+            }
+        else tg = id;
+    }
+    printf("\nType corresponding serial number to view the members list bearing the tag\nType 0 to go back\nType -1 to add a tag\nType -2 delete a tag\n");
+    int res = scanf_int(tg+1,-2);
+    if(res == 0){
+        welcomepage_admin();
+    }
+    else if(res == -2){
+        clearscr();
+        delete_tag(res-1);
+    }
+    else if(res == -1){
+        clearscr();
+        add_tag(res-1);
+    }
+    else{
+        clearscr();
+        view_tagged(res-1);
+    }
 
 }
 
@@ -754,7 +795,8 @@ void welcomepage_admin(){
     printf("Welcome %s!\n\n",currentuser.username);
     printf("What would you like to do?\n");
     printf("- See or manage quizzes (Enter q)\n");
-    printf("-see or add users (a)\n");
+    printf("- see or add users (a)\n");
+    printf("- see or add tags(t)\n");
     printf("- Log out (Enter l)\n");
     printf("- Change password (Enter c)\n");
 
@@ -773,15 +815,16 @@ void welcomepage_admin(){
     else if (x=='c'){
         change_password();
     }
-    else if(x = 'a'){
+    else if(x == 'a'){
         clearscr();
         view_userlist();
     }
-    else if(x = 't'){
+    else if(x == 't'){
+        clearscr();
         manage_tags();
     }
-    else if(x = 'c'){
-        
+    else if(x == 'c'){
+        change_password();
     } 
     else{
         printf("Invalid response try again(y or q)\n");

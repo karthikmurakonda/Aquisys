@@ -9,6 +9,7 @@ struct User currentuser;
 
 int login_status;
 int no_of_currentusers;
+char taglist[max_tags][13];
 
 void clearscr(void) {
   #ifdef _WIN32

@@ -23,3 +23,4 @@ void take_password(int id);
 int authenticate();
 char takeyorno();
 void view_userlist();
+void manage_tags();
