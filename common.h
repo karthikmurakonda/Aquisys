@@ -58,7 +58,7 @@ struct Quiz {
     int no_of_max_attempts;
     int attempt_list[max_users];                        //Stores number of times users have attempted the quiz (index is corresponding user ID)
     int max_time;                                           //In seconds
-    int tag_ids[max_tags];                               //if 1 in i th place suggests that quiz has a tag with id i.
+    int tag_ids[max_tags];       //if 1 in i th place suggests that quiz has a tag with id i. By default a quiz has no tags unless specifies. a quiz with tag_ids array with all 0s mean any user can attempt it.
 };        /*nst to quizlist*/
 
 struct Quizlist {
@@ -71,7 +71,7 @@ extern struct User userlist[max_users];
 extern struct User currentuser;
 extern int login_status;
 extern int no_of_currentusers;  //no.of users currently present in database.
-extern char taglist[max_tags][13]; //tag has id. 
+extern char taglist[max_tags][13]; //tag has id. each tag has max 12 characters.all will be initailized to null character while user enters for the first time
 
 void clearscr(void);
 void clearBuf();
