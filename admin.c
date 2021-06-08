@@ -13,11 +13,11 @@ void preview_all_questions(int quiz_id){     //displays all questions without ed
     printf("Quiz name : %s\n",quizlist.quiz[quiz_id].name);
     for (int i = 0; i < quizlist.quiz[quiz_id].no_of_questions; i++){
         for (int alt = 0; alt < max_alternative_q; alt++){
-            if(quizlist.quiz[quiz_id].question[i][alt].response[0].status != 'E') {
+            if(response[0][quiz_id][i][alt].status != 'E') {
                 printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",i+1,alt+1);
-                printf("Marks - %d\n\n",quizlist.quiz[quiz_id].question[i][alt].marks);
-                printf("Statement:\n%s\n",quizlist.quiz[quiz_id].question[i][alt].statement);
-                printf("Solution:\n%s\n",quizlist.quiz[quiz_id].question[i][alt].solution);
+                printf("Marks - %d\n\n",question[quiz_id][i][alt].marks);
+                printf("Statement:\n%s\n",question[quiz_id][i][alt].statement);
+                printf("Solution:\n%s\n",question[quiz_id][i][alt].solution);
                 printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
             }
     }
@@ -75,7 +75,7 @@ void change_max_attempts(int quiz_id){
                 for (int ques = 0; ques < quizlist.quiz[quiz_id].no_of_questions; ques++){
                     int alts= 0 ;
                     for (int  alt = 0; alt < max_alternative_q; alt++){
-                        if (quizlist.quiz[quiz_id].question[ques][alt].statement[0] != '\0') alts++; 
+                        if (question[quiz_id][ques][alt].statement[0] != '\0') alts++; 
                     }
                     if(alts < response) {
                         printf("few alternate questions found at %d question, please go back and add enough alternate questions\nType any key to go back'\n",ques+1);
@@ -118,11 +118,11 @@ void change_max_attempts(int quiz_id){
 void preview_question(int quiz_id,int ques_id){
     int alts= 0;
     for (int alt = 0; alt < max_alternative_q; alt++){
-            if(quizlist.quiz[quiz_id].question[ques_id][alt].response[0].status != 'E') {
+            if(response[0][quiz_id][ques_id][alt].status != 'E') {
                 printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",ques_id+1,alt+1);
-                printf("Marks - %d\n\n",quizlist.quiz[quiz_id].question[ques_id][alt].marks);
-                printf("Statement:\n%s\n",quizlist.quiz[quiz_id].question[ques_id][alt].statement);
-                printf("Solution:\n%s\n",quizlist.quiz[quiz_id].question[ques_id][alt].solution);
+                printf("Marks - %d\n\n",question[quiz_id][ques_id][alt].marks);
+                printf("Statement:\n%s\n",question[quiz_id][ques_id][alt].statement);
+                printf("Solution:\n%s\n",question[quiz_id][ques_id][alt].solution);
                 printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
                 alts++;
             }
@@ -155,34 +155,34 @@ void preveiw_quiz(int quiz_Id){
     for (int qid = 0; qid <quizlist.quiz[quiz_Id].no_of_questions; qid++){
         int no_of_alts= 0;
         for (int i = 0; i < max_alternative_q; i++){
-            if(quizlist.quiz[quiz_Id].question[qid][i].response[0].status != 'E') no_of_alts++;
+            if(response[0][quiz_Id][qid][i].status != 'E') no_of_alts++;
         }        
-        printf("     %d                           %d                   %d\n",qid+1,no_of_alts,quizlist.quiz[quiz_Id].question[qid][0].marks);    
+        printf("     %d                           %d                   %d\n",qid+1,no_of_alts,question[quiz_Id][qid][0].marks);    
     }
 }
 
 void add_question(int quiz_id,int question_id,int alt_id){
     clearscr();
     int resp;
-    if (quizlist.quiz[quiz_id].question[question_id][0].marks == 0) {
+    if (question[quiz_id][question_id][0].marks == 0) {
         printf("Marks of %d question?\n",question_id+1);
         resp = scanf_int(1000,1);
-        quizlist.quiz[quiz_id].question[question_id][0].marks = resp;
+        question[quiz_id][question_id][0].marks = resp;
     }
     for (int ip = 0; ip < max_alternative_q; ip++){
-        quizlist.quiz[quiz_id].question[question_id][ip].marks=quizlist.quiz[quiz_id].question[question_id][0].marks;
+        question[quiz_id][question_id][ip].marks=question[quiz_id][question_id][0].marks;
     }	
     char check='n';
     while(check != 'y'){
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",question_id+1,alt_id+1);
-        printf("type statment of %d-alternate for %d question(%d marks)\n\n",alt_id+1,question_id+1,quizlist.quiz[quiz_id].question[question_id][0].marks);
+        printf("type statment of %d-alternate for %d question(%d marks)\n\n",alt_id+1,question_id+1,question[quiz_id][question_id][0].marks);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        smart_fgets(quizlist.quiz[quiz_id].question[question_id][alt_id].statement,max_question_length,stdin);
+        smart_fgets(question[quiz_id][question_id][alt_id].statement,max_question_length,stdin);
         printf("\nType Solution:\n");
-        smart_fgets(quizlist.quiz[quiz_id].question[question_id][alt_id].solution,max_answer_length,stdin);
-        printf("\npreview:\n\n%s\n\n",quizlist.quiz[quiz_id].question[question_id][alt_id].statement);
+        smart_fgets(question[quiz_id][question_id][alt_id].solution,max_answer_length,stdin);
+        printf("\npreview:\n\n%s\n\n",question[quiz_id][question_id][alt_id].statement);
         printf("Solution:\n");
-        printf("%s\n\n",quizlist.quiz[quiz_id].question[question_id][alt_id].solution);
+        printf("%s\n\n",question[quiz_id][question_id][alt_id].solution);
         printf("continue(y/n)? or rewrite this question?\n");
         char res;
         do {
@@ -195,7 +195,7 @@ void add_question(int quiz_id,int question_id,int alt_id){
             else printf("Not a valid response try agian\n");
         }while(res != 'y'&& res != 'Y' && res!= 'n'&&res!='N');
     }
-    for(int user = 0; user<max_users;user++)    quizlist.quiz[quiz_id].question[question_id][alt_id].response[user].status = 'N';   //changing status from E to N if question is filled.
+    for(int user = 0; user<max_users;user++)    response[user][quiz_id][question_id][alt_id].status = 'N';   //changing status from E to N if question is filled.
 }
 
 void edit_questions(int quiz_id){
@@ -232,12 +232,12 @@ void edit_questions(int quiz_id){
 void ques_initialize(int questart_id,int quiz_id){
     for (int i = questart_id; i <= quizlist.quiz[quiz_id].no_of_questions; i++){
         for(int d=0;d <5;d++){
-            quizlist.quiz[quiz_id].question[i][d].statement[0] = '\0';
-            quizlist.quiz[quiz_id].question[i][d].solution[0] = '\0';
-            quizlist.quiz[quiz_id].question[i][d].marks = 0;
+            question[quiz_id][i][d].statement[0] = '\0';
+            question[quiz_id][i][d].solution[0] = '\0';
+            question[quiz_id][i][d].marks = 0;
             for(int uid = 0;uid < max_users;uid++){
-                quizlist.quiz[quiz_id].question[i][d].response[uid].status = 'E';
-                quizlist.quiz[quiz_id].question[i][d].response[uid].answer[0] = '\0';
+                response[uid][quiz_id][i][d].status = 'E';
+                response[uid][quiz_id][i][d].answer[0] = '\0';
                 userlist[uid].quizes_attempted[quiz_id].attempt[d].result.attempted = 0;
                 userlist[uid].quizes_attempted[quiz_id].attempt[d].result.correct = 0;
                 userlist[uid].quizes_attempted[quiz_id].attempt[d].result.incorrect=0;
@@ -343,10 +343,10 @@ void admin_Matrix(int stu_id,int index, int attempt) {
       printf("\n");
     }
     if (i+1<10) {
-      printf(" %d) [%c] (%d/%d)   ", i+1, quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[stu_id].status, userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i] ,quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+      printf(" %d) [%c] (%d/%d)   ", i+1, response[stu_id][index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status, userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i] ,question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
     }
     else {
-      printf("%d) [%c] (%d/%d)   ", i+1, quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[stu_id].status, userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i], quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+      printf("%d) [%c] (%d/%d)   ", i+1, response[stu_id][index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status, userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i], question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
     }
   }
 
@@ -379,11 +379,11 @@ void quiz_result_admin(int stu_id,int index, int attempt) {
 
 void see_response_admin(int stu_id,int i, int index, int attempt) {
   printf("-------------------------------------------\n               %s-%s               \n", quizlist.quiz[index].name,userlist[stu_id].username);
-  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i, quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
-  printf("\nQuestion:\n%s\n\n", quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].statement);
-  printf("Solution:\n%s\n\n",quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].solution);
-  printf("Response:\n%s\n\n", quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].answer);
-  printf("Score: %d/%d\n\n", userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1], quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
+  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i, question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
+  printf("\nQuestion:\n%s\n\n", question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].statement);
+  printf("Solution:\n%s\n\n",question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].solution);
+  printf("Response:\n%s\n\n", response[stu_id][index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].answer);
+  printf("Score: %d/%d\n\n", userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1], question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks);
   printf("Time taken : %d (in min)\n",userlist[stu_id].quizes_attempted[index].attempt[attempt].time_taken/60);
   printf("Enter 'e' to exit ,'m' to grade question manually or  'n' to proceed to next question\n");
   char com;
@@ -404,17 +404,17 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
   }
   else if(com =='m'){
       printf("Enter new marks\n");
-      int res = scanf_int(quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks,0);
+      int res = scanf_int(question[index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].marks,0);
       if(res != 0 && userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1] == 0){
           userlist[stu_id].quizes_attempted[index].attempt[attempt].result.correct++;
           userlist[stu_id].quizes_attempted[index].attempt[attempt].result.incorrect--;
-          quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].status = 'C';
+          response[stu_id][index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].status = 'C';
 
         }
       if(res == 0 && userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1] != 0){
           userlist[stu_id].quizes_attempted[index].attempt[attempt].result.correct--;
           userlist[stu_id].quizes_attempted[index].attempt[attempt].result.incorrect++;
-          quizlist.quiz[index].question[userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].response[stu_id].status = 'W';
+          response[stu_id][index][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][0]][userlist[stu_id].quizes_attempted[index].attempt[attempt].q_bank[i-1][1]].status = 'W';
         }
       userlist[stu_id].quizes_attempted[index].attempt[attempt].marks[i-1] = res;
       printf("score changed successfully\nType any character to proceed\n");
@@ -489,7 +489,7 @@ void change_marks(int quiz_id){
          check =1;
     }
 	else if(res <= quizlist.quiz[quiz_id].no_of_questions && res >0){
-        printf("type new marks for question %d(previously %d marks)\n",res,quizlist.quiz[quiz_id].question[res-1][0].marks);
+        printf("type new marks for question %d(previously %d marks)\n",res,question[quiz_id][res-1][0].marks);
         int res2;
         check = 1;
         int check2 = 0;
@@ -497,7 +497,7 @@ void change_marks(int quiz_id){
 	        scanf("%d",&res2);
 	        clearBuf();
   	        if(res2 >0 ){
-                for(int i = 0;i <max_alternative_q;i++) quizlist.quiz[quiz_id].question[res-1][i].marks = res2; 
+                for(int i = 0;i <max_alternative_q;i++) question[quiz_id][res-1][i].marks = res2; 
             check2 = 1;
             admin_quizdetails(quiz_id);
             }
