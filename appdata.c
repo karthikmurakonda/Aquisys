@@ -31,6 +31,7 @@ void appdata_save() {
 		}
 	}
 	fwrite(&userlist, sizeof(struct User), no_of_currentusers, datafile);
+	fwrite(taglist,sizeof(taglist),1,datafile);
 	fclose(datafile);
 }
 
@@ -48,6 +49,12 @@ void appdata_read() {
 		clearBuf();
 		if (com=='y'||com=='Y') {
 			//Make default appdata
+			    for (int  i = 0; i < max_tags; i++)
+    			{
+        		strcpy(taglist[i],"");
+    			}
+    
+
 		    strcpy(userlist[0].username,"student");
 		    strcpy(userlist[0].password,"1");
 		    userlist[0].type=0;
@@ -87,6 +94,7 @@ void appdata_read() {
 			}
 		}
 		fread(&userlist, sizeof(struct User), no_of_currentusers, datafile);
+		fread(taglist,sizeof(taglist),1,datafile);
 		fclose(datafile);
 	}
 }

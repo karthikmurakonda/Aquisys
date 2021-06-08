@@ -620,14 +620,15 @@ void delete_user(int id){
     char res = takeyorno();
     if(res == 'y'){
         int auth = authenticate();
-        if(auth == 0){
-            for (int mem = id; mem < no_of_currentusers; mem++){
-                userlist[mem] = userlist[mem+1];
+        if(auth == 1){
+            for (int mem = id; mem < no_of_currentusers-1; mem++){
+                userlist[mem] = userlist[mem+1];        //have to change responses too
+                //add responses too.
             }
             no_of_currentusers--;
             printf("User deleted press any charachter to go back\n");
             getchar();
-            clearBuf();
+            fflush(stdin);
             clearscr();
             view_userlist();
             return;
@@ -642,8 +643,13 @@ void delete_user(int id){
 
 void view_user(int id){
     if(userlist[id].type == 1)  printf("username :\n%s\npassword :\n%s\nType :\nAdmin\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
-    else if(userlist[id].type == 0)  printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
-    int response = scanf_int(1,-1);
+    else if(userlist[id].type == 0) { printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nTags :\n");
+    for (int i = 0; i < max_tags; i++){
+        if(userlist[id].tags[i] == 1)   printf("%s\n",taglist[i]);
+    }   
+    printf("\nType 2 to add tags for this user\nType 1 to edit password for this user\n-1 to delete user\n-2 to a delete tag for the user\n0 to goback.\n",userlist[id].username,userlist[id].password);
+    }
+    int response = scanf_int(2,-1);
     if(response == 1){
         take_password(id);
         clearscr();
@@ -672,8 +678,16 @@ void add_user(){
     strcpy( userlist[no_of_currentusers].username,response);
     printf("type account type(0 for user and 1 for admin\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
+    if(taglist[0][0]!= '\0' && userlist[no_of_currentusers].type == 0){
+    printf("Add tags for this user?y/n\n");
+    char resp = takeyorno();
+    if(resp == 'y'){
+        tag_user(no_of_currentusers);
+    }
+    }
     take_password(no_of_currentusers);
-    no_of_currentusers++;
+    no_of_currentusers++;   //incrementing no.of current users
+    clearscr();
     view_userlist();
 }
 
@@ -688,6 +702,10 @@ void take_password(int id){
         printf("password created/changed successfully\nType Enter to go back\n");
         strcpy(userlist[id].password,resp);
         getchar();
+    }
+    else{
+        printf("passwords doesn't match please try again\n");
+        take_password(id);
     } 
     
 }
@@ -741,53 +759,144 @@ void view_userlist(){
         add_user();
     }
     else{
+        clearscr();
         view_user(response-1);
     }
 }
 
+void tag_user(int id){
+    int tg= 0; // stores no.of available tags currently present.
+    int tgu = 0; //stores no.of tags user doesn't have.
+    for (int i = 0; i < max_tags; i++){
+        if(strcmp(taglist[id], "")!= 0){
+            if(userlist[id].tags[i] != 1){
+            printf("%d\t\t\t%s\n",i+1,taglist[i]);
+            tgu++;
+            }
+            tg++;
+        }
+    }
+    if(tgu !=0){
+        printf("\ntype the corresponding number to tag the user.\n");
+        int res = scanf_int(tg,1);
+        userlist[id].tags[res-1] = 1;
+        printf("Tag added to the user succussefully.\nLike to add one more tag?y/n\n");
+        char resp = takeyorno();
+        if(resp == 'y'){
+            tag_user(id);
+        }
+    }
+    else{
+        printf("User has been tagged by all tags available cannot add anymore type ENTER to continue\n");
+        getchar();
+        fflush(stdin);
+    }
+}
+
 void view_tagged(int id){
-
+    int num =0;
+    printf("users with %s tag",taglist[id]);
+    for (int stu = 0; stu < no_of_currentusers; stu++){
+        if(userlist[stu].tags[id]== 1){
+            printf("%d\t\t%s\n",++num,userlist[stu].username);
+        }
+    }
+    printf("press ENTER to go back\n");
+    
 }
 
-void delete_tag(int id){
-
+void delete_tag(int id,int num){ //num is no.of tags present currently.
+    printf("Are you sure to delete tag-%s(y/n)\n",taglist[id]);
+    char res = takeyorno();
+    if(res == 'y'){
+        for (int i = id; i < num-1; i++){
+         strcpy(taglist[i],taglist[i+1]);   //need to change few more 
+        }
+        taglist[num-1][0] = '\0';
+        printf("deleted successfully type ENTER to go back\n");
+        getchar();
+        fflush(stdin);
+        clearscr();
+        manage_tags();
+    }
+    else{
+        clearscr();
+        manage_tags();
+    }
 }
 
-void add_tag(){
-
+void add_tag(int id){
+    printf("Type the name of the tag you like to create\n");
+    char response[13];
+    smart_fgets(response,13,stdin);
+    for (int i = 0; i < id; i++)
+    {
+        if (strcmp(response,taglist[i]) ==0){
+            printf("A tag with %s name already exists would you like add another?(y/n)\n",response);
+            char res = takeyorno();
+            if (res == 'y'){
+                add_tag(id);
+                return;
+            }
+            else{
+                clearscr();
+                manage_tags();
+                return;
+            }
+        }
+    }
+    
+    strcpy(taglist[id],response);
+    printf("tag created press ENTER to continue\n");
+    getchar();
+    fflush(stdin);
+    clearscr();
+    manage_tags();
 }
 
 void manage_tags(){
     printf("list of tags :\n\n");
-    int tg;
+    int tg= 0; // stores no.of available tags currently present.
     for (int id = 0; id < max_tags; id++){
-        if(strcmp(taglist[id], "\0")!= 0){
+        if(strcmp(taglist[id], "")!= 0){
             printf("%d\t\t\t%s\n",id+1,taglist[id]);
+            tg++;
         }
         else if(id == 0)  {
             printf("No tags are present in the system\n");
-            tg = id;
+            break;
             }
-        else tg = id;
+        else {
+            break;
+        }
     }
-    printf("\nType corresponding serial number to view the members list bearing the tag\nType 0 to go back\nType -1 to add a tag\nType -2 delete a tag\n");
-    int res = scanf_int(tg+1,-2);
-    if(res == 0){
+    printf("\nType corresponding serial number to view the members list bearing the tag\nType 0 to add a tag\nType -1 to go back\nType -2 delete a tag\n");
+    int res = scanf_int(tg,-2);
+    if(res == -1){
         welcomepage_admin();
     }
     else if(res == -2){
-        clearscr();
-        delete_tag(res-1);
+        printf("Type the number of tag you wish to delete\n");
+        int resp = scanf_int(tg,1);
+        delete_tag(resp-1,tg);
     }
-    else if(res == -1){
+    else if(res == 0){
+        if(tg < max_tags){
         clearscr();
-        add_tag(res-1);
+        add_tag(tg);
+        }
+        else{
+            printf("Can't add tags anymore limit(%d) reached\npress ENTER\n",max_tags);
+            getchar();
+            fflush(stdin);
+            clearscr();
+            manage_tags();
+        }
     }
     else{
         clearscr();
         view_tagged(res-1);
     }
-
 }
 
 void welcomepage_admin(){
@@ -830,5 +939,4 @@ void welcomepage_admin(){
         printf("Invalid response try again(y or q)\n");
     }
     }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c');
-
 }
