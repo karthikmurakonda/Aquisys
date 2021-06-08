@@ -1,4 +1,4 @@
-#include "project.h"
+#include "main.h"
 
 int main() {
     appdata_read();
