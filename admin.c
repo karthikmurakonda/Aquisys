@@ -643,8 +643,13 @@ void delete_user(int id){
 
 void view_user(int id){
     if(userlist[id].type == 1)  printf("username :\n%s\npassword :\n%s\nType :\nAdmin\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
-    else if(userlist[id].type == 0)  printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
-    int response = scanf_int(1,-1);
+    else if(userlist[id].type == 0) { printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nTags :\n");
+    for (int i = 0; i < max_tags; i++){
+        if(userlist[id].tags[i] == 1)   printf("%s\n",taglist[i]);
+    }   
+    printf("\nType 2 to add tags for this user\nType 1 to edit password for this user\n-1 to delete user\n-2 to a delete tag for the user\n0 to goback.\n",userlist[id].username,userlist[id].password);
+    }
+    int response = scanf_int(2,-1);
     if(response == 1){
         take_password(id);
         clearscr();
@@ -673,10 +678,12 @@ void add_user(){
     strcpy( userlist[no_of_currentusers].username,response);
     printf("type account type(0 for user and 1 for admin\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
+    if(taglist[0][0]!= '\0' && userlist[no_of_currentusers].type == 0){
     printf("Add tags for this user?y/n\n");
     char resp = takeyorno();
     if(resp == 'y'){
         tag_user(no_of_currentusers);
+    }
     }
     take_password(no_of_currentusers);
     no_of_currentusers++;   //incrementing no.of current users
