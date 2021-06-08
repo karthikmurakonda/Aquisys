@@ -24,7 +24,7 @@ void preview_all_questions(int quiz_id){     //displays all questions without ed
     }
     printf("press any button to proceed\n");
     getchar();
-    clearBuf();
+    fflush(stdin);
     admin_quizdetails(quiz_id);
 }
 
@@ -230,6 +230,9 @@ void edit_questions(int quiz_id){
 }
 
 void ques_initialize(int questart_id,int quiz_id){
+    if(questart_id == 0){
+        for(int tid=0;tid<max_tags;tid++)   quizlist.quiz[quiz_id].tag_ids[tid] = 0;
+    }
     for (int i = questart_id; i <= quizlist.quiz[quiz_id].no_of_questions; i++){
         for(int d=0;d <5;d++){
             question[quiz_id][i][d].statement[0] = '\0';
@@ -464,11 +467,8 @@ void response_admin(int quiz_id){
                 admin_Matrix(ids[res],quiz_id,resp-1);
                 return;
             }
-        }
-
-            
+        }            
     }
-
     else {
         printf("no one attempted the quiz\nPress ENTER to goback");
         getchar();
@@ -516,7 +516,7 @@ void delete_quiz(int quiz_id){
         if(res == 'y' || res == 'Y'){
 
                 for(int id= quiz_id ; id < quizlist.no_of_quizes;id++){
-                    quizlist.quiz[id] = quizlist.quiz[id+1];
+                    quizlist.quiz[id] = quizlist.quiz[id+1];    //need to change .
                 }
                 quizlist.no_of_quizes--;
                 printf("quiz deleted succesfully\nType any key to go back\n");
@@ -638,6 +638,10 @@ void delete_user(int id){
             view_user(id);
         }
     }
+    else{
+        clearscr();
+        view_user(id); 
+    }
 
 }
 
@@ -678,6 +682,9 @@ void add_user(){
     strcpy( userlist[no_of_currentusers].username,response);
     printf("type account type(0 for user and 1 for admin\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
+    for(int i = 0;i < max_tags;i++){
+        userlist[no_of_currentusers].tags[i] = 0;
+    }
     if(taglist[0][0]!= '\0' && userlist[no_of_currentusers].type == 0){
     printf("Add tags for this user?y/n\n");
     char resp = takeyorno();
@@ -768,7 +775,7 @@ void tag_user(int id){
     int tg= 0; // stores no.of available tags currently present.
     int tgu = 0; //stores no.of tags user doesn't have.
     for (int i = 0; i < max_tags; i++){
-        if(strcmp(taglist[id], "")!= 0){
+        if(strcmp(taglist[i], "")!= 0){
             if(userlist[id].tags[i] != 1){
             printf("%d\t\t\t%s\n",i+1,taglist[i]);
             tgu++;
@@ -776,7 +783,7 @@ void tag_user(int id){
             tg++;
         }
     }
-    if(tgu !=0){
+    if(tgu != 0){
         printf("\ntype the corresponding number to tag the user.\n");
         int res = scanf_int(tg,1);
         userlist[id].tags[res-1] = 1;
@@ -795,13 +802,17 @@ void tag_user(int id){
 
 void view_tagged(int id){
     int num =0;
-    printf("users with %s tag",taglist[id]);
+    printf("users with %s tag :\n\n",taglist[id]);
     for (int stu = 0; stu < no_of_currentusers; stu++){
         if(userlist[stu].tags[id]== 1){
             printf("%d\t\t%s\n",++num,userlist[stu].username);
         }
     }
-    printf("press ENTER to go back\n");
+    printf("\npress ENTER to go back\n");
+    getchar();
+    fflush(stdin);
+    clearscr();
+    manage_tags();
     
 }
 
@@ -844,8 +855,7 @@ void add_tag(int id){
                 return;
             }
         }
-    }
-    
+    }    
     strcpy(taglist[id],response);
     printf("tag created press ENTER to continue\n");
     getchar();

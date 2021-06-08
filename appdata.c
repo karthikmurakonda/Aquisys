@@ -53,7 +53,6 @@ void appdata_read() {
     			{
         		strcpy(taglist[i],"");
     			}
-    
 
 		    strcpy(userlist[0].username,"student");
 		    strcpy(userlist[0].password,"1");
