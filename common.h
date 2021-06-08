@@ -69,7 +69,7 @@ extern struct User userlist[max_users];
 extern struct User currentuser;
 extern int login_status;
 extern struct Question question[max_quizes][max_q_per_quiz][max_alternative_q];   //Questions and their alternatives
-extern struct Response response[max_users][max_quizes][max_alternative_q][max_q_per_quiz];
+extern struct Response response[max_users][max_quizes][max_q_per_quiz][max_alternative_q];
 extern int no_of_currentusers;  //no.of users currently present in database.
 extern char taglist[max_tags][13]; //tag has id. each tag has max 12 characters.all will be initailized to null character while user enters for the first time
 extern time_t start, current, last;
