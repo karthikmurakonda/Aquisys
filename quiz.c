@@ -13,9 +13,9 @@ void init(int index) {
     for (int j = 0; j < max_alternative_q; ++j) {
       sprintf(a, "%d+", i);
       sprintf(b, "%d", j);
-      strcpy(quizlist.quiz[index].question[i][j].statement, strcat(a,b));
-      quizlist.quiz[index].question[i][j].response[currentuser.ID].status=78;
-      quizlist.quiz[index].question[i][j].marks=2;
+      strcpy(question[index][i][j].statement, strcat(a,b));
+      response[currentuser.ID][index][i][j].status=78;
+      question[index][i][j].marks=2;
     }
   }
   strcpy(quizlist.quiz[index].name, "Test Quiz-1");
@@ -58,10 +58,10 @@ void qMatrix(int index, int attempt) {
       printf("\n");
     }
     if (i+1<10) {
-      printf(" %d) [%c] (%d)   ", i+1, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+      printf(" %d) [%c] (%d)   ", i+1, response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status, question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
     }
     else {
-      printf("%d) [%c] (%d)   ", i+1, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+      printf("%d) [%c] (%d)   ", i+1, response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status, question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
     }
   }
 
@@ -108,18 +108,18 @@ void qMatrix(int index, int attempt) {
 
 void askQuestion(int i, int index, int attempt) {
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
   printf("Question:\n");
-  printf("%s\n\n", quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].statement);
+  printf("%s\n\n", question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].statement);
   //Has the question been answered already?
-  if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status=='A') {
-    printf("Your current answer:\n%s\n\n", quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer);
+  if (response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status=='A') {
+    printf("Your current answer:\n%s\n\n", response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].answer);
       printf("Change the answer (enter # to exit without changing answer):\n");
   }
   else {
       printf("Enter the answer (enter # to exit without answering):\n");
       //Set status to seen
-      quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='S';
+      response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status='S';
   }
   char answer[max_answer_length];
   //Capture answer
@@ -153,9 +153,9 @@ void askQuestion(int i, int index, int attempt) {
       //If # is not the answer
       if (answer[0]!='#') {
         //Update response
-        strcpy(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, answer);
+        strcpy(response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].answer, answer);
         //Mark as attempted
-        quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='A';
+        response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status='A';
       }
       clearscr();
       quizNav(i, index, attempt);
@@ -223,11 +223,11 @@ void makeQuiz(int index, int attempt) {
         //Generate random alternative number
         rand=randNum(0,max_alternative_q-1);
         //See if this alternative has 'N' status
-        if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].response[currentuser.ID].status=='N') {
+        if (response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].status=='N') {
           //Set the alternative
           userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]=rand;
           //Set status of this alternative to 'U'
-          quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].response[currentuser.ID].status='U';
+          response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][rand].status='U';
         }
       }
     }
@@ -237,13 +237,13 @@ void makeQuiz(int index, int attempt) {
 void autoGradeAttempt(int index, int attempt) {
   for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {  //Grade individual questions
     //If status is attempted
-    if (quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status=='A') {
+    if (response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status=='A') {
       //Check if correct
-      if (!strcmp(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].solution)) {
+      if (!strcmp(response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].answer, question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].solution)) {
         //Give full marks
-        userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i] = quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks;
+        userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i] = question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks;
         //Update result for this attempt
-        quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='C';
+        response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status='C';
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.attempted++;
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.correct++;
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.score += userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i];
@@ -253,7 +253,7 @@ void autoGradeAttempt(int index, int attempt) {
         //Give zero marks
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i] = 0;
         //Update result for this attempt
-        quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='W';
+        response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status='W';
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.attempted++;
         userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.incorrect++;
       }
