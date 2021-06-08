@@ -1,18 +1,20 @@
 #include "common.h"
+#include "time.h"
 
 void record_time(int a) // for quiz start and end
 {   
     if (a==0)
     {
         time(&start);
+        last=start;
     }
     else if (a=1)
     {
         time(&current);
-    }    
+    }
 }
 
-int time_autosubmit(int index)
+int autosubmit(int index)
 {
     if ((current-start)>=quizlist.quiz[index].max_time)
     {
@@ -20,6 +22,15 @@ int time_autosubmit(int index)
     }
     else
     {
+        return 0;
+    }
+}
+
+int cheating() {
+    if (current<last) {
+        return 1;
+    }
+    else {
         return 0;
     }
 }

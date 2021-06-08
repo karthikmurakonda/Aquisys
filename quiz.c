@@ -126,29 +126,40 @@ void askQuestion(int i, int index, int attempt) {
   smart_fgets(answer, max_answer_length, stdin);
   // submit time of question
   record_time(1);
-
-  //time checker
-  if (time_autosubmit(index)) {
-    // Timeout!
-    //record submit quiz time
+  // Check for time discrepancies
+  if (cheating()) {
     userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].time_taken =(current-start);
     clearscr();
     printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
     printf("-------------------------------------------\n");
-    printf("Time out!!\nThis answer could not be saved!\n");
+    printf("Cheating has been detected!!\nThis answer could not be saved!\n");
     printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
     getchar();
   }
   else {
-    //If # is not the answer
-    if (answer[0]!='#') {
-      //Update response
-      strcpy(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, answer);
-      //Mark as attempted
-      quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='A';
+    //time checker
+    if (autosubmit(index)) {
+      // Timeout!
+      //record submit quiz time
+      userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].time_taken =(current-start);
+      clearscr();
+      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+      printf("-------------------------------------------\n");
+      printf("Time out!!\nThis answer could not be saved!\n");
+      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+      getchar();
     }
-    clearscr();
-    quizNav(i, index, attempt);
+    else {
+      //If # is not the answer
+      if (answer[0]!='#') {
+        //Update response
+        strcpy(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, answer);
+        //Mark as attempted
+        quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='A';
+      }
+      clearscr();
+      quizNav(i, index, attempt);
+    }
   }
 }
 
