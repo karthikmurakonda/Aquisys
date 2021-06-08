@@ -25,3 +25,4 @@ char takeyorno();
 void view_userlist();
 void manage_tags();
 void taguser(int id);
+ void tag_user(int id);

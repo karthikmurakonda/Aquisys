@@ -18,6 +18,7 @@ void appdata_save() {
 	fwrite(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
 	fwrite(&no_of_currentusers,sizeof(int),1,datafile);
 	fwrite(&userlist, sizeof(struct User), no_of_currentusers, datafile);
+	fwrite(taglist,sizeof(taglist),1,datafile);
 	fclose(datafile);
 }
 
@@ -67,6 +68,7 @@ void appdata_read() {
 		fread(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
 		fread(&no_of_currentusers,sizeof(int),1,datafile);
 		fread(&userlist, sizeof(struct User), no_of_currentusers, datafile);
+		fread(taglist,sizeof(taglist),1,datafile);
 		fclose(datafile);
 	}
 }
