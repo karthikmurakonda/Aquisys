@@ -1,4 +1,4 @@
-# CS_101-Project
+# Aquisys
 
 ## Building
 The code can be built using the following command,

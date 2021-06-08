@@ -1,7 +1,6 @@
 CC = gcc	# Compiler is gcc
 
 SRCS := $(wildcard *.c)
-OBJS := $(SRCS:%.c=%.o)
 
 build: ${SRCS}
 	${CC} ${SRCS} -o run

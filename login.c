@@ -12,12 +12,12 @@ void login()
     char c, username[100], password[1000];
     int z = 0, id, i, type, status=1;
     int checku, checkp, checkid;
-    printf("\n\n\t\t\t\tWELCOME TO LOGIN");
-    printf("\n\t\t\t\t---------------------------");
-    printf("\n\n\t\t\t\t  ENTER USERNAME: ");
+    printf("\n\n\t\t  Please Login,");
+    printf("\n\t\t---------------------------");
+    printf("\n\n\t\t  Username: ");
     scanf("%s", username);
     clearBuf();
-    printf("\n\n\t\t\t\t  ENTER PASSWORD: ");
+    printf("\n\t\t  Password: ");
     scanf("%s", password);
     clearBuf();
     for (i = 0; i < max_users; i++) 
@@ -65,7 +65,7 @@ void login()
 
 void loginpage() {
     clearscr();
-    printf("\n\n\n\t\tWELCOME TO QUIZ!\n");
+    printf("\n\n\n\t\tWelcome to Aquisys!\n");
     printf("\n\t\tPress l to login\n\t\tPress q to quit\n");
     char com;
     E:
@@ -77,7 +77,7 @@ void loginpage() {
         if (login_status) {
             switch (currentuser.type) {
                 case 0:
-                    printf("Welcome to the quiz portal!\n\n");
+                    printf("Welcome %s!\n\n", currentuser.username);
                     student_nav();
                     break;
                 case 1:
