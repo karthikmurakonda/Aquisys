@@ -10,6 +10,9 @@ struct Question question[max_quizes][max_q_per_quiz][max_alternative_q];   //Que
 struct Response response[max_users][max_quizes][max_alternative_q][max_q_per_quiz];   //Responses (index should be user ID)
 
 int login_status;
+int no_of_currentusers;
+char taglist[max_tags][13];
+time_t start=0, current=0, last;
 
 void clearscr(void) {
   #ifdef _WIN32

@@ -35,7 +35,7 @@ void aMatrix(int index, int attempt) {
   }
   else if (num>0&&num<=quizlist.quiz[index].no_of_questions) {
     clearscr();
-    analyseQuestion(num, index, attempt);
+    analyseQuestion(num-1, index, attempt);
   }
   else {
     clearscr();
@@ -64,6 +64,7 @@ void analyseQuestion(int i, int index, int attempt) {
   com=getchar();
   clearBuf();
   if (com=='e') {
+    clearscr();
     aMatrix(index, attempt);
   }
   else if (com=='n') {
