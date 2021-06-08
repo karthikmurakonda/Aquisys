@@ -3,8 +3,17 @@
 ## Building
 The code can be built using the following command,
 ```
-gcc project.c quiz.c admin.c appdata.c login.c nav.c analytics.c -o run
+make
 ```
+The related object files can be cleaned using,
+```
+make clean
+```
+The appdata can be cleaned using,
+```
+make clean-appdata
+```
+
 ## Default Logins (Temporary)
 | Username | Password | Account Type |
 | -------- | -------- | ------------ |
