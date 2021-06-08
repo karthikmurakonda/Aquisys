@@ -620,14 +620,15 @@ void delete_user(int id){
     char res = takeyorno();
     if(res == 'y'){
         int auth = authenticate();
-        if(auth == 0){
-            for (int mem = id; mem < no_of_currentusers; mem++){
-                userlist[mem] = userlist[mem+1];
+        if(auth == 1){
+            for (int mem = id; mem < no_of_currentusers-1; mem++){
+                userlist[mem] = userlist[mem+1];        //have to change responses too
+                //add responses too.
             }
             no_of_currentusers--;
             printf("User deleted press any charachter to go back\n");
             getchar();
-            clearBuf();
+            fflush(stdin);
             clearscr();
             view_userlist();
             return;
@@ -672,8 +673,14 @@ void add_user(){
     strcpy( userlist[no_of_currentusers].username,response);
     printf("type account type(0 for user and 1 for admin\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
+    printf("Add tags for this user?y/n\n");
+    char resp = takeyorno();
+    if(resp == 'y'){
+        tag_user(no_of_currentusers);
+    }
     take_password(no_of_currentusers);
-    no_of_currentusers++;
+    no_of_currentusers++;   //incrementing no.of current users
+    clearscr();
     view_userlist();
 }
 
@@ -688,6 +695,10 @@ void take_password(int id){
         printf("password created/changed successfully\nType Enter to go back\n");
         strcpy(userlist[id].password,resp);
         getchar();
+    }
+    else{
+        printf("passwords doesn't match please try again\n");
+        take_password(id);
     } 
     
 }
@@ -741,6 +752,7 @@ void view_userlist(){
         add_user();
     }
     else{
+        clearscr();
         view_user(response-1);
     }
 }
@@ -775,15 +787,23 @@ void tag_user(int id){
 }
 
 void view_tagged(int id){
-
+    int num =0;
+    printf("users with %s tag",taglist[id]);
+    for (int stu = 0; stu < no_of_currentusers; stu++){
+        if(userlist[stu].tags[id]== 1){
+            printf("%d\t\t%s\n",++num,userlist[stu].username);
+        }
+    }
+    printf("press ENTER to go back\n");
+    
 }
 
 void delete_tag(int id,int num){ //num is no.of tags present currently.
     printf("Are you sure to delete tag-%s(y/n)\n",taglist[id]);
     char res = takeyorno();
     if(res == 'y'){
-        for (int i = id; i < num -id; i++){
-         strcpy(taglist[i],taglist[i+1]);
+        for (int i = id; i < num-1; i++){
+         strcpy(taglist[i],taglist[i+1]);   //need to change few more 
         }
         taglist[num-1][0] = '\0';
         printf("deleted successfully type ENTER to go back\n");
@@ -817,43 +837,59 @@ void add_tag(int id){
                 return;
             }
         }
-}
-
-void add_tag(){
-
+    }
+    
+    strcpy(taglist[id],response);
+    printf("tag created press ENTER to continue\n");
+    getchar();
+    fflush(stdin);
+    clearscr();
+    manage_tags();
 }
 
 void manage_tags(){
     printf("list of tags :\n\n");
-    int tg;
+    int tg= 0; // stores no.of available tags currently present.
     for (int id = 0; id < max_tags; id++){
-        if(strcmp(taglist[id], "\0")!= 0){
+        if(strcmp(taglist[id], "")!= 0){
             printf("%d\t\t\t%s\n",id+1,taglist[id]);
+            tg++;
         }
         else if(id == 0)  {
             printf("No tags are present in the system\n");
-            tg = id;
+            break;
             }
-        else tg = id;
+        else {
+            break;
+        }
     }
-    printf("\nType corresponding serial number to view the members list bearing the tag\nType 0 to go back\nType -1 to add a tag\nType -2 delete a tag\n");
-    int res = scanf_int(tg+1,-2);
-    if(res == 0){
+    printf("\nType corresponding serial number to view the members list bearing the tag\nType 0 to add a tag\nType -1 to go back\nType -2 delete a tag\n");
+    int res = scanf_int(tg,-2);
+    if(res == -1){
         welcomepage_admin();
     }
     else if(res == -2){
-        clearscr();
-        delete_tag(res-1);
+        printf("Type the number of tag you wish to delete\n");
+        int resp = scanf_int(tg,1);
+        delete_tag(resp-1,tg);
     }
-    else if(res == -1){
+    else if(res == 0){
+        if(tg < max_tags){
         clearscr();
-        add_tag(res-1);
+        add_tag(tg);
+        }
+        else{
+            printf("Can't add tags anymore limit(%d) reached\npress ENTER\n",max_tags);
+            getchar();
+            fflush(stdin);
+            clearscr();
+            manage_tags();
+        }
     }
     else{
         clearscr();
         view_tagged(res-1);
     }
-
 }
 
 void welcomepage_admin(){
@@ -896,5 +932,4 @@ void welcomepage_admin(){
         printf("Invalid response try again(y or q)\n");
     }
     }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c');
-
 }
