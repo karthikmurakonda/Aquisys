@@ -24,3 +24,4 @@ int authenticate();
 char takeyorno();
 void view_userlist();
 void manage_tags();
+void taguser(int id);

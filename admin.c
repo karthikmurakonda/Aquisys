@@ -745,12 +745,78 @@ void view_userlist(){
     }
 }
 
+void tag_user(int id){
+    int tg= 0; // stores no.of available tags currently present.
+    int tgu = 0; //stores no.of tags user doesn't have.
+    for (int i = 0; i < max_tags; i++){
+        if(strcmp(taglist[id], "")!= 0){
+            if(userlist[id].tags[i] != 1){
+            printf("%d\t\t\t%s\n",i+1,taglist[i]);
+            tgu++;
+            }
+            tg++;
+        }
+    }
+    if(tgu !=0){
+        printf("\ntype the corresponding number to tag the user.\n");
+        int res = scanf_int(tg,1);
+        userlist[id].tags[res-1] = 1;
+        printf("Tag added to the user succussefully.\nLike to add one more tag?y/n\n");
+        char resp = takeyorno();
+        if(resp == 'y'){
+            tag_user(id);
+        }
+    }
+    else{
+        printf("User has been tagged by all tags available cannot add anymore type ENTER to continue\n");
+        getchar();
+        fflush(stdin);
+    }
+}
+
 void view_tagged(int id){
 
 }
 
-void delete_tag(int id){
+void delete_tag(int id,int num){ //num is no.of tags present currently.
+    printf("Are you sure to delete tag-%s(y/n)\n",taglist[id]);
+    char res = takeyorno();
+    if(res == 'y'){
+        for (int i = id; i < num -id; i++){
+         strcpy(taglist[i],taglist[i+1]);
+        }
+        taglist[num-1][0] = '\0';
+        printf("deleted successfully type ENTER to go back\n");
+        getchar();
+        fflush(stdin);
+        clearscr();
+        manage_tags();
+    }
+    else{
+        clearscr();
+        manage_tags();
+    }
+}
 
+void add_tag(int id){
+    printf("Type the name of the tag you like to create\n");
+    char response[13];
+    smart_fgets(response,13,stdin);
+    for (int i = 0; i < id; i++)
+    {
+        if (strcmp(response,taglist[i]) ==0){
+            printf("A tag with %s name already exists would you like add another?(y/n)\n",response);
+            char res = takeyorno();
+            if (res == 'y'){
+                add_tag(id);
+                return;
+            }
+            else{
+                clearscr();
+                manage_tags();
+                return;
+            }
+        }
 }
 
 void add_tag(){

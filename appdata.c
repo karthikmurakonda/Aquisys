@@ -35,6 +35,12 @@ void appdata_read() {
 		clearBuf();
 		if (com=='y'||com=='Y') {
 			//Make default appdata
+			    for (int  i = 0; i < max_tags; i++)
+    			{
+        		strcpy(taglist[i],"");
+    			}
+    
+
 		    strcpy(userlist[0].username,"student");
 		    strcpy(userlist[0].password,"1");
 		    userlist[0].type=0;
