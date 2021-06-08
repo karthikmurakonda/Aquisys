@@ -3,7 +3,7 @@
 void student_nav() {
   if (quizlist.no_of_quizes!=0) {
     for (int  i = 0; i < quizlist.no_of_quizes; i++) {
-        printf("%d : %s\t\t Attempts-   %d/%d\n\n",i+1, quizlist.quiz[i].name, userlist[currentuser.ID].quizes_attempted[i].no_attempts, quizlist.quiz[i].no_of_max_attempts);
+        printf("%d : %s\t\t Attempts-   %d/%d\n",i+1, quizlist.quiz[i].name, userlist[currentuser.ID].quizes_attempted[i].no_attempts, quizlist.quiz[i].no_of_max_attempts);
     }
     printf("What would you like to do?\n");
     printf("- Attempt a quiz (Enter q)\n");

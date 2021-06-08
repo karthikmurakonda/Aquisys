@@ -72,23 +72,36 @@ extern struct User currentuser;
 extern int login_status;
 extern int no_of_currentusers;  //no.of users currently present in database.
 extern char taglist[max_tags][13]; //tag has id. each tag has max 12 characters.all will be initailized to null character while user enters for the first time
+extern time_t start, current;
 
+// Global functions from project.h
 void clearscr(void);
 void clearBuf();
 void smart_fgets(char *str, int n, FILE *stream);
 int scanf_int();
 
+// Global functions from admin.c
 void welcomepage_admin();
 
+// Global functions from appdata.c
 void appdata_save();
 void appdata_read();
 
+// Global functions from login.c
 void loginpage(void);
 
+// Global functions from quiz.c
 void takeQuiz(int index);
 
+// Global functions from nav.c
 void student_nav();
 
+// Global functions from analysis.c
 void aMatrix(int index, int attempt);
 
+// Global functions from login.c
 void change_password();
+
+// Global functions from time.c
+void record_time(int a);
+int time_autosubmit(int index);

@@ -1,7 +1,5 @@
 #include "common.h"
 #include "quiz.h"
-#include <time.h>
-#include "time.h"
 /*int main() {
   init(0);
   takeQuiz(0);
@@ -35,7 +33,7 @@ void takeQuiz(int index) {
     makeQuiz(index, attempt);
     //Go to quiz matrix
     // record start
-    take_time(index,attempt,"start");
+    record_time(0);
     qMatrix(index, attempt);
     //Update attempt data
     quizlist.quiz[index].no_of_students_attempted++;
@@ -43,6 +41,7 @@ void takeQuiz(int index) {
     userlist[currentuser.ID].quizes_attempted[index].no_attempts++;
     //Autograde this attempt
     autoGradeAttempt(index, attempt);
+    appdata_save();
     clearscr();
   }
   //If reattempt not possible
@@ -50,9 +49,6 @@ void takeQuiz(int index) {
     printf("No more reattempts are allowed!\n\n");
   }
 }
- 
-int cheat;
-int k=0;
 
 void qMatrix(int index, int attempt) {
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
@@ -73,11 +69,6 @@ void qMatrix(int index, int attempt) {
   printf("\n\nEnter question number you wish to view or '0' to submit quiz,\n");
   int num;
   scanf("%d", &num);
-  if (k<1)
-  {
-    cheat=num;
-    k++;
-  }
   
   clearBuf();
   if (num==0) {
@@ -91,12 +82,10 @@ void qMatrix(int index, int attempt) {
     }
     else if (com==121) {            //If 'y'
       //record submit quiz time
-      take_time(index,attempt,"submit");
+      userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].time_taken =(current-start);
       clearscr();
       printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
       printf("-------------------------------------------\n");
-      //Save data
-      appdata_save();
       printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
       getchar();
     }
@@ -118,23 +107,6 @@ void qMatrix(int index, int attempt) {
 }
 
 void askQuestion(int i, int index, int attempt) {
-  //cheat checking
-  if(user[currentuser.ID][index][attempt].q_start[cheat]<user[currentuser.ID][index][attempt].q_start[cheat-1]){
-    clearscr();
-     //record submit quiz time
-      take_time(index,attempt,"submit");
-      clearscr();
-      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-      printf("-------------------------------------------\n");
-      //Save data
-      appdata_save();
-      printf("Time out!!\n");
-      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
-      getchar();
-  }
-  //record q-start time
-  record_timeq(i,index,attempt,"start");
-
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
   printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
   printf("Question:\n");
@@ -152,36 +124,31 @@ void askQuestion(int i, int index, int attempt) {
   char answer[max_answer_length];
   //Capture answer
   smart_fgets(answer, max_answer_length, stdin);
-  //If # is not the answer
-  if (answer[0]!='#') {
-    //Update response
-    strcpy(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, answer);
-    //Mark as attempted
-    quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='A';
-  }
   // submit time of question
-  record_timeq(i,index,attempt,"submit");
+  record_time(1);
 
   //time checker
-  int chk;
-  chk = time_autosubmit(i,index,attempt);
-  if (chk==0){
+  if (time_autosubmit(index)) {
+    // Timeout!
+    //record submit quiz time
+    userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].time_taken =(current-start);
     clearscr();
-     //record submit quiz time
-      take_time(index,attempt,"submit");
-      clearscr();
-      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-      printf("-------------------------------------------\n");
-      //Save data
-      appdata_save();
-      printf("Time out!!\n");
-      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
-      getchar();
+    printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+    printf("-------------------------------------------\n");
+    printf("Time out!!\nThis answer could not be saved!\n");
+    printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+    getchar();
   }
-  if(chk==1){
-  clearscr();
-  cheat++;
-  quizNav(i, index, attempt);
+  else {
+    //If # is not the answer
+    if (answer[0]!='#') {
+      //Update response
+      strcpy(quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].answer, answer);
+      //Mark as attempted
+      quizlist.quiz[index].question[userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].response[currentuser.ID].status='A';
+    }
+    clearscr();
+    quizNav(i, index, attempt);
   }
 }
 

@@ -1,51 +1,41 @@
-#include<stdio.h>
-#include<time.h>
 #include "common.h"
-#include "time.h"
-#include "quiz.h"
-void record_timeq(int i, int index, int attempt,char s[15])
-{
-    if (s=="start")
-    {
-        time_t strt;
-        time(&strt);
-        user[currentuser.ID][index][attempt].q_start[i]=strt;
-    }
-    else if (s=="submit")
-    {
-        time_t submit;
-        time(&submit);
-        user[currentuser.ID][index][attempt].q_end[i]=submit;
-    }
-    
-}
 
-void take_time(int index,int attempt,char s[15]) // for quiz start and end
+void record_time(int a) // for quiz start and end
 {   
-    if (s=="start")
+    if (a==0)
     {
-        time_t strt;
-        time(&strt);
-         user[currentuser.ID][index][attempt].start_time = strt;
+        time(&start);
     }
-    else if (s=="submit")
+    else if (a=1)
     {
-        time_t submit;
-        time(&submit);
-        user[currentuser.ID][index][attempt].submittime = submit;
+        time(&current);
     }    
 }
 
-int time_autosubmit(int i,int index,int attempt)
+int time_autosubmit(int index)
 {
-    if ( (user[currentuser.ID][index][attempt].start_time-user[currentuser.ID][index][attempt].q_start[i])>=quizlist.quiz[index].max_time)
-    {
-        userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].time_taken =(user[currentuser.ID][index][attempt].start_time-user[currentuser.ID][index][attempt].q_start[i]);
-        return 0;
-    }
-
-    if ((user[currentuser.ID][index][attempt].start_time-user[currentuser.ID][index][attempt].q_start[i])<quizlist.quiz[index].max_time)
+    if ((current-start)>=quizlist.quiz[index].max_time)
     {
         return 1;
     }
+    else
+    {
+        return 0;
+    }
 }
+
+/*void check_cheating() {
+    if(user[currentuser.ID][index][attempt].q_start[cheat]<user[currentuser.ID][index][attempt].q_start[cheat-1]){
+    clearscr();
+     //record submit quiz time
+      take_time(index,attempt,"submit");
+      clearscr();
+      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+      printf("-------------------------------------------\n");
+      //Save data
+      appdata_save();
+      printf("Time out!!\n");
+      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+      getchar();
+    }
+}*/

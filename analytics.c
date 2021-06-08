@@ -64,6 +64,7 @@ void analyseQuestion(int i, int index, int attempt) {
   com=getchar();
   clearBuf();
   if (com=='e') {
+    clearscr();
     aMatrix(index, attempt);
   }
   else if (com=='n') {
