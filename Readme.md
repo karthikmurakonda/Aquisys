@@ -1,28 +1,37 @@
-# CS_101-Project
+# Aquisys
 
 ## Building
 The code can be built using the following command,
 ```
-gcc project.c quiz.c admin.c appdata.c login.c nav.c analytics.c -o run
+make
 ```
+The related object files can be cleaned using,
+```
+make clean
+```
+The appdata can be cleaned using,
+```
+make clean-appdata
+```
+
 ## Default Logins (Temporary)
 | Username | Password | Account Type |
 | -------- | -------- | ------------ |
-| s | 1 | Student |
-| a | 1 | Admin |
+| student | 1 | Student |
+| admin | 1 | Admin |
 
 ## Goals
 - [x] Analytics portal by 27th May
 - [x] Save all data in files by 3rd June
-- [ ] Allow changing password by 3rd June (Bhargav)
+- [x] Allow changing password by 3rd June (Bhargav)
 - [ ] Expand admin features by 3rd June (Karthik)
-  - [ ] Manual checking
-  - [ ] Adding users 
+  - [x] Manual checking
+  - [x] Adding users 
   - [x] Increase allowed number of attempts after making a quiz
-  - [ ] Delete quizzes
+  - [x] Delete quizzes
   - [ ] Assigning quiz to specific users
 - [ ] Expand quiz features by 3rd June 
-  - [ ] Time limit (Abhishek)
+  - [x] Time limit (Abhishek)
   - [ ] Types of questions (Om)
 - [ ] Sync data by 10th June.
 - [ ] UI (Using GTK) by June 10th
