@@ -3,11 +3,11 @@ CC = gcc	# Compiler is gcc
 SRCS := $(wildcard *.c)
 OBJS := $(SRCS:%.c=%.o)
 
-build: ${OBJS}
-	${CC} ${OBJS} -o run
+build: ${SRCS}
+	${CC} ${SRCS} -o run
 
-%.o: %.c
-	${CC} -c $< -o $@;
+debug: ${SRCS}
+	${CC} -g ${SRCS} -o run
 
 clean:
 	rm -f *.o run
