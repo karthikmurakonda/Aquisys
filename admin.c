@@ -643,11 +643,11 @@ void delete_user(int id){
 
 void view_user(int id){
     if(userlist[id].type == 1)  printf("username :\n%s\npassword :\n%s\nType :\nAdmin\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
-    else if(userlist[id].type == 0) { printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nTags :\n");
+    else if(userlist[id].type == 0) { printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nTags :\n",userlist[id].username,userlist[id].password);
     for (int i = 0; i < max_tags; i++){
         if(userlist[id].tags[i] == 1)   printf("%s\n",taglist[i]);
     }   
-    printf("\nType 2 to add tags for this user\nType 1 to edit password for this user\n-1 to delete user\n-2 to a delete tag for the user\n0 to goback.\n",userlist[id].username,userlist[id].password);
+    printf("\nType 2 to add tags for this user\nType 1 to edit password for this user\n-1 to delete user\n-2 to a delete tag for the user\n0 to goback.\n");
     }
     int response = scanf_int(2,-1);
     if(response == 1){
