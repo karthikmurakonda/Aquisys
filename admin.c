@@ -635,15 +635,18 @@ void admin_quizdetails(int n){
 	clearBuf();
   	if(res=='r'){
         response_admin(n);
+        appdata_save(1);
         return;
     }
 	else if(res == 'e'){
         edit_questions(n);
+        appdata_save(1);
         return;
 	}
     else if(res == 'm'){
         preveiw_quiz(n);
         change_marks(n);
+        appdata_save(0);
        return;
     }
     else if(res == '0'){
@@ -656,11 +659,13 @@ void admin_quizdetails(int n){
     }
     else if (res == 'c'){
         change_max_attempts(n);
+        appdata_save(0);
         return;
     }
     else if(res == 't'){
         if(num !=0){
         tag_quiz(n);
+        appdata_save(0);
         return;
         }
         else{
@@ -781,6 +786,7 @@ void view_user(int id){
     if(response == 1){
         take_password(id);
         clearscr();
+        appdata_save(1);
         view_user(id);
     }
     else if(response == 0){
@@ -791,12 +797,16 @@ void view_user(int id){
         tag_user(id);
         clearscr();
         view_user(id);
+        appdata_save(1);
     }
     else if (response == -2){
         rmvtag_user(id);
+        appdata_save(1);
     }
     else{
         delete_user(id);
+        appdata_save(1);
+        appdata_save(1);
     }
 }
 
@@ -896,10 +906,12 @@ void view_userlist(){
     else if (response == 0){
         clearscr();
         add_user();
+        appdata_save(1);
     }
     else{
         clearscr();
         view_user(response-1);
+
     }
 }
 
@@ -1021,11 +1033,13 @@ void manage_tags(){
         printf("Type the number of tag you wish to delete\n");
         int resp = scanf_int(tg,1);
         delete_tag(resp-1,tg);
+        appdata_save(0);
     }
     else if(res == 0){
         if(tg < max_tags){
         clearscr();
         add_tag(tg);
+        appdata_save(0);
         }
         else{
             printf("Can't add tags anymore limit(%d) reached\npress ENTER\n",max_tags);
@@ -1063,9 +1077,6 @@ void welcomepage_admin(){
     else if (x=='l'){
         loginpage();
     }
-    else if (x=='c'){
-        change_password();
-    }
     else if(x == 'a'){
         clearscr();
         view_userlist();
@@ -1076,6 +1087,7 @@ void welcomepage_admin(){
     }
     else if(x == 'c'){
         change_password();
+        appdata_save(1);
     } 
     else{
         printf("Invalid response try again(y or q)\n");

@@ -46,16 +46,16 @@ void student_nav() {
         clearBuf();
         if (com=='q') {
             printf("\nPlease choose a quiz to give (enter the quiz number):\n");
-            int n = scanf_int(quizlist.no_of_quizes,1)-1;
+            int n = scanf_int(quiznum,1)-1;
             takeQuiz(arr[n]);
             student_nav();
         }
         else if (com=='a') {
             printf("\nPlease choose a quiz to analyse (enter the quiz number):\n");
-            int q = scanf_int(quizlist.no_of_quizes,1)-1;
-            if (userlist[currentuser.ID].quizes_attempted[q].no_attempts!=0) {
+            int q = scanf_int(quiznum,1)-1;
+            if (userlist[currentuser.ID].quizes_attempted[arr[q]].no_attempts!=0) {
                 printf("\nWhich attempt number would you like to analyse?:\n");
-                int a = scanf_int(userlist[currentuser.ID].quizes_attempted[q].no_attempts,1)-1;
+                int a = scanf_int(userlist[currentuser.ID].quizes_attempted[arr[q]].no_attempts,1)-1;
                 clearscr();
                 aMatrix(arr[q],a);
             }
