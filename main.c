@@ -5,6 +5,6 @@ int main() {
 
     loginpage();
 
-    appdata_save();
+    appdata_save(1);
     return 0;
 }

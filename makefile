@@ -12,4 +12,4 @@ clean:
 	rm -f *.o run
 
 clean-appdata:
-	rm -f .appdata.dat
+	rm -f .*.dat

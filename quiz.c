@@ -41,7 +41,7 @@ void takeQuiz(int index) {
     userlist[currentuser.ID].quizes_attempted[index].no_attempts++;
     //Autograde this attempt
     autoGradeAttempt(index, attempt);
-    appdata_save();
+    appdata_save(0);
     clearscr();
   }
   //If reattempt not possible

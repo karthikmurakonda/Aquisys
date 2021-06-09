@@ -84,7 +84,7 @@ int scanf_int();
 void welcomepage_admin();
 
 // Global functions from appdata.c
-void appdata_save();
+void appdata_save(int all);
 void appdata_read();
 
 // Global functions from login.c
