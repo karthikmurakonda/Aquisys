@@ -26,8 +26,9 @@ void clearscr(void) {
 }
 
 void clearBuf() {   //Cleans buffer (To be used after scanf)
-  char ch;
-  while(ch = getchar(), ch != '\n' && ch != EOF);
+  //char ch;
+  //while(ch = getchar(), ch != '\n' && ch != EOF);
+  fflush(stdin);
 }
 
 void smart_fgets(char *str, int n, FILE *stream) {  //Alternative to fgets to ensure buffer is clean

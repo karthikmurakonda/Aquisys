@@ -86,6 +86,7 @@ void qMatrix(int index, int attempt) {
       printf("-------------------------------------------\n");
       printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
       getchar();
+      clearBuf();
     }
     else {            //If not 'n' or y'
       clearscr();
@@ -133,6 +134,7 @@ void askQuestion(int i, int index, int attempt) {
     printf("Cheating has been detected!!\nThis answer could not be saved!\n");
     printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
     getchar();
+    clearBuf();
   }
   else {
     //time checker
@@ -146,6 +148,7 @@ void askQuestion(int i, int index, int attempt) {
       printf("Time out!!\nThis answer could not be saved!\n");
       printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
       getchar();
+      clearBuf();
     }
     else {
       //If # is not the answer
