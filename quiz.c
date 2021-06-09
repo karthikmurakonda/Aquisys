@@ -40,7 +40,6 @@ void takeQuiz(int index) {
     quizes_attempted[currentuser.ID][index].no_attempts++;
     //Autograde this attempt
     autoGradeAttempt(index, attempt);
-    appdata_save(0);
     clearscr();
   }
   //If reattempt not possible
@@ -155,6 +154,7 @@ void askQuestion(int i, int index, int attempt) {
         strcpy(response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer, answer);
         //Mark as attempted
         response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status='A';
+        appdata_save(0);
       }
       clearscr();
       quizNav(i, index, attempt);

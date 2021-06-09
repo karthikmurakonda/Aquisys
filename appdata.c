@@ -48,6 +48,7 @@ void appdata_read() {
 	FILE *userdata;
 
 	// Read common appdata
+	while(checklock(0,0));
 	// Open the datafile
 	datafile = fopen(".appdata.dat", "r");
 
@@ -138,6 +139,7 @@ void read_userdata(int i) {
 	//Open userdata
 	char udatafile[100];
 	sprintf(udatafile, ".appdata-%d.dat", i);
+	while(checklock(1,i));
 	userdata = fopen(udatafile, "r");
 
 	// Check if open

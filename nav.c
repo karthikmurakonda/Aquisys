@@ -18,6 +18,7 @@ void student_nav() {
         printf("\nPlease choose a quiz to give (enter the quiz number):\n");
         int n = scanf_int(quizlist.no_of_quizes,1)-1;
         takeQuiz(n);
+        appdata_save(0);
         student_nav();
     }
     else if (com=='a') {
@@ -41,6 +42,7 @@ void student_nav() {
     }
     else if (com=='c') {
         change_password();
+        appdata_save(0);
     }
     else {
         printf("\nInvalid input! Please try again,\n");
