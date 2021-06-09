@@ -806,7 +806,6 @@ void view_user(int id){
     else{
         delete_user(id);
         appdata_save(1);
-        appdata_save(1);
     }
 }
 
