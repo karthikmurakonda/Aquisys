@@ -33,18 +33,8 @@ void login()
                 strcpy(currentuser.password, userlist[i].password);
                 currentuser.type=userlist[i].type;
                 status=0;
+                login_status=1;
                 clearscr();
-                switch (currentuser.type) {
-                    case 0:
-                        printf("Welcome %s!\n\n", currentuser.username);
-                        student_nav();
-                        break;
-                    case 1:
-                        welcomepage_admin();
-                        break;
-                    default:
-                        printf("Error!\nInvalid user type\n");
-                }
                 return;
             }
             else if (checku == 0 && checkp != 0) 
@@ -64,15 +54,13 @@ void login()
                     printf("Invalid response try again.\n");         
                 }while(1);
             }
-            else {
-                printf("No such user found!\npress ENTER to go back\n");
-                getchar();
-                clearBuf();
-                loginpage();
-                return;
-            }
         }
     }
+        printf("No such user found!\npress ENTER to go back\n");
+        getchar();
+        clearBuf();
+        loginpage();
+        return;
 }
 
 void loginpage() {
@@ -86,7 +74,19 @@ void loginpage() {
     if (com=='l') {
         clearscr();
         login();
-        return;
+        if (login_status) {
+            switch (currentuser.type) {
+                case 0:
+                    printf("Welcome %s!\n\n", currentuser.username);
+                    student_nav();
+                    break;
+                case 1:
+                    welcomepage_admin();
+                    break;
+                default:
+                    printf("Error!\nInvalid user type\n");
+            }
+        }
     }
     else if (com=='q') {
         return;
