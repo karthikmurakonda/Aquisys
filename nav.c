@@ -48,14 +48,15 @@ void student_nav() {
             printf("\nPlease choose a quiz to give (enter the quiz number):\n");
             int n = scanf_int(quiznum,1)-1;
             takeQuiz(arr[n]);
+            appdata_save(0);
             student_nav();
         }
         else if (com=='a') {
             printf("\nPlease choose a quiz to analyse (enter the quiz number):\n");
             int q = scanf_int(quiznum,1)-1;
-            if (userlist[currentuser.ID].quizes_attempted[arr[q]].no_attempts!=0) {
+            if (quizes_attempted[currentuser.ID][arr[q]].no_attempts!=0) {
                 printf("\nWhich attempt number would you like to analyse?:\n");
-                int a = scanf_int(userlist[currentuser.ID].quizes_attempted[arr[q]].no_attempts,1)-1;
+                int a = scanf_int(quizes_attempted[currentuser.ID][arr[q]].no_attempts,1)-1;
                 clearscr();
                 aMatrix(arr[q],a);
             }
@@ -71,6 +72,7 @@ void student_nav() {
         }
         else if (com=='c') {
             change_password();
+            appdata_save(0);
         }
         else {
             printf("\nInvalid input! Please try again,\n");

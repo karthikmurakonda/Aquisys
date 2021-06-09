@@ -1,7 +1,11 @@
 #include "common.h"
+#include "appdata.h"
 
-void appdata_save() {
+void appdata_save(int all) {
 	FILE *datafile;
+
+	while(checklock(0,0));
+	lock(0,0);
 
 	//Open the datafile
 	datafile = fopen(".appdata.dat", "w");
@@ -14,6 +18,7 @@ void appdata_save() {
 	}
 
 	printf("Saving data...\n");
+	// Save common data
 	fwrite(&quizlist.no_of_quizes,sizeof(int),1,datafile);
 	fwrite(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
 	for (int i = 0; i < quizlist.no_of_quizes; ++i) {
@@ -22,26 +27,32 @@ void appdata_save() {
 		}
 	}
 	fwrite(&no_of_currentusers,sizeof(int),1,datafile);
-	for (int i = 0; i < no_of_currentusers; ++i) {
-		for (int j = 0; j < quizlist.no_of_quizes; ++j) {
-			for (int k = 0; k < quizlist.quiz[j].no_of_questions; ++k)
-			{
-				fwrite(response[i][j][k], sizeof(struct Response), max_alternative_q, datafile);
-			}
-		}
-	}
-	fwrite(&userlist, sizeof(struct User), no_of_currentusers, datafile);
 	fwrite(taglist,sizeof(taglist),1,datafile);
 	fclose(datafile);
+	unlock(0,0);
+
+	//Save userdata
+	if (all) {
+		// Save all users data
+		for (int i = 0; i < no_of_currentusers; ++i) {
+			save_userdata(i);
+		}
+	}
+	else {
+		save_userdata(currentuser.ID);
+	}
 }
 
 void appdata_read() {
 	FILE *datafile;
+	FILE *userdata;
 
-	//Open the datafile
+	// Read common appdata
+	while(checklock(0,0));
+	// Open the datafile
 	datafile = fopen(".appdata.dat", "r");
 
-	//Check if open
+	// Check if open
 	if (datafile == NULL) {
 		printf("Is this the first time you have started the quiz application?\n[Answer 'y' for yes and 'n' for no]\n");
 		char com;
@@ -49,12 +60,10 @@ void appdata_read() {
 		clearBuf();
 		if (com=='y'||com=='Y') {
 			//Make default appdata
-			    for (int  i = 0; i < max_tags; i++)
-    			{
+		    for (int  i = 0; i < max_tags; i++) {
         		strcpy(taglist[i],"");
-    			}
-
-		    strcpy(userlist[0].username,"student");
+    		}
+    	    strcpy(userlist[0].username,"student");
 		    strcpy(userlist[0].password,"1");
 		    userlist[0].type=0;
 		    strcpy(userlist[1].username,"admin");
@@ -62,7 +71,7 @@ void appdata_read() {
 		    userlist[1].type=1;
 		    quizlist.no_of_quizes = 0;
 			no_of_currentusers = 2;
-		    appdata_save();
+		    appdata_save(1);
 			//Then try again
 			appdata_read();
 		}
@@ -76,6 +85,7 @@ void appdata_read() {
 		}
 	}
 	else {
+		// Read common data
 		fread(&quizlist.no_of_quizes,sizeof(int),1,datafile);
 		fread(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
 		for (int i = 0; i < quizlist.no_of_quizes; ++i) {
@@ -84,16 +94,135 @@ void appdata_read() {
 			}
 		}
 		fread(&no_of_currentusers,sizeof(int),1,datafile);
-		for (int i = 0; i < no_of_currentusers; ++i) {
-			for (int j = 0; j < quizlist.no_of_quizes; ++j) {
-				for (int k = 0; k < quizlist.quiz[j].no_of_questions; ++k)
-				{
-					fread(response[i][j][k], sizeof(struct Response), max_alternative_q, datafile);
-				}
-			}
-		}
-		fread(&userlist, sizeof(struct User), no_of_currentusers, datafile);
 		fread(taglist,sizeof(taglist),1,datafile);
 		fclose(datafile);
+
+		// Read all users data
+		for (int i = 0; i < no_of_currentusers; ++i) {
+			read_userdata(i);
+		}
+	}
+}
+
+void save_userdata(int i) {
+	FILE *userdata;
+	//Open userdata
+	char udatafile[100];
+	sprintf(udatafile, ".appdata-%d.dat", i);
+	while (checklock(1,i));
+	lock(1,i);
+	userdata = fopen(udatafile, "w");
+
+	// Check if open
+	if (userdata == NULL) {
+		printf("\nError!\nCould not open userdata\n");
+		exit (1);
+	}
+	
+	fwrite(&userlist[i], sizeof(struct User), 1, userdata);
+	fwrite(quizes_attempted[i], sizeof(struct Quizes_attempted), quizlist.no_of_quizes, userdata);
+	if (userlist[i].type==0) {
+		//If it is student save responces
+		for (int j = 0; j < quizlist.no_of_quizes; ++j) {
+			for (int k = 0; k < quizlist.quiz[j].no_of_questions; ++k)
+			{
+				fwrite(response[i][j][k], sizeof(struct Response), max_alternative_q, userdata);
+			}
+		}
+	}
+	fclose(userdata);
+	unlock(1,i);
+}
+
+void read_userdata(int i) {
+	FILE *userdata;
+	//Open userdata
+	char udatafile[100];
+	sprintf(udatafile, ".appdata-%d.dat", i);
+	while(checklock(1,i));
+	userdata = fopen(udatafile, "r");
+
+	// Check if open
+	if (userdata == NULL) {
+		printf("\nError!\nCould not open userdata\n");
+		exit (1);
+	}
+
+	fread(&userlist[i], sizeof(struct User), 1, userdata);
+	fread(quizes_attempted[i], sizeof(struct Quizes_attempted), quizlist.no_of_quizes, userdata);
+	if (userlist[i].type==0) {
+		//If it is student read responces
+		for (int j = 0; j < quizlist.no_of_quizes; ++j) {
+			for (int k = 0; k < quizlist.quiz[j].no_of_questions; ++k)
+			{
+				fread(response[i][j][k], sizeof(struct Response), max_alternative_q, userdata);
+			}
+		}
+	}
+	fclose(userdata);
+}
+
+int checklock(int type, int i) {
+	// Check if type is common data
+	if (type==0) {
+		FILE *lock;
+		// Check for lock
+		lock = fopen(".appdata.dat.lock", "r");
+		if (lock == NULL) {
+			return 0;
+		}
+		else {
+			fclose(lock);
+			return 1;
+		}
+	}
+	// Check if type is student
+	if (type==1) {
+		FILE *lock;
+		// Check for lock
+		char udatafilelock[100];
+		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		lock = fopen(udatafilelock, "r");
+		if (lock == NULL) {
+			return 0;
+		}
+		else {
+			fclose(lock);
+			return 1;
+		}
+	}
+}
+
+void lock(int type, int i) {
+	// Check if type is common data
+	if (type==0) {
+		FILE *lock;
+		// Make lock
+		lock=fopen(".appdata.dat.lock", "w");
+		fclose(lock);
+	}
+	// Check if type is student
+	if (type==1) {
+		FILE *lock;
+		// Make lock
+		char udatafilelock[100];
+		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		lock=fopen(udatafilelock, "w");
+		fclose(lock);
+	}
+}
+
+void unlock(int type, int i) {
+	// Check if type is common data
+	if (type==0) {
+		// Delete lock
+		remove(".appdata.dat.lock");
+	}
+	// Check if type is student
+	if (type==1) {
+		// Delete lock
+		char udatafilelock[100];
+		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		remove(udatafilelock);
 	}
 }
