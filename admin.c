@@ -535,13 +535,100 @@ void delete_quiz(int quiz_id){
     }while(1);
 }
 
+void tag_quiz(int quiz_id){
+    printf("Type corresponding tag number from above printed taglist to remove tag\n 0 to add a tag\n");
+    int response;
+    if(response != 0){
+    do{
+    response = scanf_int(max_tags,0);
+    if(taglist[response-1]==""){
+        if(quizlist.quiz[quiz_id].tag_ids[response-1]==0);
+            printf("Not a valid response try again\n");
+            response == -1;
+    }
+    }while(response==-1);
+    }
+    if(response==0){
+        clearscr();
+        printf("Available tags :\n");
+        int num = 0;
+        for (int i = 0; i < max_tags; i++){
+            if(quizlist.quiz[quiz_id].tag_ids[i] == 0) {
+                if(taglist[i][0]!= '\0'){
+                printf("%d\t%s\n",i+1,taglist[i]);
+                num++;
+                }
+            }
+        }
+        if(num !=0){
+            printf("\nType the corresponding number to add a tag\n");
+            int res = scanf_int(max_tags,1);
+            if(taglist[res-1][0] != '\0'){
+                quizlist.quiz[quiz_id].tag_ids[res-1] = 1;
+                printf("Quiz tagged successfully\npress ENTER to continue\n");
+                getchar();
+                fflush(stdin);
+                admin_quizdetails(quiz_id);
+            }
+            else{
+                printf("Error can't add empty tag try again\npress ENTER to continue\n");
+                getchar();
+                fflush(stdin);
+                admin_quizdetails(quiz_id);
+            }
+            
+        }
+        else{
+            printf("No tags left to tag\npress ENTER to continue\n");
+            getchar();
+            fflush(stdin);
+            admin_quizdetails(quiz_id);
+        }
+    }
+    else{
+        if(quizlist.quiz[quiz_id].tag_ids[response-1]== 1){
+        printf("Are you sure to remove %s tag for this quiz?(y/n)\n",taglist[response-1]);
+        char resp = takeyorno();
+        if(resp == 'y'){
+            quizlist.quiz[quiz_id].tag_ids[response-1] = 0;
+            printf("Tag removed successfully\npress ENTER to conltinue\n");
+            getchar();
+            fflush(stdin);
+            admin_quizdetails(quiz_id);
+        }
+        else{
+            admin_quizdetails(quiz_id);
+        }
+        }
+        else{
+            printf("Invalid response press ENTER to continue\n");
+            getchar();
+            fflush(stdin);
+            admin_quizdetails(quiz_id);
+        }
+    }
+    
+}
+
 
 void admin_quizdetails(int n){
     clearscr();
     printf("Quiz name : %s\n",quizlist.quiz[n].name);
     printf("No.of questions %d\n",quizlist.quiz[n].no_of_questions);
     printf("No.of maximum attempts : %d\n",quizlist.quiz[n].no_of_max_attempts);
-    printf("Type\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n 0 : to go back to quizzes list\n");
+    printf("\nTags :\n");
+    int tagnum = 0,num =0;  //tagnum no tags tagged to this quiz , num is no.of totall tags in system at present.
+    for(int ti=0; ti < max_tags;ti++){
+        if(taglist[ti] !=""){
+            if(quizlist.quiz[n].tag_ids[ti] == 1 ){
+                printf("%d)%s\n",ti+1,taglist[ti]);
+                tagnum++;
+            }
+           num ++;
+        }
+    }
+    if(tagnum == 0) printf("(no tags quiz is open for all users)\n");
+    printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n 0 : to go back to quizzes list\n");
     char res;
 	do {
 	scanf("%c",&res);
@@ -570,6 +657,20 @@ void admin_quizdetails(int n){
     else if (res == 'c'){
         change_max_attempts(n);
         return;
+    }
+    else if(res == 't'){
+        if(num !=0){
+        tag_quiz(n);
+        return;
+        }
+        else{
+            printf("No tags available currently\nTo create a tag first\ntype ENTER to continue.\n");
+            getchar();
+            fflush(stdin);
+            admin_quizdetails(n);
+            return;
+        }
+
     }
     else if(res == 'd'){
         printf("Type your password\nType a wrong password to cancel deletion\n");
@@ -645,15 +746,38 @@ void delete_user(int id){
 
 }
 
+void rmvtag_user(int id){
+    clearscr();
+    for (int i = 0; i < max_tags; i++){
+        if(userlist[id].tags[i] == 1)   printf("%d.%s\n",i+1,taglist[i]);
+    }
+    printf("Type the corresponding number to remove the tag\n");
+    int response = scanf_int(max_tags,1);
+    printf("Are you sure to remove this tag for the user?(y/n)\n");
+    char resp = takeyorno();
+    if(resp == 'y'){
+        userlist[id].tags[response-1] = 0;
+        printf("tag removed successfully type ENTER to go back\n");
+        getchar();
+        fflush(stdin);
+        clearscr();
+        view_user(id);
+    }
+    else{
+        clearscr();
+        view_user(id);
+    }
+}
+
 void view_user(int id){
     if(userlist[id].type == 1)  printf("username :\n%s\npassword :\n%s\nType :\nAdmin\n\nType 1 to edit password for this user\n-1 to delete user\n 0 to goback.\n",userlist[id].username,userlist[id].password);
     else if(userlist[id].type == 0) { printf("username :\n%s\npassword :\n%s\nType :\nUser\n\nTags :\n",userlist[id].username,userlist[id].password);
     for (int i = 0; i < max_tags; i++){
         if(userlist[id].tags[i] == 1)   printf("%s\n",taglist[i]);
     }   
-    printf("\nType 2 to add tags for this user\nType 1 to edit password for this user\n-1 to delete user\n-2 to a delete tag for the user\n0 to goback.\n");
+    printf("\nType 2 to add tags for this user\nType 1 to edit password for this user\n-1 to delete user\n-2 to a remove tag for the user\n0 to goback.\n");
     }
-    int response = scanf_int(2,-1);
+    int response = scanf_int(2,-2);
     if(response == 1){
         take_password(id);
         clearscr();
@@ -662,6 +786,14 @@ void view_user(int id){
     else if(response == 0){
         clearscr();
         view_userlist();
+    }
+    else if(response == 2){
+        tag_user(id);
+        clearscr();
+        view_user(id);
+    }
+    else if (response == -2){
+        rmvtag_user(id);
     }
     else{
         delete_user(id);
