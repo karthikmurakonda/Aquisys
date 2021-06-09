@@ -86,6 +86,7 @@ void loginpage() {
     if (com=='l') {
         clearscr();
         login();
+        return;
     }
     else if (com=='q') {
         return;
