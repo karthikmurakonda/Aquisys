@@ -455,16 +455,16 @@ void response_admin(int quiz_id){
             return;
         }
         else{
-            if(userlist[ids[res]].quizes_attempted[quiz_id].no_attempts == 1){
-                admin_Matrix(ids[res],quiz_id,0);
+            if(userlist[ids[res-1]].quizes_attempted[quiz_id].no_attempts == 1){
+                admin_Matrix(ids[res-1],quiz_id,0);
                 clearscr();
                 return;
             }
             else{
                 printf("User has attempted this quiz %d times\nType an attempt number to veiw responses(greater number implies recent attempt)\n",userlist[ids[res]].quizes_attempted[quiz_id].no_attempts);
-                int resp = scanf_int(userlist[ids[res]].quizes_attempted[quiz_id].no_attempts,1);
+                int resp = scanf_int(userlist[ids[res-1]].quizes_attempted[quiz_id].no_attempts,1);
                 clearscr();
-                admin_Matrix(ids[res],quiz_id,resp-1);
+                admin_Matrix(ids[res-1],quiz_id,resp-1);
                 return;
             }
         }            
@@ -815,7 +815,7 @@ void add_user(){
     printf("type account type(0 for user and 1 for admin\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
     for(int i = 0;i < max_tags;i++){
-        userlist[no_of_currentusers].tags[i] = 0;
+        userlist[no_of_currentusers].tags[i] = 0;   //initializing tags for the new user.
     }
     if(taglist[0][0]!= '\0' && userlist[no_of_currentusers].type == 0){
     printf("Add tags for this user?y/n\n");
