@@ -1,1 +1,1 @@
-void login();
+int login();

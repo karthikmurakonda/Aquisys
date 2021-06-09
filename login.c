@@ -6,7 +6,7 @@
    loginpage();
 }*/
 
-void login()
+int login()
 {
     login_status=0;
     char c, username[100], password[1000];
@@ -35,7 +35,7 @@ void login()
                 status=0;
                 login_status=1;
                 clearscr();
-                return;
+                return 1;
             }
             else if (checku == 0 && checkp != 0) 
             {
@@ -49,7 +49,7 @@ void login()
                     {
                         clearscr();
                         login();
-                        return;
+                        return 0;
                     }
                     printf("Invalid response try again.\n");         
                 }while(1);
@@ -60,7 +60,7 @@ void login()
         getchar();
         clearBuf();
         loginpage();
-        return;
+        return 0;
 }
 
 void loginpage() {
@@ -73,8 +73,7 @@ void loginpage() {
     clearBuf();
     if (com=='l') {
         clearscr();
-        login();
-        if (login_status) {
+        if (login()) {
             switch (currentuser.type) {
                 case 0:
                     printf("Welcome %s!\n\n", currentuser.username);
