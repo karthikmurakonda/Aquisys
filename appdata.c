@@ -4,6 +4,9 @@
 void appdata_save(int all) {
 	FILE *datafile;
 
+	while(checklock(0,0));
+	lock(0,0);
+
 	//Open the datafile
 	datafile = fopen(".appdata.dat", "w");
 
@@ -26,6 +29,7 @@ void appdata_save(int all) {
 	fwrite(&no_of_currentusers,sizeof(int),1,datafile);
 	fwrite(taglist,sizeof(taglist),1,datafile);
 	fclose(datafile);
+	unlock(0,0);
 
 	//Save userdata
 	if (all) {
@@ -104,6 +108,8 @@ void save_userdata(int i) {
 	//Open userdata
 	char udatafile[100];
 	sprintf(udatafile, ".appdata-%d.dat", i);
+	while (checklock(1,i));
+	lock(1,i);
 	userdata = fopen(udatafile, "w");
 
 	// Check if open
@@ -124,6 +130,7 @@ void save_userdata(int i) {
 		}
 	}
 	fclose(userdata);
+	unlock(1,i);
 }
 
 void read_userdata(int i) {
@@ -151,4 +158,69 @@ void read_userdata(int i) {
 		}
 	}
 	fclose(userdata);
+}
+
+int checklock(int type, int i) {
+	// Check if type is common data
+	if (type==0) {
+		FILE *lock;
+		// Check for lock
+		lock = fopen(".appdata.dat.lock", "r");
+		if (lock == NULL) {
+			return 0;
+		}
+		else {
+			fclose(lock);
+			return 1;
+		}
+	}
+	// Check if type is student
+	if (type==1) {
+		FILE *lock;
+		// Check for lock
+		char udatafilelock[100];
+		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		lock = fopen(udatafilelock, "r");
+		if (lock == NULL) {
+			return 0;
+		}
+		else {
+			fclose(lock);
+			return 1;
+		}
+	}
+}
+
+void lock(int type, int i) {
+	// Check if type is common data
+	if (type==0) {
+		FILE *lock;
+		// Make lock
+		lock=fopen(".appdata.dat.lock", "w");
+		fclose(lock);
+	}
+	// Check if type is student
+	if (type==1) {
+		FILE *lock;
+		// Make lock
+		char udatafilelock[100];
+		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		lock=fopen(udatafilelock, "w");
+		fclose(lock);
+	}
+}
+
+void unlock(int type, int i) {
+	// Check if type is common data
+	if (type==0) {
+		// Delete lock
+		remove(".appdata.dat.lock");
+	}
+	// Check if type is student
+	if (type==1) {
+		// Delete lock
+		char udatafilelock[100];
+		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		remove(udatafilelock);
+	}
 }
