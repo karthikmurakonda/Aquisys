@@ -17,10 +17,10 @@ void aMatrix(int index, int attempt) {
       printf("\n");
     }
     if (i+1<10) {
-      printf(" %d) [%c] (%d/%d)   ", i+1, response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status, userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i] ,question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+      printf(" %d) [%c] (%d/%d)   ", i+1, response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status, quizes_attempted[currentuser.ID][index].attempt[attempt].marks[i] ,question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
     }
     else {
-      printf("%d) [%c] (%d/%d)   ", i+1, response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].status, userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i], question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+      printf("%d) [%c] (%d/%d)   ", i+1, response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status, quizes_attempted[currentuser.ID][index].attempt[attempt].marks[i], question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
     }
   }
 
@@ -46,18 +46,18 @@ void aMatrix(int index, int attempt) {
 
 void quiz_result(int index, int attempt) {
   printf("The results are: \n");
-  printf("Your score is %d \n",userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.score);
-  printf("No. of correct answers are %d \n",userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.correct);
-  printf("No. of incorrect answers are %d \n\n",userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].result.incorrect);
+  printf("Your score is %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.score);
+  printf("No. of correct answers are %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.correct);
+  printf("No. of incorrect answers are %d \n\n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.incorrect);
 }
 
 void analyseQuestion(int i, int index, int attempt) {
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+  printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
   printf("Question:\n");
-  printf("%s\n\n", question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].statement);
-  printf("Your answer:\n%s\n\n", response[currentuser.ID][index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].answer);
-  printf("Score: %d/%d\n\n", userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].marks[i], question[index][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][0]][userlist[currentuser.ID].quizes_attempted[index].attempt[attempt].q_bank[i][1]].marks);
+  printf("%s\n\n", question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].statement);
+  printf("Your answer:\n%s\n\n", response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer);
+  printf("Score: %d/%d\n\n", quizes_attempted[currentuser.ID][index].attempt[attempt].marks[i], question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
   printf("Enter 'e' to exit or 'n' to proceed to next question\n");
   char com;
   E:
@@ -92,8 +92,8 @@ void analyseQuestion(int i, int index, int attempt) {
   { 
      printf("Enter the question number: \n");
      scanf("%d",&qno);
-     int a=userlist[currentuser.ID].quizes_attempted[index].attempt[d].q_bank[qno][0];
-     int b=userlist[currentuser.ID].quizes_attempted[index].attempt[d].q_bank[qno][0];
+     int a=quizes_attempted[currentuser.ID][index].attempt[d].q_bank[qno][0];
+     int b=quizes_attempted[currentuser.ID][index].attempt[d].q_bank[qno][0];
      printf("The question is : %s\n",question[index][a][b].statement);
      printf("The solution is : %s\n",question[index][a][b].solution);
      printf("Your answer  is : %s\n",question[index][a][b].response[currentuser.ID].answer);

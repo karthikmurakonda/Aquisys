@@ -113,6 +113,7 @@ void save_userdata(int i) {
 	}
 	
 	fwrite(&userlist[i], sizeof(struct User), 1, userdata);
+	fwrite(quizes_attempted[i], sizeof(struct Quizes_attempted), quizlist.no_of_quizes, userdata);
 	if (userlist[i].type==0) {
 		//If it is student save responces
 		for (int j = 0; j < quizlist.no_of_quizes; ++j) {
@@ -139,6 +140,7 @@ void read_userdata(int i) {
 	}
 
 	fread(&userlist[i], sizeof(struct User), 1, userdata);
+	fread(quizes_attempted[i], sizeof(struct Quizes_attempted), quizlist.no_of_quizes, userdata);
 	if (userlist[i].type==0) {
 		//If it is student read responces
 		for (int j = 0; j < quizlist.no_of_quizes; ++j) {

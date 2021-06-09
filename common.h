@@ -34,8 +34,7 @@ struct  User {
     char password[16];
     int ID;                                           // Unique ID of each user
     int type;                                         // 0 (student) or 1 (admin)
-    int tags[max_tags];                               // 0 or 1 at a tag id index. 1 -> user has that tag.
-    struct Quizes_attempted quizes_attempted[max_quizes];    //attempts related to a quiz are stored at quiz’s Id.   
+    int tags[max_tags];                               // 0 or 1 at a tag id index. 1 -> user has that tag.   
 }; 
 
 struct Response {
@@ -54,7 +53,6 @@ struct Quiz {
     int no_of_questions;
     int no_of_students_attempted;                       //Number of students attempted in total
     int no_of_max_attempts;
-    int attempt_list[max_users];                        //Stores number of times users have attempted the quiz (index is corresponding user ID)
     int max_time;                                           //In seconds
     int tag_ids[max_tags];       //if 1 in i th place suggests that quiz has a tag with id i. By default a quiz has no tags unless specifies. a quiz with tag_ids array with all 0s mean any user can attempt it.
 };        /*nst to quizlist*/
@@ -67,9 +65,11 @@ struct Quizlist {
 extern struct Quizlist quizlist;
 extern struct User userlist[max_users];
 extern struct User currentuser;
-extern int login_status;
 extern struct Question question[max_quizes][max_q_per_quiz][max_alternative_q];   //Questions and their alternatives
 extern struct Response response[max_users][max_quizes][max_q_per_quiz][max_alternative_q];
+extern struct Quizes_attempted quizes_attempted[max_users][max_quizes];    //attempts related to a quiz are stored at quiz’s Id.
+
+extern int login_status;
 extern int no_of_currentusers;  //no.of users currently present in database.
 extern char taglist[max_tags][13]; //tag has id. each tag has max 12 characters.all will be initailized to null character while user enters for the first time
 extern time_t start, current, last;
