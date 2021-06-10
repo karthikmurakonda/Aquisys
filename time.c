@@ -1,5 +1,4 @@
 #include "common.h"
-#include "time.h"
 
 void record_time(int a) // for quiz start and end
 {   
