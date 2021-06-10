@@ -3,7 +3,7 @@
 
 void appdata_save(int all) {
 	// Save quiz data if admin
-	if (currentuser.type==1) {
+	if (currentuser.type==1 || all) {
 		save_quizdata();
 	}
 
