@@ -19,6 +19,7 @@ int is_visible(int quiz_id){                 //returns 1 if visible,0 if not.
 }
 
 void student_nav() {
+    appdata_read();
     int arr[max_quizes];
     int quiznum= 0;
     if (quizlist.no_of_quizes!=0) {
