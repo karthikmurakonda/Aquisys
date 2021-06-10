@@ -7,7 +7,7 @@
 }*/
 
 int login()
-{
+{   appdata_read();
     login_status=0;
     char c, username[100], password[1000];
     int z = 0, id, i, type, status=1;

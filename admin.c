@@ -572,6 +572,7 @@ void tag_quiz(int quiz_id){
             if(taglist[res-1][0] != '\0'){
                 quizlist.quiz[quiz_id].tag_ids[res-1] = 1;
                 printf("Quiz tagged successfully\npress ENTER to continue\n");
+                appdata_save(0);
                 getchar();
                 fflush(stdin);
                 admin_quizdetails(quiz_id);
@@ -703,6 +704,7 @@ void admin_quizdetails(int n){
 }
 
 void showqlist_admin(){
+    appdata_save(0);
     clearscr();
     printf("type a number to veiw/edit quiz or type '0' to create a quiz\npress '-1' to go back to welcome page\n" );
     for (int  i = 0; i < quizlist.no_of_quizes; i++)   printf("%d : %s\t no.of students attempted   %d\n",i+1,quizlist.quiz[i].name,quizlist.quiz[i].no_of_students_attempted);
@@ -841,7 +843,19 @@ void add_user(){
     }
     }
     take_password(no_of_currentusers);
+    for (int qid = 0; qid < quizlist.no_of_quizes; qid++){
+        for (int ques_id = 0; ques_id < quizlist.quiz[qid].no_of_questions; ques_id++){
+            for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
+            {
+               response[no_of_currentusers][qid][ques_id][alt_id].status = response[1][qid][ques_id][alt_id].status;
+            }
+            
+        }
+        
+    }
+
     no_of_currentusers++;   //incrementing no.of current users
+    appdata_save(1);
     clearscr();
     view_userlist();
 }
@@ -912,7 +926,6 @@ void view_userlist(){
     else if (response == 0){
         clearscr();
         add_user();
-        appdata_save(1);
     }
     else{
         clearscr();
@@ -1013,6 +1026,7 @@ void add_tag(int id){
     }    
     strcpy(taglist[id],response);
     printf("tag created press ENTER to continue\n");
+    appdata_save(0);   
     getchar();
     fflush(stdin);
     clearscr();
@@ -1066,6 +1080,7 @@ void manage_tags(){
 }
 
 void welcomepage_admin(){
+    appdata_save(0);
     appdata_read();
     for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++){  //reads no_of students attempts from user files.
         int res = 0;
