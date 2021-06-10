@@ -1066,6 +1066,16 @@ void manage_tags(){
 }
 
 void welcomepage_admin(){
+    appdata_read();
+    for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++){  //reads no_of students attempts from user files.
+        int res = 0;
+        for (int i = 0; i < no_of_currentusers; i++){
+            if(quizes_attempted[i][quiz_id].no_attempts!=0){
+            res ++;
+            }
+        }
+        quizlist.quiz[quiz_id].no_of_students_attempted = res;
+    }
     clearscr();
     printf("Welcome %s!\n\n",currentuser.username);
     printf("What would you like to do?\n");
