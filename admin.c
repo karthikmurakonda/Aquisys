@@ -24,7 +24,7 @@ void preview_all_questions(int quiz_id){     //displays all questions without ed
     }
     printf("press any button to proceed\n");
     getchar();
-    fflush(stdin);
+    clearBuf();
     admin_quizdetails(quiz_id);
 }
 
@@ -52,6 +52,7 @@ void change_max_attempts(int quiz_id){
                 if(res == 'y' || res == 'Y'){
                     quizlist.quiz[quiz_id].no_of_max_attempts = response;
                     printf("maximum attempts changed successfully, Type enter to continue\n");
+                    appdata_save(0);
                     getchar();
                     clearBuf();
                     admin_quizdetails(quiz_id);
@@ -93,6 +94,7 @@ void change_max_attempts(int quiz_id){
                     if(res == 'y' || res == 'Y'){
                         quizlist.quiz[quiz_id].no_of_max_attempts = response;
                         printf("maximum attempts changed successfully, press any key to continue\n");
+                        appdata_save(1);
                         getchar();
                         clearBuf();
                         admin_quizdetails(quiz_id);
@@ -133,6 +135,7 @@ void preview_question(int quiz_id,int ques_id){
     if(res==0){
             if(alts != 5){
             add_question(quiz_id,ques_id,alts);
+            appdata_save(1);
             }
             else if (alts == 5){
                 printf("Can't add alt anymore all 5 alts exists");
@@ -141,6 +144,7 @@ void preview_question(int quiz_id,int ques_id){
         }
     else if(res > 0 && res <= alts){
         add_question(quiz_id,ques_id,res-1);
+        appdata_save(1);
         preview_question(quiz_id,ques_id);
     }
     else if (res == -1) {
@@ -283,6 +287,7 @@ void addquestions_initial(int questart_id,int quiz_id){
 	    }while(res2 != 'y'&& res2 != 'Y'  && res2!= 'n'&&res2!='N');
         }   
     }
+    appdata_save(1);
     edit_questions(quiz_id);
 
 }
@@ -412,7 +417,6 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
           quizes_attempted[stu_id][index].attempt[attempt].result.correct++;
           quizes_attempted[stu_id][index].attempt[attempt].result.incorrect--;
           response[stu_id][index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].status = 'C';
-
         }
       if(res == 0 && quizes_attempted[stu_id][index].attempt[attempt].marks[i-1] != 0){
           quizes_attempted[stu_id][index].attempt[attempt].result.correct--;
@@ -421,6 +425,7 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
         }
       quizes_attempted[stu_id][index].attempt[attempt].marks[i-1] = res;
       printf("score changed successfully\nType any character to proceed\n");
+      appdata_save(1);
       getchar();
       clearBuf();
       clearscr();
@@ -498,6 +503,7 @@ void change_marks(int quiz_id){
 	        clearBuf();
   	        if(res2 >0 ){
                 for(int i = 0;i <max_alternative_q;i++) question[quiz_id][res-1][i].marks = res2; 
+                appdata_save(0);
             check2 = 1;
             admin_quizdetails(quiz_id);
             }
@@ -592,6 +598,7 @@ void tag_quiz(int quiz_id){
         if(resp == 'y'){
             quizlist.quiz[quiz_id].tag_ids[response-1] = 0;
             printf("Tag removed successfully\npress ENTER to conltinue\n");
+            appdata_save(0);
             getchar();
             fflush(stdin);
             admin_quizdetails(quiz_id);
@@ -935,6 +942,7 @@ void tag_user(int id){
         if(resp == 'y'){
             tag_user(id);
         }
+        appdata_save(1);
     }
     else{
         printf("User has been tagged by all tags available cannot add anymore type ENTER to continue\n");
@@ -965,7 +973,11 @@ void delete_tag(int id,int num){ //num is no.of tags present currently.
     if(res == 'y'){
         for (int i = id; i < num-1; i++){
          strcpy(taglist[i],taglist[i+1]);   //need to change few more 
+            for(int stu_id; stu_id < no_of_currentusers;stu_id++){
+                userlist[stu_id].tags[i] == userlist[stu_id].tags[i+1];
+            }
         }
+        appdata_save(1);
         taglist[num-1][0] = '\0';
         printf("deleted successfully type ENTER to go back\n");
         getchar();
@@ -1009,7 +1021,7 @@ void add_tag(int id){
 
 void manage_tags(){
     printf("list of tags :\n\n");
-    int tg= 0; // stores no.of available tags currently present.
+    int tg= 0;      // stores no.of available tags currently present.
     for (int id = 0; id < max_tags; id++){
         if(strcmp(taglist[id], "")!= 0){
             printf("%d\t\t\t%s\n",id+1,taglist[id]);
@@ -1032,7 +1044,6 @@ void manage_tags(){
         printf("Type the number of tag you wish to delete\n");
         int resp = scanf_int(tg,1);
         delete_tag(resp-1,tg);
-        appdata_save(0);
     }
     else if(res == 0){
         if(tg < max_tags){
@@ -1086,7 +1097,6 @@ void welcomepage_admin(){
     }
     else if(x == 'c'){
         change_password();
-        appdata_save(1);
     } 
     else{
         printf("Invalid response try again(y or q)\n");
