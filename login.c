@@ -110,6 +110,7 @@ void change_password(){
         strcpy(userlist[currentuser.ID].password,newpassword);
         printf("\n\t\t\t\tpassword successfully changed");
         printf("\n\n\t\t\t\t  Press ENTER to login again\n");
+        appdata_save(0);
         loginpage();
     } 
     else
