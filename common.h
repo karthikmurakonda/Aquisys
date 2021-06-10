@@ -36,7 +36,7 @@ struct  User {
     int ID;                                           // Unique ID of each user
     int type;                                         // 0 (student) or 1 (admin)
     int tags[max_tags];                               // 0 or 1 at a tag id index. 1 -> user has that tag.   
-}; 
+};
 
 struct Response {
    char answer[max_answer_length];  //Answer given by user

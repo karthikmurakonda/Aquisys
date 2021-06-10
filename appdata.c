@@ -2,34 +2,10 @@
 #include "appdata.h"
 
 void appdata_save(int all) {
-	FILE *datafile;
-
-	while(checklock(0,0));
-	lock(0,0);
-
-	//Open the datafile
-	datafile = fopen(".appdata.dat", "w");
-
-	//Check if open
-	if (datafile == NULL)
-	{
-		printf("\nError!\nCould not open appdata\n");
-		exit (1);
+	// Save quiz data if admin
+	if (currentuser.type==1) {
+		save_quizdata();
 	}
-
-	printf("Saving data...\n");
-	// Save common data
-	fwrite(&quizlist.no_of_quizes,sizeof(int),1,datafile);
-	fwrite(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
-	for (int i = 0; i < quizlist.no_of_quizes; ++i) {
-		for (int j = 0; j < quizlist.quiz[i].no_of_questions; ++j) {
-			fwrite(question[i][j], sizeof(struct Question), max_alternative_q, datafile);
-		}
-	}
-	fwrite(&no_of_currentusers,sizeof(int),1,datafile);
-	fwrite(taglist,sizeof(taglist),1,datafile);
-	fclose(datafile);
-	unlock(0,0);
 
 	//Save userdata
 	if (all) {
@@ -225,4 +201,35 @@ void unlock(int type, int i) {
 		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
 		remove(udatafilelock);
 	}
+}
+
+void save_quizdata() {
+	FILE *datafile;
+
+	while(checklock(0,0));
+	lock(0,0);
+
+	//Open the datafile
+	datafile = fopen(".appdata.dat", "w");
+
+	//Check if open
+	if (datafile == NULL)
+	{
+		printf("\nError!\nCould not open appdata\n");
+		exit (1);
+	}
+
+	printf("Saving data...\n");
+	// Save common data
+	fwrite(&quizlist.no_of_quizes,sizeof(int),1,datafile);
+	fwrite(&quizlist.quiz, sizeof(struct Quiz), quizlist.no_of_quizes, datafile);
+	for (int i = 0; i < quizlist.no_of_quizes; ++i) {
+		for (int j = 0; j < quizlist.quiz[i].no_of_questions; ++j) {
+			fwrite(question[i][j], sizeof(struct Question), max_alternative_q, datafile);
+		}
+	}
+	fwrite(&no_of_currentusers,sizeof(int),1,datafile);
+	fwrite(taglist,sizeof(taglist),1,datafile);
+	fclose(datafile);
+	unlock(0,0);
 }

@@ -29,10 +29,11 @@ make clean-appdata
   - [x] Adding users 
   - [x] Increase allowed number of attempts after making a quiz
   - [x] Delete quizzes
-  - [ ] Assigning quiz to specific users
-- [ ] Expand quiz features by 3rd June 
+  - [x] Assigning quiz to specific users
+- [x] Expand quiz features by 3rd June 
   - [x] Time limit (Abhishek)
   - [ ] Types of questions (Om)
-- [ ] Sync data by 10th June.
+  - [ ] Quiz instructions
+- [x] Sync data by 10th June.
 - [ ] UI (Using GTK) by June 10th
 
