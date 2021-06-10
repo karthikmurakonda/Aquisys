@@ -820,16 +820,16 @@ void view_user(int id){
 
 void add_user(){
     printf("Type new Username :\n");
-    char response[16];
-    smart_fgets(response,18,stdin);
+    char resp[16];
+    smart_fgets(resp,18,stdin);
     for (int id = 0; id < no_of_currentusers; id++){
-        if (strcmp(response,userlist[id].username)==0){
+        if (strcmp(resp,userlist[id].username)==0){
             printf("This username already exists\ntry again\n");
             add_user();
             return;
         }
     }
-    strcpy( userlist[no_of_currentusers].username,response);
+    strcpy( userlist[no_of_currentusers].username,resp);
     printf("type account type(0 for user and 1 for admin\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
     for(int i = 0;i < max_tags;i++){
