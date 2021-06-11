@@ -801,9 +801,23 @@ void delete_user(int id){
         if(auth == 1){
             for (int mem = id; mem < no_of_currentusers-1; mem++){
                 userlist[mem] = userlist[mem+1];        //have to change responses too
-                //add responses too.
+                for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++)
+                {
+                    quizes_attempted[mem][quiz_id] = quizes_attempted[mem+1][quiz_id];
+                    for (int ques_id = 0; ques_id < max_q_per_quiz; ques_id++)
+                    {
+                        for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
+                        {
+                            response[mem][quiz_id][ques_id][alt_id] = response[mem+1][quiz_id][ques_id][alt_id];
+                        }
+                        
+                    }
+                    
+                }
+                
             }
             no_of_currentusers--;
+            appdata_save(1);
             printf("User deleted press any charachter to go back\n");
             wait_for_enter();
             clearscr();
@@ -834,6 +848,7 @@ void rmvtag_user(int id){
     if(resp == 'y'){
         userlist[id].tags[response-1] = 0;
         printf("tag removed successfully type ENTER to go back\n");
+        appdata_save(1);
         wait_for_enter();
         clearscr();
         view_user(id);
@@ -866,16 +881,14 @@ void view_user(int id){
     else if(response == 2){
         tag_user(id);
         clearscr();
-        view_user(id);
         appdata_save(1);
+        view_user(id);
     }
     else if (response == -2){
         rmvtag_user(id);
-        appdata_save(1);
     }
     else{
         delete_user(id);
-        appdata_save(1);
     }
 }
 
