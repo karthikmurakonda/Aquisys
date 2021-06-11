@@ -90,7 +90,8 @@ void  multiline_input(char *arr,int len) {      //takes multiple lines from user
        lastindex ++;
     }
     if(lastindex == len){
-        arr[len-1] = '\0';
         clearBuf();
+        printf("No.of characters exceeded the limit try again!\n");
+        multiline_input(arr,len);
     }
 }
