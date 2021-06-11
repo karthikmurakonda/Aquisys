@@ -22,30 +22,29 @@ void student_nav() {
     appdata_read();
     int arr[max_quizes];
     int quiznum= 0;
-    if (quizlist.no_of_quizes!=0) {
-        for (int  i = 0; i < quizlist.no_of_quizes; i++) {
-            if(is_visible(i)==1){
-                printf("%d : %s\t\t Attempts-   %d/%d\n",quiznum+1, quizlist.quiz[i].name, quizes_attempted[currentuser.ID][i].no_attempts, quizlist.quiz[i].no_of_max_attempts);
-                arr[quiznum] = i;
-                quiznum++;
-            }
+    for (int  i = 0; i < quizlist.no_of_quizes; i++) {
+        if(is_visible(i)==1){
+            printf("%d : %s\t\t Attempts-   %d/%d\n",quiznum+1, quizlist.quiz[i].name, quizes_attempted[currentuser.ID][i].no_attempts, quizlist.quiz[i].no_of_max_attempts);
+            arr[quiznum] = i;
+            quiznum++;
         }
-        if(quiznum == 0){
-        printf("Sorry no quizes have been assigned yet! Try again later,\n\nPress ENTER to exit\n");
-        getchar();
-        clearBuf();
-        loginpage();
-        }
-        else{
-        printf("What would you like to do?\n");
+    }
+    if (quiznum==0) {
+        printf("Sorry no quizes have been assigned yet! Try again later,\n\n");
+    }
+    
+    printf("What would you like to do?\n");
+    if (quiznum!=0) {
         printf("- Attempt a quiz (Enter q)\n");
         printf("- View analysis of a quiz (Enter a)\n");
-        printf("- Log out (Enter l)\n");
-        printf("- Change password (Enter c)\n");
-        char com;
-        E:
-        scanf("%c", &com);
-        clearBuf();
+    }
+    printf("- Log out (Enter l)\n");
+    printf("- Change password (Enter c)\n");
+    char com;
+    E:
+    scanf("%c", &com);
+    clearBuf();
+    if (quiznum!=0) {
         if (com=='q') {
             printf("\nPlease choose a quiz to give (enter the quiz number):\n");
             int n = scanf_int(quiznum,1)-1;
@@ -64,29 +63,20 @@ void student_nav() {
             }
             else {
                 printf("No attempts available to analyse! Press ENTER to go back,\n");
-                getchar();
-                clearBuf();
+                wait_for_enter();
                 clearscr();
                 student_nav();
             }
         }
-        else if (com=='l') {
-            loginpage();
-        }
-        else if (com=='c') {
-            change_password();
-            appdata_save(0);
-        }
-        else {
-            printf("\nInvalid input! Please try again,\n");
-            goto E;
-        }
-        }
-  }
-  else {
-    printf("Sorry no quizes have been assigned yet! Try again later,\n\nPress ENTER to exit\n");
-    getchar();
-    clearBuf();
-    loginpage();
-  }
+    }
+    else if (com=='l') {
+        loginpage();
+    }
+    else if (com=='c') {
+        change_password();
+    }
+    else {
+        printf("\nInvalid input! Please try again,\n");
+        goto E;
+    }
 }

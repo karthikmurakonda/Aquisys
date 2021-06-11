@@ -23,8 +23,7 @@ void preview_all_questions(int quiz_id){     //displays all questions without ed
     }
     }
     printf("press any button to proceed\n");
-    getchar();
-    clearBuf();
+    wait_for_enter();
     admin_quizdetails(quiz_id);
 }
 
@@ -38,8 +37,7 @@ void change_max_attempts(int quiz_id){
         for (int i = 0; i < max_users; i++){
             if(response>quizes_attempted[i][quiz_id].no_attempts){
                 printf("Cann't change becouse few users already attempted more than this number\nType enter to go back");
-                getchar();
-                clearBuf();
+                wait_for_enter();
                 admin_quizdetails(quiz_id);
                 return;
             }
@@ -53,8 +51,7 @@ void change_max_attempts(int quiz_id){
                     quizlist.quiz[quiz_id].no_of_max_attempts = response;
                     printf("maximum attempts changed successfully, Type enter to continue\n");
                     appdata_save(0);
-                    getchar();
-                    clearBuf();
+                    wait_for_enter();
                     admin_quizdetails(quiz_id);
                     return;
                 }
@@ -80,8 +77,7 @@ void change_max_attempts(int quiz_id){
                     }
                     if(alts < response) {
                         printf("few alternate questions found at %d question, please go back and add enough alternate questions\nType any key to go back'\n",ques+1);
-                        getchar();
-                        clearBuf();
+                        wait_for_enter();
                         admin_quizdetails(quiz_id);
                         return;
                     }
@@ -95,8 +91,7 @@ void change_max_attempts(int quiz_id){
                         quizlist.quiz[quiz_id].no_of_max_attempts = response;
                         printf("maximum attempts changed successfully, press any key to continue\n");
                         appdata_save(1);
-                        getchar();
-                        clearBuf();
+                        wait_for_enter();
                         admin_quizdetails(quiz_id);
                         return;
                     }
@@ -445,8 +440,7 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
       quizes_attempted[stu_id][index].attempt[attempt].marks[i-1] = res;
       printf("score changed successfully\nType any character to proceed\n");
       appdata_save(1);
-      getchar();
-      clearBuf();
+      wait_for_enter();
       clearscr();
       see_response_admin(stu_id, i,index,attempt);
       return;
@@ -545,8 +539,7 @@ void delete_quiz(int quiz_id){
                 }
                 quizlist.no_of_quizes--;
                 printf("quiz deleted succesfully\nType any key to go back\n");
-                getchar();
-                clearBuf();
+                wait_for_enter();
                 showqlist_admin();
                 return;
         }
@@ -871,9 +864,7 @@ void add_user(){
             {
                response[no_of_currentusers][qid][ques_id][alt_id].status = response[1][qid][ques_id][alt_id].status;
             }
-            
         }
-        
     }
 
     no_of_currentusers++;   //incrementing no.of current users

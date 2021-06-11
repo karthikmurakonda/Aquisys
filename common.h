@@ -82,6 +82,7 @@ void clearscr(void);
 void clearBuf();
 void smart_fgets(char *str, int n, FILE *stream);
 int scanf_int();
+void wait_for_enter();
 void  multiline_input(char *arr,int len);
 
 // Global functions from admin.c

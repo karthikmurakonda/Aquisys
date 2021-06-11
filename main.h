@@ -63,6 +63,11 @@ int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower
     scanf_int(uplimit,lowlimit);
 }
 
+void wait_for_enter() {
+  char a[1];
+  smart_fgets(a, 1, stdin);
+}
+
 void  multiline_input(char *arr,int len) {      //takes multiple lines from user.user needs to press enter 2 times to end input session. len >2 always.
     int lastindex = 0;
     

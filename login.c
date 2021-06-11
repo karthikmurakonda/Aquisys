@@ -57,8 +57,7 @@ int login()
         }
     }
         printf("No such user found!\npress ENTER to go back\n");
-        getchar();
-        clearBuf();
+        wait_for_enter();
         loginpage();
         return 0;
 }
@@ -116,8 +115,7 @@ void change_password(){
     else
     {
       printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to login");
-      getchar();
-      clearBuf();
+      wait_for_enter();
       login();
       return;
     }
