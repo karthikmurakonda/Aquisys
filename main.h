@@ -62,3 +62,26 @@ int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower
     printf("\nNot a valid response try again (should be a number between %d and %d)\n",lowlimit,uplimit);
     scanf_int(uplimit,lowlimit);
 }
+
+void  multiline_input(char *arr,int len) {      //takes multiple lines from user.user needs to press enter 2 times to end input session. len >2 always.
+    int lastindex;
+    for (int index = 0; index < len; index++)
+    {
+       arr[index] = getchar();
+       if(index == 0){
+           if(arr[0]== '\n'){
+               printf("Empty input try agian!\n");
+               multiline_input(arr,len);
+               break;
+           }
+       }
+       if(index >0){
+            if( arr[index] == '\n' && arr[index-1] =='\n'){
+                arr[index] = '\0';
+                break;
+            }
+       }
+    }
+    arr[len-1] = '\0';
+    clearbuf();
+}
