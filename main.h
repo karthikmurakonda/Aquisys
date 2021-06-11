@@ -92,7 +92,5 @@ void  multiline_input(char *arr,int len) {      //takes multiple lines from user
     if(lastindex == len){
         arr[len-1] = '\0';
         clearBuf();
-
-
     }
 }
