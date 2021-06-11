@@ -266,7 +266,7 @@ void view_instructions(int index) {
 	printf("-------------------------------------------\n\n");
 	printf("%s\n", quizlist.quiz[index].instructions);
 	printf("Attempts: %d/%d\n", quizes_attempted[currentuser.ID][index].no_attempts, quizlist.quiz[index].no_of_max_attempts);
-	if (quizlist.quiz[index].visible<1) {
+	if (quizlist.quiz[index].visible<=1) {
 		printf("\nThis cannot be given currently!\n");
 	}
 	printf("\nWhat would you like to do?\n");
@@ -274,8 +274,8 @@ void view_instructions(int index) {
 		printf("- Start the quiz (Enter q)\n");
 	}
 	printf("- Exit (Enter e)\n");
-
 	char com;
+	E:
 	scanf("%c",&com);
 	clearBuf();
 	if (quizlist.quiz[index].visible>1) {
@@ -283,7 +283,11 @@ void view_instructions(int index) {
 			takeQuiz(index);
 		}
 	}
-	else if (com=='e') {
+	if (com=='e') {
 		return;
+	}
+	else {
+		printf("Invalid option please try again,\n");
+		goto E;
 	}
 }

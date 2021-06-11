@@ -23,7 +23,7 @@ void student_nav() {
     int arr[max_quizes];
     int quiznum= 0;
     for (int  i = 0; i < quizlist.no_of_quizes; i++) {
-        if(is_visible(i)==1){
+        if(is_visible(i)==1 && quizlist.quiz[i].visible>0){
             printf("%d : %s\t\t Attempts-   %d/%d\n",quiznum+1, quizlist.quiz[i].name, quizes_attempted[currentuser.ID][i].no_attempts, quizlist.quiz[i].no_of_max_attempts);
             arr[quiznum] = i;
             quiznum++;
@@ -72,7 +72,7 @@ void student_nav() {
             }
         }
     }
-    else if (com=='l') {
+    if (com=='l') {
         loginpage();
     }
     else if (com=='c') {
@@ -80,7 +80,6 @@ void student_nav() {
         change_password();
     }
     else if (com=='r') {
-        appdata_read();
         clearscr();
         student_nav();
     }
