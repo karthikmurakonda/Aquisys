@@ -33,13 +33,14 @@ void student_nav() {
         printf("Sorry no quizes have been assigned yet! Try again later,\n\n");
     }
     
-    printf("What would you like to do?\n");
+    printf("\nWhat would you like to do?\n");
     if (quiznum!=0) {
         printf("- Attempt a quiz (Enter q)\n");
         printf("- View analysis of a quiz (Enter a)\n");
     }
     printf("- Log out (Enter l)\n");
     printf("- Change password (Enter c)\n");
+    printf("- Reload page (Enter r)\n");
     char com;
     E:
     scanf("%c", &com);
@@ -48,8 +49,10 @@ void student_nav() {
         if (com=='q') {
             printf("\nPlease choose a quiz to give (enter the quiz number):\n");
             int n = scanf_int(quiznum,1)-1;
-            takeQuiz(arr[n]);
+            clearscr();
+            view_instructions(arr[n]);
             appdata_save(0);
+            clearscr();
             student_nav();
         }
         else if (com=='a') {
@@ -73,7 +76,13 @@ void student_nav() {
         loginpage();
     }
     else if (com=='c') {
+        clearscr();
         change_password();
+    }
+    else if (com=='r') {
+        appdata_read();
+        clearscr();
+        student_nav();
     }
     else {
         printf("\nInvalid input! Please try again,\n");

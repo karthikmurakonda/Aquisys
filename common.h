@@ -96,7 +96,7 @@ void appdata_read();
 void loginpage(void);
 
 // Global functions from quiz.c
-void takeQuiz(int index);
+void view_instructions(int index);
 
 // Global functions from nav.c
 void student_nav();
