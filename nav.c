@@ -40,6 +40,7 @@ void student_nav() {
     }
     printf("- Log out (Enter l)\n");
     printf("- Change password (Enter c)\n");
+    printf("- Reload page (Enter r)\n");
     char com;
     E:
     scanf("%c", &com);
@@ -73,7 +74,13 @@ void student_nav() {
         loginpage();
     }
     else if (com=='c') {
+        clearscr();
         change_password();
+    }
+    else if (com=='r') {
+        appdata_read();
+        clearscr();
+        student_nav();
     }
     else {
         printf("\nInvalid input! Please try again,\n");
