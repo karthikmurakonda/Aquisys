@@ -67,3 +67,32 @@ void wait_for_enter() {
   char a[1];
   smart_fgets(a, 1, stdin);
 }
+
+void  multiline_input(char *arr,int len) {      //takes multiple lines from user.user needs to press enter 2 times to end input session. len >2 always.
+    int lastindex = 0;
+    
+    for (int index = 0; index < len; index++)
+    {
+       arr[index] = getchar();
+       if(index == 0){
+           if(arr[0]== '\n'){
+               printf("Empty input try agian!\n");
+               multiline_input(arr,len);
+               break;
+           }
+       }
+       if(index >0){
+            if( arr[index] == '\n' && arr[index-1] =='\n'){
+                arr[index] = '\0';
+                break;
+            }
+       }
+       lastindex ++;
+    }
+    if(lastindex == len){
+        arr[len-1] = '\0';
+        clearBuf();
+
+
+    }
+}
