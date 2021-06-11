@@ -253,7 +253,7 @@ void ques_initialize(int questart_id,int quiz_id){
 void addquestions_initial(int questart_id,int quiz_id){
     preveiw_quiz(quiz_id);
     printf("press ENTER to start entering questions\n");
-    getchar();
+    wait_for_enter();
     for (int i = questart_id; i < quizlist.quiz[quiz_id].no_of_questions; i++){
         clearscr();
         printf("%s\n",quizlist.quiz[quiz_id].name);
@@ -491,7 +491,7 @@ void response_admin(int quiz_id){
     }
     else {
         printf("no one attempted the quiz\nPress ENTER to goback");
-        getchar();
+        wait_for_enter();
         admin_quizdetails(quiz_id);
     }
 
@@ -588,22 +588,19 @@ void tag_quiz(int quiz_id){
                 quizlist.quiz[quiz_id].tag_ids[res-1] = 1;
                 printf("Quiz tagged successfully\npress ENTER to continue\n");
                 appdata_save(0);
-                getchar();
-                fflush(stdin);
+                wait_for_enter();
                 admin_quizdetails(quiz_id);
             }
             else{
                 printf("Error can't add empty tag try again\npress ENTER to continue\n");
-                getchar();
-                fflush(stdin);
+                wait_for_enter();
                 admin_quizdetails(quiz_id);
             }
             
         }
         else{
             printf("No tags left to tag\npress ENTER to continue\n");
-            getchar();
-            fflush(stdin);
+            wait_for_enter();
             admin_quizdetails(quiz_id);
         }
     }
@@ -615,8 +612,7 @@ void tag_quiz(int quiz_id){
             quizlist.quiz[quiz_id].tag_ids[response-1] = 0;
             printf("Tag removed successfully\npress ENTER to conltinue\n");
             appdata_save(0);
-            getchar();
-            fflush(stdin);
+            wait_for_enter();
             admin_quizdetails(quiz_id);
         }
         else{
@@ -625,8 +621,7 @@ void tag_quiz(int quiz_id){
         }
         else{
             printf("Invalid response press ENTER to continue\n");
-            getchar();
-            fflush(stdin);
+            wait_for_enter();
             admin_quizdetails(quiz_id);
         }
     }
@@ -688,14 +683,14 @@ void admin_quizdetails(int n){
             }
             else{
             printf("you can't change max marks of questions when it is available to users change the availability and come back.\ntype enter to continue\n");
-            getchar(); 
+            wait_for_enter(); 
             admin_quizdetails(n);
             return;              
             }
         }
         else{
             printf("you can't change max marks of question once after a user submittes the quiz\ntype enter to continue\n");
-            getchar();
+            wait_for_enter();
             admin_quizdetails(n);
             return;  
         }
@@ -706,7 +701,7 @@ void admin_quizdetails(int n){
         printf("Type a corresponding number to change availabilty :\n0 : make quiz invisible\n1 : make only instructions visible\n2 : make users to attempt the quiz\n");
         quizlist.quiz[n].visible = scanf_int(2,0);
         printf("availability updated successfully\nType ENTER to continue\n");
-        getchar();
+        wait_for_enter();
         admin_quizdetails(n);
         return;
     }
@@ -736,8 +731,7 @@ void admin_quizdetails(int n){
         }
         else{
             printf("No tags available currently\nTo create a tag first\ntype ENTER to continue.\n");
-            getchar();
-            fflush(stdin);
+            wait_for_enter();
             admin_quizdetails(n);
             return;
         }
@@ -800,8 +794,7 @@ void delete_user(int id){
             }
             no_of_currentusers--;
             printf("User deleted press any charachter to go back\n");
-            getchar();
-            fflush(stdin);
+            wait_for_enter();
             clearscr();
             view_userlist();
             return;
@@ -830,8 +823,7 @@ void rmvtag_user(int id){
     if(resp == 'y'){
         userlist[id].tags[response-1] = 0;
         printf("tag removed successfully type ENTER to go back\n");
-        getchar();
-        fflush(stdin);
+        wait_for_enter();
         clearscr();
         view_user(id);
     }
@@ -926,7 +918,7 @@ void take_password(int id){
     if(strcmp(resp,resp2)==0){
         printf("password created/changed successfully\nType Enter to go back\n");
         strcpy(userlist[id].password,resp);
-        getchar();
+        wait_for_enter();
     }
     else{
         printf("passwords doesn't match please try again\n");
@@ -1015,8 +1007,7 @@ void tag_user(int id){
     }
     else{
         printf("User has been tagged by all tags available cannot add anymore type ENTER to continue\n");
-        getchar();
-        fflush(stdin);
+        wait_for_enter();
     }
 }
 
@@ -1029,8 +1020,7 @@ void view_tagged(int id){
         }
     }
     printf("\npress ENTER to go back\n");
-    getchar();
-    fflush(stdin);
+    wait_for_enter();
     clearscr();
     manage_tags();
     
@@ -1041,16 +1031,20 @@ void delete_tag(int id,int num){ //num is no.of tags present currently.
     char res = takeyorno();
     if(res == 'y'){
         for (int i = id; i < num-1; i++){
+            strcpy(taglist[i],taglist[i+1]);   //need to change few more 
          strcpy(taglist[i],taglist[i+1]);   //need to change few more 
+            strcpy(taglist[i],taglist[i+1]);   //need to change few more 
             for(int stu_id; stu_id < no_of_currentusers;stu_id++){
                 userlist[stu_id].tags[i] == userlist[stu_id].tags[i+1];
+            }
+            for(int qid = 0; qid < quizlist.no_of_quizes;qid++){
+                quizlist.quiz[qid].tag_ids[i] == quizlist.quiz[qid].tag_ids;
             }
         }
         appdata_save(1);
         taglist[num-1][0] = '\0';
         printf("deleted successfully type ENTER to go back\n");
-        getchar();
-        fflush(stdin);
+        wait_for_enter();
         clearscr();
         manage_tags();
     }
@@ -1083,8 +1077,7 @@ void add_tag(int id){
     strcpy(taglist[id],response);
     printf("tag created press ENTER to continue\n");
     appdata_save(0);   
-    getchar();
-    fflush(stdin);
+    wait_for_enter();
     clearscr();
     manage_tags();
 }
@@ -1123,8 +1116,7 @@ void manage_tags(){
         }
         else{
             printf("Can't add tags anymore limit(%d) reached\npress ENTER\n",max_tags);
-            getchar();
-            fflush(stdin);
+            wait_for_enter();
             clearscr();
             manage_tags();
         }
