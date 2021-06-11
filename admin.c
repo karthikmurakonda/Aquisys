@@ -292,6 +292,23 @@ void addquestions_initial(int questart_id,int quiz_id){
 
 }
 
+void add_instrucion_page(int quiz_id){
+    clearscr();
+    printf("\nType the instructions :(press enter one time to start a new line and press enter two times to end adding instruction.)\n");
+    printf("\n*****************************************************************************************************************************\n");
+    multiline_input(quizlist.quiz[quiz_id].instructions,1000);
+    clearscr();
+    printf("Preveiw :\n");
+    printf("\n*****************************************************************************************************************************\n");
+    printf("%s\n",quizlist.quiz[quiz_id].instructions);
+    printf("\n*****************************************************************************************************************************\n");
+    printf("would like to continue?(y/n)");
+    char res = takeyorno();
+    if(res = 'n'){
+        add_instrucion_page(quiz_id);
+    }
+}
+
 void addquiz(){
 	quizlist.no_of_quizes = quizlist.no_of_quizes+1;//increasing no.of quizes.
   	int i = quizlist.no_of_quizes - 1;//i is index for quiz array.
@@ -326,11 +343,13 @@ void addquiz(){
     quizlist.quiz[i].max_time = response * 60 ;  // in seconds.
 	//conformation.
 	printf("you have to add atleast %d questions\nWould you like to continue?(y/n)\n",quizlist.quiz[i].no_of_max_attempts*quizlist.quiz[i].no_of_questions);
+    quizlist.quiz[quizlist.no_of_quizes-1].instructions[0] = '\0';    //initializing quiz instructions.
 	char res2;
 	do {
 	scanf("%c",&res2);
 	clearBuf();
   	if(res2=='y'||res2=='Y'){
+        add_instrucion_page(quizlist.no_of_quizes-1);
         ques_initialize(0,quizlist.no_of_quizes-1);
 	  	addquestions_initial(0,i);
     }
@@ -622,6 +641,9 @@ void tag_quiz(int quiz_id){
 void admin_quizdetails(int n){
     clearscr();
     printf("Quiz name : %s\n",quizlist.quiz[n].name);
+    printf("\n****************************************************************INSTRUCTIONS*************************************************\n");
+    printf("%s\n",quizlist.quiz[n].instructions);
+    printf("\n*****************************************************************************************************************************\n");
     printf("No.of questions %d\n",quizlist.quiz[n].no_of_questions);
     printf("No.of maximum attempts : %d\n",quizlist.quiz[n].no_of_max_attempts);
     printf("\nTags :\n");
