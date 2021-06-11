@@ -55,6 +55,7 @@ struct Quiz {
     int no_of_students_attempted;                       //Number of students attempted in total
     int no_of_max_attempts;
     int max_time;                                           //In seconds
+    char instructions[1000];
     int visible;
     int tag_ids[max_tags];       //if 1(0) in i th place suggests that (do not has)quiz has a tag with id i. By default a quiz has no tags unless specifies. a quiz with tag_ids array with all 0s mean any user can attempt it.
 };        /*nst to quizlist*/
