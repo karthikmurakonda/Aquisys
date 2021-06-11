@@ -1035,10 +1035,10 @@ void delete_tag(int id,int num){ //num is no.of tags present currently.
          strcpy(taglist[i],taglist[i+1]);   //need to change few more 
             strcpy(taglist[i],taglist[i+1]);   //need to change few more 
             for(int stu_id; stu_id < no_of_currentusers;stu_id++){
-                userlist[stu_id].tags[i] == userlist[stu_id].tags[i+1];
+                userlist[stu_id].tags[i] = userlist[stu_id].tags[i+1];
             }
             for(int qid = 0; qid < quizlist.no_of_quizes;qid++){
-                quizlist.quiz[qid].tag_ids[i] == quizlist.quiz[qid].tag_ids;
+                quizlist.quiz[qid].tag_ids[i] = quizlist.quiz[qid].tag_ids;
             }
         }
         appdata_save(1);
