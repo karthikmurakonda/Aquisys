@@ -45,34 +45,32 @@ void student_nav() {
     E:
     scanf("%c", &com);
     clearBuf();
-    if (quiznum!=0) {
-        if (com=='q') {
-            printf("\nPlease choose a quiz to give (enter the quiz number):\n");
-            int n = scanf_int(quiznum,1)-1;
+    if (com=='q' && quiznum!=0) {
+        printf("\nPlease choose a quiz to give (enter the quiz number):\n");
+        int n = scanf_int(quiznum,1)-1;
+        clearscr();
+        view_instructions(arr[n]);
+        appdata_save(0);
+        clearscr();
+        student_nav();
+    }
+    else if (com=='a' && quiznum!=0) {
+        printf("\nPlease choose a quiz to analyse (enter the quiz number):\n");
+        int q = scanf_int(quiznum,1)-1;
+        if (quizes_attempted[currentuser.ID][arr[q]].no_attempts!=0) {
+            printf("\nWhich attempt number would you like to analyse?:\n");
+            int a = scanf_int(quizes_attempted[currentuser.ID][arr[q]].no_attempts,1)-1;
             clearscr();
-            view_instructions(arr[n]);
-            appdata_save(0);
+            aMatrix(arr[q],a);
+        }
+        else {
+            printf("No attempts available to analyse! Press ENTER to go back,\n");
+            wait_for_enter();
             clearscr();
             student_nav();
         }
-        else if (com=='a') {
-            printf("\nPlease choose a quiz to analyse (enter the quiz number):\n");
-            int q = scanf_int(quiznum,1)-1;
-            if (quizes_attempted[currentuser.ID][arr[q]].no_attempts!=0) {
-                printf("\nWhich attempt number would you like to analyse?:\n");
-                int a = scanf_int(quizes_attempted[currentuser.ID][arr[q]].no_attempts,1)-1;
-                clearscr();
-                aMatrix(arr[q],a);
-            }
-            else {
-                printf("No attempts available to analyse! Press ENTER to go back,\n");
-                wait_for_enter();
-                clearscr();
-                student_nav();
-            }
-        }
     }
-    if (com=='l') {
+    else if (com=='l') {
         loginpage();
     }
     else if (com=='c') {

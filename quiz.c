@@ -278,12 +278,10 @@ void view_instructions(int index) {
 	E:
 	scanf("%c",&com);
 	clearBuf();
-	if (quizlist.quiz[index].visible>1) {
-		if (com=='q') {
-			takeQuiz(index);
-		}
+	if (com=='q' && quizlist.quiz[index].visible>1) {
+		takeQuiz(index);
 	}
-	if (com=='e') {
+	else if (com=='e') {
 		return;
 	}
 	else {

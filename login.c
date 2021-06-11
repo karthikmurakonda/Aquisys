@@ -6,20 +6,18 @@
    loginpage();
 }*/
 
-int login()
-{   appdata_read();
-    login_status=0;
-    char c, username[100], password[1000];
+int login(){
+    appdata_read();
+    char c, username[16], password[16];
     int z = 0, id, i, type, status=1;
     int checku, checkp, checkid;
+    E:
     printf("\n\n\t\t  Please Login,");
     printf("\n\t\t---------------------------");
     printf("\n\n\t\t  Username: ");
-    scanf("%s", username);
-    clearBuf();
+    smart_fgets(username, 16, stdin);
     printf("\n\t\t  Password: ");
-    scanf("%s", password);
-    clearBuf();
+    smart_fgets(password, 16, stdin);
     for (i = 0; i < max_users; i++) 
     {
         if (userlist[i].username != 0) 
@@ -40,26 +38,26 @@ int login()
             else if (checku == 0 && checkp != 0) 
             {
                 printf("\n\n\n\t\t\tWRONG PASSWORD!");
-                printf("\n\n\t\t\t\t  (Press 'r' to re-login)\n");
-                do
+                printf("\n\n\t\t(Press 'r' to re-login)\n");
+                char res = getchar();
+                clearBuf();
+                if (res == 'r')
                 {
-                    char res = getchar();
-                    clearBuf();
-                    if (res == 'r')
-                    {
-                        clearscr();
-                        login();
-                        return 0;
-                    }
-                    printf("Invalid response try again.\n");         
-                }while(1);
+                    clearscr();
+                    return login();
+                }
+                else {
+                    printf("Invalid response try again.\n");
+                    clearscr();
+                    goto E;
+                }       
             }
         }
     }
-        printf("No such user found!\npress ENTER to go back\n");
-        wait_for_enter();
-        loginpage();
-        return 0;
+    printf("No such user found!\npress ENTER to go back\n");
+    wait_for_enter();
+    loginpage();
+    return 0;
 }
 
 void loginpage() {
