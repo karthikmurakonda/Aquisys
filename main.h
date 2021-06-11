@@ -64,7 +64,8 @@ int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower
 }
 
 void  multiline_input(char *arr,int len) {      //takes multiple lines from user.user needs to press enter 2 times to end input session. len >2 always.
-    int lastindex;
+    int lastindex = 0;
+    
     for (int index = 0; index < len; index++)
     {
        arr[index] = getchar();
@@ -81,7 +82,12 @@ void  multiline_input(char *arr,int len) {      //takes multiple lines from user
                 break;
             }
        }
+       lastindex ++;
     }
-    arr[len-1] = '\0';
-    clearbuf();
+    if(lastindex == len){
+        arr[len-1] = '\0';
+        clearBuf();
+
+
+    }
 }
