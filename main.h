@@ -62,3 +62,8 @@ int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower
     printf("\nNot a valid response try again (should be a number between %d and %d)\n",lowlimit,uplimit);
     scanf_int(uplimit,lowlimit);
 }
+
+void wait_for_enter() {
+  char a[1];
+  smart_fgets(a, 1, stdin);
+}

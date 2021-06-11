@@ -32,8 +32,7 @@ void student_nav() {
         }
         if(quiznum == 0){
         printf("Sorry no quizes have been assigned yet! Try again later,\n\nPress ENTER to exit\n");
-        getchar();
-        clearBuf();
+        wait_for_enter();
         loginpage();
         }
         else{
@@ -64,8 +63,7 @@ void student_nav() {
             }
             else {
                 printf("No attempts available to analyse! Press ENTER to go back,\n");
-                getchar();
-                clearBuf();
+                wait_for_enter();
                 clearscr();
                 student_nav();
             }
@@ -85,8 +83,7 @@ void student_nav() {
   }
   else {
     printf("Sorry no quizes have been assigned yet! Try again later,\n\nPress ENTER to exit\n");
-    getchar();
-    clearBuf();
+    wait_for_enter();
     loginpage();
   }
 }
