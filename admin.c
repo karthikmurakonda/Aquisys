@@ -49,8 +49,8 @@ void change_max_attempts(int quiz_id){
                 clearBuf();
                 if(res == 'y' || res == 'Y'){
                     quizlist.quiz[quiz_id].no_of_max_attempts = response;
-                    printf("maximum attempts changed successfully, Type enter to continue\n");
                     appdata_save(0);
+                    printf("maximum attempts changed successfully, Type enter to continue\n");
                     wait_for_enter();
                     admin_quizdetails(quiz_id);
                     return;
@@ -89,8 +89,8 @@ void change_max_attempts(int quiz_id){
                     clearBuf();
                     if(res == 'y' || res == 'Y'){
                         quizlist.quiz[quiz_id].no_of_max_attempts = response;
-                        printf("maximum attempts changed successfully, press any key to continue\n");
                         appdata_save(0);
+                        printf("maximum attempts changed successfully, press any key to continue\n");
                         wait_for_enter();
                         admin_quizdetails(quiz_id);
                         return;
@@ -361,6 +361,7 @@ void addquiz(){
 }
 
 void admin_Matrix(int stu_id,int index, int attempt) {
+    clearscr();
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
   printf("-------------------------------------------\n          %s's Analysis Matrix             \n\n",userlist[stu_id].username);
   quiz_result_admin(stu_id,index, attempt);
@@ -461,8 +462,8 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
           response[stu_id][index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].status = 'W';
         }
       quizes_attempted[stu_id][index].attempt[attempt].marks[i-1] = res;
-      printf("score changed successfully\nType any character to proceed\n");
       appdata_save(1);
+      printf("score changed successfully\nType any character to proceed\n");
       wait_for_enter();
       clearscr();
       see_response_admin(stu_id, i,index,attempt);
@@ -618,8 +619,8 @@ void tag_quiz(int quiz_id){
             int res = scanf_int(max_tags,1);
             if(taglist[res-1][0] != '\0'){
                 quizlist.quiz[quiz_id].tag_ids[res-1] = 1;
-                printf("Quiz tagged successfully\npress ENTER to continue\n");
                 appdata_save(0);
+                printf("Quiz tagged successfully\npress ENTER to continue\n");
                 wait_for_enter();
                 admin_quizdetails(quiz_id);
             }
@@ -642,8 +643,8 @@ void tag_quiz(int quiz_id){
         char resp = takeyorno();
         if(resp == 'y'){
             quizlist.quiz[quiz_id].tag_ids[response-1] = 0;
-            printf("Tag removed successfully\npress ENTER to conltinue\n");
             appdata_save(0);
+            printf("Tag removed successfully\npress ENTER to conltinue\n");
             wait_for_enter();
             admin_quizdetails(quiz_id);
         }
@@ -872,8 +873,8 @@ void rmvtag_user(int id){
     char resp = takeyorno();
     if(resp == 'y'){
         userlist[id].tags[response-1] = 0;
-        printf("tag removed successfully type ENTER to go back\n");
         appdata_save(1);
+        printf("tag removed successfully type ENTER to go back\n");
         wait_for_enter();
         clearscr();
         view_user(id);
@@ -1138,8 +1139,8 @@ void add_tag(int id){
         }
     }    
     strcpy(taglist[id],response);
-    printf("tag created press ENTER to continue\n"); 
     appdata_save(0);
+    printf("tag created press ENTER to continue\n"); 
     wait_for_enter();
     clearscr();
     manage_tags();
