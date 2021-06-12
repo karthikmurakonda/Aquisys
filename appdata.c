@@ -87,7 +87,7 @@ void save_userdata(int i) {
 	sprintf(udatafile, ".appdata-%d.dat", i);
 	while (checklock(1,i));
 	lock(1,i);
-	userdata = fopen(udatafile, "w");
+	userdata = fopen(udatafile, "wb");
 
 	// Check if open
 	if (userdata == NULL) {
@@ -174,7 +174,7 @@ void lock(int type, int i) {
 	if (type==0) {
 		FILE *lock;
 		// Make lock
-		lock=fopen(".appdata.dat.lock", "w");
+		lock=fopen(".appdata.dat.lock", "wb");
 		fclose(lock);
 	}
 	// Check if type is student
@@ -183,7 +183,7 @@ void lock(int type, int i) {
 		// Make lock
 		char udatafilelock[100];
 		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
-		lock=fopen(udatafilelock, "w");
+		lock=fopen(udatafilelock, "wb");
 		fclose(lock);
 	}
 }
@@ -210,7 +210,7 @@ void save_quizdata() {
 	lock(0,0);
 
 	//Open the datafile
-	datafile = fopen(".appdata.dat", "w");
+	datafile = fopen(".appdata.dat", "wb");
 
 	//Check if open
 	if (datafile == NULL)
