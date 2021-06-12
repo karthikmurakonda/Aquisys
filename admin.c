@@ -419,7 +419,7 @@ void quiz_result_admin(int stu_id,int index, int attempt) {
   printf("%s's score is %d \n",userlist[stu_id].username,quizes_attempted[stu_id][index].attempt[attempt].result.score);
   printf("No. of correct answers are %d \n",quizes_attempted[stu_id][index].attempt[attempt].result.correct);
   printf("No. of incorrect answers are %d \n\n",quizes_attempted[stu_id][index].attempt[attempt].result.incorrect);
-  printf("Time taken : %d (in min)\n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60);
+  printf("Time taken : %d:%d \n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60,quizes_attempted[stu_id][index].attempt[attempt].time_taken%60);
 }
 
 void see_response_admin(int stu_id,int i, int index, int attempt) {
@@ -671,6 +671,7 @@ void admin_quizdetails(int n){
     printf("\n****************************************************************************************************\n");
     printf("No.of questions %d\n",quizlist.quiz[n].no_of_questions);
     printf("No.of maximum attempts : %d\n",quizlist.quiz[n].no_of_max_attempts);
+    printf("Max time : %d min\n",quizlist.quiz[n].max_time/60);
     printf("\nTags :\n");
     int tagnum = 0,num =0;  //tagnum no tags tagged to this quiz , num is no.of totall tags in system at present.
     for(int ti=0; ti < max_tags;ti++){
@@ -692,7 +693,7 @@ void admin_quizdetails(int n){
     else if(quizlist.quiz[n].visible == 2){
         printf("Availability :\n%sAvailable to tagged users%s\n", green, normal);
     }
-    printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n i : to change instructions \n a : to change availability of this quiz\n 0 : to go back to quizzes list\n");
+    printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n i : to change instructions \n a : to change availability of this quiz\n h : to change max time\n 0 : to go back to quizzes list\n");
     char res;
 	do {
 	scanf("%c",&res);
@@ -726,6 +727,14 @@ void admin_quizdetails(int n){
             return;  
         }
        return;
+    }
+    else if(res == 'h'){
+        printf("Type the new max time\n");
+        quizlist.quiz[n].max_time = 60 * scanf_int(1000,1);
+        appdata_save(0);
+        clearscr();
+        admin_quizdetails(n);
+        return;
     }
     else if(res == 'a'){
         clearscr();

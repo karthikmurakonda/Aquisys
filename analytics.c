@@ -76,6 +76,7 @@ void analyseQuestion(int i, int index, int attempt) {
   printf("Your answer:\n%s\n\n", response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer);
   printf("Correct answer:\n%s\n\n", question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].solution);
   printf("Score: %d/%d\n\n", quizes_attempted[currentuser.ID][index].attempt[attempt].marks[i], question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
+  printf("Time taken : %d:%d\n",quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken/60,quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken%60);
   printf("Enter 'e' to exit or 'n' to proceed to next question\n");
   char com;
   E:
