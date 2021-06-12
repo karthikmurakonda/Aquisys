@@ -7,3 +7,4 @@ void makeQuiz(int index, int attempt);
 void autoGradeAttempt(int index, int attempt);
 int randNum(int upper, int lower);
 void takeQuiz(int index);
+void print_time_left();

@@ -50,7 +50,8 @@ void takeQuiz(int index) {
 }
 
 void qMatrix(int index, int attempt) {
-	printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+	printf("-------------------------------------------\n                  %s               ", quizlist.quiz[index].name);
+	print_time_left(index);
 	printf("-------------------------------------------\n               Question Matrix             \n\n");
 	char color[8];
 	for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {
@@ -118,8 +119,10 @@ else {
 }
 
 void askQuestion(int i, int index, int attempt) {
+	record_time(1);
 	if (!autosubmit(index)) {
-		printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+		printf("-------------------------------------------\n                  %s               ", quizlist.quiz[index].name);
+		print_time_left(index);
 		printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
 		printf("Question:\n");
 		printf("%s\n\n", question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].statement);
@@ -182,14 +185,15 @@ void askQuestion(int i, int index, int attempt) {
 		clearscr();
 		printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
 		printf("-------------------------------------------\n");
-		printf("Time out!!\nThis answer could not be saved!\n");
+		printf("Time out!!\n");
 		printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
 		wait_for_enter();
 	}
 }
 
 void quizNav(int i, int index, int attempt) {
-	printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+	printf("-------------------------------------------\n                  %s               ", quizlist.quiz[index].name);
+	print_time_left(index);
 	printf("-------------------------------------------\n");
 	char com;
 	printf("Would you like to proceed to next question or return to question matrix?\n\nEnter:\n'n' for next question\n'm' for question matrix\n");
@@ -206,13 +210,13 @@ void quizNav(int i, int index, int attempt) {
 	}
 	else if (com==109) {  //'m'
 		clearscr();
-	qMatrix(index, attempt);
-}
+		qMatrix(index, attempt);
+	}
 	else {    //neither 'n' nor 'm'
 		clearscr();
-	printf("Invalid Option!\n");
-	quizNav(i, index, attempt);
-}
+		printf("Invalid Option!\n");
+		quizNav(i, index, attempt);
+	}
 }
 
 int randNum(int lower, int upper) {
@@ -312,5 +316,31 @@ void view_instructions(int index) {
 	else {
 		printf("Invalid option please try again,\n");
 		goto E;
+	}
+}
+
+void print_time_left(int index) {
+	// Refresh current time
+	record_time(1);
+	int tl_min = (quizlist.quiz[index].max_time-current+start)/60;
+	if (tl_min==quizlist.quiz[index].max_time/60) {
+		tl_min=quizlist.quiz[index].max_time/60-1;
+	}
+	int tl_sec = 59-((current-start)%60);
+	char color[8];
+	if (tl_min==0 && tl_sec<30) {
+		strcpy(color, red);
+	}
+	else if (tl_min==0) {
+		strcpy(color, yellow);
+	}
+	else {
+		strcpy(color, green);
+	}
+	if (tl_sec<10) {
+		printf("Time Left: %s%d:0%d%s\n", color, tl_min, tl_sec, normal);
+	}
+	else {
+		printf("Time Left: %s%d:%d%s\n", color, tl_min, tl_sec, normal);
 	}
 }
