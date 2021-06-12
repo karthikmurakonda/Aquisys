@@ -984,6 +984,7 @@ char takeyorno(){
 }
 
 void view_userlist(){
+    appdata_read();
     printf("S.no~~~~~~~Account_type~~~~~~~~Username\n");
     for (int id = 0; id < no_of_currentusers; id++){
         if(userlist[id].type == 1)  printf("%d\t\tAdmin\t\t%s\n",id+1,userlist[id].username);
@@ -1152,7 +1153,6 @@ void manage_tags(){
 }
 
 void welcomepage_admin(){
-    appdata_save(0);
     appdata_read();
     for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++){  //reads no_of students attempts from user files.
         int res = 0;
@@ -1171,6 +1171,7 @@ void welcomepage_admin(){
     printf("- see or add tags(t)\n");
     printf("- Log out (Enter l)\n");
     printf("- Change password (Enter c)\n");
+    printf("- Reload (Enter r)\n");
 
     int b = 0;
     char x;
@@ -1194,9 +1195,12 @@ void welcomepage_admin(){
     }
     else if(x == 'c'){
         change_password();
+    }
+    else if(x == 'r'){
+        welcomepage_admin();
     } 
     else{
         printf("Invalid response try again(y or q)\n");
     }
-    }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c');
+    }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c' && x != 'r');
 }
