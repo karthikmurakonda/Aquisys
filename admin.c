@@ -419,11 +419,11 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
   }
   else if (com=='n') {
     clearscr();
-    if (i+1<quizlist.quiz[index].no_of_questions) {   //next question index is less than equal last question index
+    if (i <quizlist.quiz[index].no_of_questions) {   //next question index is less than equal last question index
       see_response_admin(stu_id, ++i , index, attempt);
     }
     else {                                            //If not go to first question
-      see_response_admin(stu_id,1, index, attempt);
+      see_response_admin(stu_id, 1, index, attempt);
     }
   }
   else if(com =='m'){
@@ -463,7 +463,7 @@ void response_admin(int quiz_id){
         for (int i = 0; i < no_of_currentusers; i++){
             if(quizes_attempted[i][quiz_id].no_attempts != 0){
                 ids[max] = i;
-                printf("%d                %s                 %d\n",++max,userlist[i].username,quizlist.quiz[quiz_id].no_of_students_attempted);            
+                printf("%d                %s                 %d\n",++max,userlist[i].username,quizes_attempted[i][quiz_id].no_attempts);            
             }
             
         }
@@ -660,13 +660,13 @@ void admin_quizdetails(int n){
     }
     if(tagnum == 0) printf("(no tags quiz is open for all users)\n");
     if(quizlist.quiz[n].visible == 0){
-        printf("Availability :\n%sNot visible to all users%s\n",KRED, KNRM);
+        printf("Availability :\n%sNot visible to all users%s\n",red, normal);
     }
     else if(quizlist.quiz[n].visible == 1){
-        printf("Availability :\n%sOnly Instructions visible%s\n", KYEL,KNRM);
+        printf("Availability :\n%sOnly Instructions visible%s\n", yellow,normal);
     }
     else if(quizlist.quiz[n].visible == 2){
-        printf("Availability :\n%sAvailable to tagged users%s\n", KGRN, KNRM);
+        printf("Availability :\n%sAvailable to tagged users%s\n", green, normal);
     }
     printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n i : to change instructions \n a : to change availabilityof this quiz\n 0 : to go back to quizzes list\n");
     char res;
@@ -707,6 +707,7 @@ void admin_quizdetails(int n){
         clearscr();
         printf("Type a corresponding number to change availabilty :\n0 : make quiz invisible\n1 : make only instructions visible\n2 : make users to attempt the quiz\n");
         quizlist.quiz[n].visible = scanf_int(2,0);
+        appdata_save(0);
         printf("availability updated successfully\nType ENTER to continue\n");
         wait_for_enter();
         admin_quizdetails(n);
@@ -1161,11 +1162,12 @@ void welcomepage_admin(){
         int res = 0;
         for (int i = 0; i < no_of_currentusers; i++){
             if(quizes_attempted[i][quiz_id].no_attempts!=0){
-            res ++;
+            res++;
             }
         }
         quizlist.quiz[quiz_id].no_of_students_attempted = res;
     }
+    appdata_save(0);
     clearscr();
     printf("Welcome %s!\n\n",currentuser.username);
     printf("What would you like to do?\n");
