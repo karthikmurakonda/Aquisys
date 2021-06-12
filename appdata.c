@@ -26,7 +26,7 @@ void appdata_read() {
 	// Read common appdata
 	while(checklock(0,0));
 	// Open the datafile
-	datafile = fopen(".appdata.dat", "r");
+	datafile = fopen(".appdata.dat", "rb");
 
 	// Check if open
 	if (datafile == NULL) {
@@ -116,7 +116,7 @@ void read_userdata(int i) {
 	char udatafile[100];
 	sprintf(udatafile, ".appdata-%d.dat", i);
 	while(checklock(1,i));
-	userdata = fopen(udatafile, "r");
+	userdata = fopen(udatafile, "rb");
 
 	// Check if open
 	if (userdata == NULL) {
@@ -143,7 +143,7 @@ int checklock(int type, int i) {
 	if (type==0) {
 		FILE *lock;
 		// Check for lock
-		lock = fopen(".appdata.dat.lock", "r");
+		lock = fopen(".appdata.dat.lock", "rb");
 		if (lock == NULL) {
 			return 0;
 		}
@@ -158,7 +158,7 @@ int checklock(int type, int i) {
 		// Check for lock
 		char udatafilelock[100];
 		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
-		lock = fopen(udatafilelock, "r");
+		lock = fopen(udatafilelock, "rb");
 		if (lock == NULL) {
 			return 0;
 		}
