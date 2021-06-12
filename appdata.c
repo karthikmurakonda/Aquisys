@@ -48,6 +48,7 @@ void appdata_read() {
 		    quizlist.no_of_quizes = 0;
 			no_of_currentusers = 2;
 		    appdata_save(1);
+		    clearscr();
 			//Then try again
 			appdata_read();
 		}
