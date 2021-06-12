@@ -1072,12 +1072,12 @@ void tag_user(int id){
         printf("\ntype the corresponding number to tag the user.\n");
         int res = scanf_int(tg,1);
         userlist[id].tags[res-1] = 1;
+        appdata_save(1);
         printf("Tag added to the user succussefully.\nLike to add one more tag?y/n\n");
         char resp = takeyorno();
         if(resp == 'y'){
             tag_user(id);
         }
-        appdata_save(1);
     }
     else{
         printf("User has been tagged by all tags available cannot add anymore type ENTER to continue\n");
