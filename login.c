@@ -47,7 +47,7 @@ int login(){
                     return login();
                 }
                 else {
-                    printf("Invalid response try again.\n");
+                    printf("%sInvalid response try again,%s\n", red, normal);
                     clearscr();
                     goto E;
                 }       
@@ -80,7 +80,7 @@ void loginpage() {
                     welcomepage_admin();
                     break;
                 default:
-                    printf("Error!\nInvalid user type\n");
+                    printf("%sError!\nInvalid user type%s\n", red, normal);
             }
         }
     }
@@ -88,7 +88,7 @@ void loginpage() {
         return;
     }
     else {
-        printf("\tInvalid option! Please try again,\n");
+        printf("\t%sInvalid option! Please try again,%s\n", red, normal);
         goto E;
     }
 }
@@ -96,6 +96,7 @@ void loginpage() {
 void change_password(){
     char newpassword[100],conformpassword[100];
     int checkn, np;
+    E:
     printf("\n\t\t\t\tEnter your new password\n");
     scanf("%s",newpassword);
     printf("\n\t\t\t\tConform your password\n");
@@ -112,9 +113,8 @@ void change_password(){
     } 
     else
     {
-      printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to login");
+      printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to try again,");
       wait_for_enter();
-      login();
-      return;
+      goto E;
     }
 }
