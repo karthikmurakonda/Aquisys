@@ -46,7 +46,7 @@ void smart_fgets(char *str, int n, FILE *stream) {  //Alternative to fgets to en
     clearBuf();                                     //Clean Buffer
   }
   else if (len<=1) {
-      printf("Empty input, please try again!\n");
+      printf("%sEmpty input, please try again!\n%s",red,normal);
       smart_fgets(str,n,stream);
   }
 }
@@ -59,7 +59,7 @@ int scanf_int(int uplimit,int lowlimit){    //upper limit is first arg and lower
     if(out == 1){
         if(res <= uplimit && res >= lowlimit)    return res;  //checks whether the input is in range or not.
     }
-    printf("\nNot a valid response try again (should be a number between %d and %d)\n",lowlimit,uplimit);
+    printf("\n%sNot a valid response try again (should be a number between %d and %d)%s\n",red,lowlimit,uplimit,normal);
     scanf_int(uplimit,lowlimit);
 }
 
@@ -75,7 +75,7 @@ void  multiline_input(char *arr,int len) {      //takes multiple lines from user
        arr[index] = getchar();
        if(index == 0){
            if(arr[0]== '\n'){
-               printf("Empty input try agian!\n");
+               printf("%sEmpty input try agian!%s\n",red,normal);
                multiline_input(arr,len);
                break;
            }
@@ -90,7 +90,7 @@ void  multiline_input(char *arr,int len) {      //takes multiple lines from user
     }
     if(lastindex == len){
         clearBuf();
-        printf("No.of characters exceeded the limit try again!\n");
+        printf("%sNo.of characters exceeded the limit try again!%s\n",red,normal);
         multiline_input(arr,len);
     }
 }

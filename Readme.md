@@ -1,39 +1,53 @@
+
 # Aquisys
 
 ## Building
-The code can be built using the following command,
+The code can be built using the following commands,
+### With Make
 ```
 make
-```
-The related object files can be cleaned using,
-```
-make clean
 ```
 The appdata can be cleaned using,
 ```
 make clean-appdata
 ```
+### Without Make
+```
+gcc admin.c analytics.c appdata.c login.c main.c nav.c quiz.c time.c -o run
+```
 
-## Default Logins (Temporary)
+## Default Logins
 | Username | Password | Account Type |
 | -------- | -------- | ------------ |
-| student | 1 | Student |
 | admin | 1 | Admin |
+| student | 1 | Student |
 
-## Goals
-- [x] Analytics portal by 27th May
-- [x] Save all data in files by 3rd June
-- [x] Allow changing password by 3rd June (Bhargav)
-- [ ] Expand admin features by 3rd June (Karthik)
-  - [x] Manual checking
-  - [x] Adding users 
-  - [x] Increase allowed number of attempts after making a quiz
-  - [x] Delete quizzes
-  - [x] Assigning quiz to specific users
-- [x] Expand quiz features by 3rd June 
-  - [x] Time limit (Abhishek)
-  - [ ] Types of questions (Om)
-  - [ ] Quiz instructions
-- [x] Sync data by 10th June.
-- [ ] UI (Using GTK) by June 10th
+## Usage
+### Giving Quiz
+ 1. Login to student account
+ 2. Choose to attempt a quiz
+ 3. Read instructions and start quiz
 
+### View Quiz Analysis
+ 1. Login to student account
+ 2. Choose to analyse a quiz
+
+### Making a Quiz
+ 1. Login to admin account
+ 2. Go to see or manage quizzes
+ 3. Choose create a quiz
+ 4. Follow on screen instructions
+ 5. Set availibility of quiz as desired
+
+### View Student Responces
+ 1. Login to admin account
+ 2. Go to see or manage quizzes
+ 3. Choose option to view student responces
+
+### Managing Users
+ 1. Login to admin account
+ 2. Choose see or add user option
+ 3. Choose desired option to manage users
+
+## Source Code
+Can be found at [github](https://github.com/karthikmurakonda/Aquisys/)!

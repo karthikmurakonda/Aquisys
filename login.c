@@ -62,7 +62,7 @@ int login(){
 
 void loginpage() {
     clearscr();
-    printf("\n\n\n\t\tWelcome to Aquisys!\n");
+    printf("\n\n\n\t\tWelcome to %sAquisys%s!\n",cyan,normal);
     printf("\n\t\tPress l to login\n\t\tPress q to quit\n");
     char com;
     E:
