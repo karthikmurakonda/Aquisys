@@ -15,6 +15,9 @@ make clean-appdata
 ```
 gcc admin.c analytics.c appdata.c login.c main.c nav.c quiz.c time.c -o run
 ```
+### Prebuilt Executables
+Linux: run the included “run” file
+Windows: run the included  “run.exe” file
 
 ## Default Logins
 | Username | Password | Account Type |
