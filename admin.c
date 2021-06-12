@@ -297,7 +297,7 @@ void add_instrucion_page(int quiz_id){
     printf("Preveiw :\n");
     printf("\n********************************************************************************************************\n");
     printf("%s",quizlist.quiz[quiz_id].instructions);
-    printf("***********************************************************************************************************\n");
+    printf("\n***********************************************************************************************************\n");
     printf("would like to continue?(y/n)");
     char res = takeyorno();
     if(res == 'n'){
@@ -690,7 +690,7 @@ void admin_quizdetails(int n){
     else if(quizlist.quiz[n].visible == 2){
         printf("Availability :\n%sAvailable to tagged users%s\n", green, normal);
     }
-    printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n i : to change instructions \n a : to change availabilityof this quiz\n 0 : to go back to quizzes list\n");
+    printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n i : to change instructions \n a : to change availability of this quiz\n 0 : to go back to quizzes list\n");
     char res;
 	do {
 	scanf("%c",&res);
