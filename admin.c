@@ -49,8 +49,8 @@ void change_max_attempts(int quiz_id){
                 clearBuf();
                 if(res == 'y' || res == 'Y'){
                     quizlist.quiz[quiz_id].no_of_max_attempts = response;
-                    printf("maximum attempts changed successfully, Type enter to continue\n");
                     appdata_save(0);
+                    printf("maximum attempts changed successfully, Type enter to continue\n");
                     wait_for_enter();
                     admin_quizdetails(quiz_id);
                     return;
@@ -89,8 +89,8 @@ void change_max_attempts(int quiz_id){
                     clearBuf();
                     if(res == 'y' || res == 'Y'){
                         quizlist.quiz[quiz_id].no_of_max_attempts = response;
-                        printf("maximum attempts changed successfully, press any key to continue\n");
                         appdata_save(0);
+                        printf("maximum attempts changed successfully, press any key to continue\n");
                         wait_for_enter();
                         admin_quizdetails(quiz_id);
                         return;
@@ -618,8 +618,8 @@ void tag_quiz(int quiz_id){
             int res = scanf_int(max_tags,1);
             if(taglist[res-1][0] != '\0'){
                 quizlist.quiz[quiz_id].tag_ids[res-1] = 1;
-                printf("Quiz tagged successfully\npress ENTER to continue\n");
                 appdata_save(0);
+                printf("Quiz tagged successfully\npress ENTER to continue\n");
                 wait_for_enter();
                 admin_quizdetails(quiz_id);
             }
@@ -642,8 +642,8 @@ void tag_quiz(int quiz_id){
         char resp = takeyorno();
         if(resp == 'y'){
             quizlist.quiz[quiz_id].tag_ids[response-1] = 0;
-            printf("Tag removed successfully\npress ENTER to conltinue\n");
             appdata_save(0);
+            printf("Tag removed successfully\npress ENTER to conltinue\n");
             wait_for_enter();
             admin_quizdetails(quiz_id);
         }
@@ -1138,8 +1138,8 @@ void add_tag(int id){
         }
     }    
     strcpy(taglist[id],response);
-    printf("tag created press ENTER to continue\n"); 
     appdata_save(0);
+    printf("tag created press ENTER to continue\n"); 
     wait_for_enter();
     clearscr();
     manage_tags();
