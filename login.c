@@ -97,9 +97,9 @@ void change_password(){
     char newpassword[100],conformpassword[100];
     int checkn, np;
     E:
-    printf("\n\t\t\t\tEnter your new password\n");
+    printf("\n\t\t\t\tEnter your new password\n\t\t\t\t");
     scanf("%s",newpassword);
-    printf("\n\t\t\t\tConform your password\n");
+    printf("\n\t\t\t\tConform your password\n\t\t\t\t");
     scanf("%s",conformpassword);
     clearBuf();
     checkn=strcmp(newpassword,conformpassword);
@@ -113,7 +113,7 @@ void change_password(){
     } 
     else
     {
-      printf("\n\t\t\tThe password entered is not matching\n\t\t\tpress ENTER to try again,");
+      printf("\n\t\t\t%sThe password entered is not matching\n\t\t\tpress ENTER to try again,%s", red, normal);
       wait_for_enter();
       goto E;
     }
