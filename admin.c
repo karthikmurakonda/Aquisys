@@ -934,11 +934,8 @@ void add_user(){
             quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.incorrect=0;
             quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.score= 0;      
         }
-    }
-
-    
-                
-                
+        quizes_attempted[no_of_currentusers][qid].no_attempts = 0;
+    }                
     no_of_currentusers++;   //incrementing no.of current users
     appdata_save(1);
     clearscr();
