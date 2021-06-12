@@ -68,9 +68,8 @@ void wait_for_enter() {
   smart_fgets(a, 1, stdin);
 }
 
-void  multiline_input(char *arr,int len) {      //takes multiple lines from user.user needs to press enter 2 times to end input session. len >2 always.
+void  multiline_input(char *arr,int len) {      //takes multiple lines from user.user needs to press enter 2 times to end input session. len >4 always.
     int lastindex = 0;
-    
     for (int index = 0; index < len; index++)
     {
        arr[index] = getchar();
@@ -81,9 +80,9 @@ void  multiline_input(char *arr,int len) {      //takes multiple lines from user
                break;
            }
        }
-       if(index >0){
-            if( arr[index] == '\n' && arr[index-1] =='\n'){
-                arr[index] = '\0';
+       if(index >1){
+            if( arr[index] == '\n' && arr[index-1] =='\n' && arr[index-2]=='\n'){   //checking for 3 adjacent  \n s from input.
+                arr[index-2] = '\0';
                 break;
             }
        }

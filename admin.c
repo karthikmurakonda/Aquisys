@@ -174,9 +174,9 @@ void add_question(int quiz_id,int question_id,int alt_id){
     char check='n';
     while(check != 'y'){
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",question_id+1,alt_id+1);
-        printf("type statment of %d-alternate for %d question(%d marks)\n\n",alt_id+1,question_id+1,question[quiz_id][question_id][0].marks);
+        printf("type statment of %d-alternate for %d question(%d marks)\n\t(press ENTER 3 times to submit question)\n",alt_id+1,question_id+1,question[quiz_id][question_id][0].marks);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        smart_fgets(question[quiz_id][question_id][alt_id].statement,max_question_length,stdin);
+        multiline_input(question[quiz_id][question_id][alt_id].statement,max_question_length);
         printf("\nType Solution:\n");
         smart_fgets(question[quiz_id][question_id][alt_id].solution,max_answer_length,stdin);
         printf("\npreview:\n\n%s\n\n",question[quiz_id][question_id][alt_id].statement);
@@ -290,7 +290,7 @@ void addquestions_initial(int questart_id,int quiz_id){
 
 void add_instrucion_page(int quiz_id){
     clearscr();
-    printf("\nType the instructions :(press enter one time to start a new line and press enter two times to end adding instruction.)\n");
+    printf("\nType the instructions :(press enter one time to start a new line and press enter three times to end adding instruction.)\n");
     printf("\n*****************************************************************************************************************************\n");
     multiline_input(quizlist.quiz[quiz_id].instructions,1000);
     clearscr();
