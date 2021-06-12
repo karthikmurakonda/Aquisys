@@ -1,8 +1,8 @@
-
 # Aquisys
 
 ## Building
 The code can be built using the following commands,
+
 ### With Make
 ```
 make
@@ -19,8 +19,8 @@ gcc admin.c analytics.c appdata.c login.c main.c nav.c quiz.c time.c -o run
 ## Default Logins
 | Username | Password | Account Type |
 | -------- | -------- | ------------ |
-| admin | 1 | Admin |
-| student | 1 | Student |
+|  admin   |    1     |    Admin     |
+| student  |    1     |   Student    |
 
 ## Usage
 ### Giving Quiz
