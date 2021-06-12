@@ -195,6 +195,7 @@ void add_question(int quiz_id,int question_id,int alt_id){
         }while(res != 'y'&& res != 'Y' && res!= 'n'&&res!='N');
     }
     for(int user = 0; user<max_users;user++)    response[user][quiz_id][question_id][alt_id].status = 'N';   //changing status from E to N if question is filled.
+    question[quiz_id][question_id][alt_id].status = 'N';
 }
 
 void edit_questions(int quiz_id){
@@ -245,7 +246,7 @@ void ques_initialize(int questart_id,int quiz_id){
                 quizes_attempted[uid][quiz_id].attempt[d].result.incorrect=0;
                 quizes_attempted[uid][quiz_id].attempt[d].result.score= 0;
             }
-
+            question[quiz_id][i][d].status = 'E';
         }
     }
 }
@@ -924,7 +925,7 @@ void add_user(){
         for (int ques_id = 0; ques_id < quizlist.quiz[qid].no_of_questions; ques_id++){
             for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
             {
-               response[no_of_currentusers][qid][ques_id][alt_id].status = response[0][qid][ques_id][alt_id].status;
+               response[no_of_currentusers][qid][ques_id][alt_id].status = question[qid][ques_id][alt_id].status;
                response[no_of_currentusers][qid][ques_id][alt_id].answer[0] = '\0';
             }
         }

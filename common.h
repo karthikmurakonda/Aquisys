@@ -56,6 +56,7 @@ struct Response {
 struct Question {
    char statement[max_question_length];
    char solution[max_answer_length];      //Correct answer given by teacher
+   char status;
    int marks;
 };
 
