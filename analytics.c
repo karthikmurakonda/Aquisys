@@ -66,6 +66,8 @@ void quiz_result(int index, int attempt) {
   printf("Your score is %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.score);
   printf("No. of correct answers are %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.correct);
   printf("No. of incorrect answers are %d \n\n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.incorrect);
+  printf("Time taken : %d:%d\n",quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken/60,quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken%60);
+
 }
 
 void analyseQuestion(int i, int index, int attempt) {
