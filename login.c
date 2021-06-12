@@ -45,7 +45,7 @@ int login(){
             }
         }
     }
-    printf("No such user found!\npress ENTER to go back\n");
+    printf("%sNo such user found!%s\npress ENTER to go back\n", red, normal);
     wait_for_enter();
     loginpage();
     return 0;
