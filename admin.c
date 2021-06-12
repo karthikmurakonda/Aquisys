@@ -421,6 +421,7 @@ void quiz_result_admin(int stu_id,int index, int attempt) {
 }
 
 void see_response_admin(int stu_id,int i, int index, int attempt) {
+  clearscr();
   printf("-------------------------------------------\n               %s-%s               \n", quizlist.quiz[index].name,userlist[stu_id].username);
   printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i, question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].marks);
   printf("\nQuestion:\n%s\n\n", question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].statement);
@@ -434,6 +435,7 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
   com=getchar();
   clearBuf();
   if (com=='e') {
+    clearscr();
     admin_Matrix(stu_id,index, attempt);
   }
   else if (com=='n') {
@@ -495,6 +497,7 @@ void response_admin(int quiz_id){
         }
         else{
             if(quizes_attempted[ids[res-1]][quiz_id].no_attempts == 1){
+                clearscr();
                 admin_Matrix(ids[res-1],quiz_id,0);
                 clearscr();
                 return;
@@ -1026,7 +1029,14 @@ void view_userlist(){
     }
     else if (response == 0){
         clearscr();
+        if(no_of_currentusers < max_users){
         add_user();
+        }
+        else{
+            printf("you can't add add more than %d users\npress ENTER to continue\n",max_users);
+            wait_for_enter();
+            view_userlist();
+        }
     }
     else{
         clearscr();
