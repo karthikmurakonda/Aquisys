@@ -11,14 +11,15 @@
 #define max_q_per_quiz 200
 #define max_tags 5
 
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
+#define normal "\x1b[0m"
+#define black "\x1b[30m"
+#define red "\x1b[31m"
+#define green "\x1b[32m"
+#define yellow "\x1b[33m"
+#define blue "\x1b[34m"
+#define magenta "\x1b[35m"
+#define cyan "\x1b[36m"
+#define white "\x1b[37m"
      
 struct Result {
     int attempted;
