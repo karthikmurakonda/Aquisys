@@ -296,11 +296,20 @@ void view_instructions(int index) {
 	printf("%s\n\n", quizlist.quiz[index].instructions);
 	printf("Attempts: %d/%d\n", quizes_attempted[currentuser.ID][index].no_attempts, quizlist.quiz[index].no_of_max_attempts);
 	printf("Max time : %d min\n\n",quizlist.quiz[index].max_time);
+	if (quizlist.quiz[index].max_time%60<10) {
+		printf("Max time: %d:0%d min\n\n",quizlist.quiz[index].max_time/60, quizlist.quiz[index].max_time%60);
+	}
+	else {
+		printf("Max time: %d:%d min\n\n",quizlist.quiz[index].max_time/60, quizlist.quiz[index].max_time%60);
+	}
+	if (quizes_attempted[currentuser.ID][index].no_attempts>=quizlist.quiz[index].no_of_max_attempts) {
+		printf("\nYou have given maximum number of allowed attempts.\n");
+	}
 	if (quizlist.quiz[index].visible<=1) {
-		printf("\nThis cannot be given currently!\n");
+		printf("\nInstructor has not allowed you to give this quiz yet.\n");
 	}
 	printf("\nWhat would you like to do?\n");
-	if (quizlist.quiz[index].visible>1) {
+	if (quizlist.quiz[index].visible>1 && quizes_attempted[currentuser.ID][index].no_attempts<quizlist.quiz[index].no_of_max_attempts) {
 		printf("- Start the quiz (Enter q)\n");
 	}
 	printf("- Exit (Enter e)\n");
@@ -308,7 +317,7 @@ void view_instructions(int index) {
 	E:
 	scanf("%c",&com);
 	clearBuf();
-	if (com=='q' && quizlist.quiz[index].visible>1) {
+	if (com=='q' && quizlist.quiz[index].visible>1 && quizes_attempted[currentuser.ID][index].no_attempts<quizlist.quiz[index].no_of_max_attempts) {
 		takeQuiz(index);
 	}
 	else if (com=='e') {
