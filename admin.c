@@ -925,10 +925,20 @@ void add_user(){
             for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
             {
                response[no_of_currentusers][qid][ques_id][alt_id].status = response[0][qid][ques_id][alt_id].status;
+               response[no_of_currentusers][qid][ques_id][alt_id].answer[0] = '\0';
             }
+        }
+        for(int attempt;attempt < quizlist.quiz[qid].no_of_max_attempts;attempt++){
+            quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.attempted = 0;
+            quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.correct = 0;
+            quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.incorrect=0;
+            quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.score= 0;      
         }
     }
 
+    
+                
+                
     no_of_currentusers++;   //incrementing no.of current users
     appdata_save(1);
     clearscr();
