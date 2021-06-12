@@ -364,19 +364,36 @@ void admin_Matrix(int stu_id,int index, int attempt) {
   printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
   printf("-------------------------------------------\n          %s's Analysis Matrix             \n\n",userlist[stu_id].username);
   quiz_result_admin(stu_id,index, attempt);
+  char color[8];
   for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {
+    char status=response[stu_id][index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].status;
+    if (status=='U') {
+      strcpy(color,yellow);
+    }
+    else if (status=='S') {
+      strcpy(color,cyan);
+    }
+    else if (status=='C') {
+      strcpy(color,green);
+    }
+    else if (status=='W') {
+      strcpy(color,red);
+    }
     if (i%5==0) {
       printf("\n");
     }
     if (i+1<10) {
-      printf(" %d) [%c] (%d/%d)   ", i+1, response[stu_id][index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].status, quizes_attempted[stu_id][index].attempt[attempt].marks[i] ,question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].marks);
+      printf(" %d) %s[%c]%s (%d/%d)   ", i+1, color, status, normal, quizes_attempted[stu_id][index].attempt[attempt].marks[i] ,question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].marks);
     }
     else {
-      printf("%d) [%c] (%d/%d)   ", i+1, response[stu_id][index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].status, quizes_attempted[stu_id][index].attempt[attempt].marks[i], question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].marks);
+      printf("%d) %s[%c]%s (%d/%d)   ", i+1, color, status, normal, quizes_attempted[stu_id][index].attempt[attempt].marks[i], question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i][1]].marks);
     }
   }
 
-  printf("\n\nKey:\n[U] Unattempted            (p/q) p Marks Obtained Out of q\n[C] Correct\n[W] Wrong\n");
+  printf("\n\nKey:\n%s[U]%s Unattempted            (p/q) p Marks Obtained Out of q\n", yellow, normal);
+  printf("%s[S]%s Seen\n", cyan, normal);
+  printf("%s[C]%s Correct\n", green, normal);
+  printf("%s[W]%s Wrong\n", red, normal);
   printf("\n\nEnter question number you wish to analyse or '0' to exit analytics,\n");
   int num;
   scanf("%d", &num);

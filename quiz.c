@@ -52,20 +52,31 @@ void takeQuiz(int index) {
 void qMatrix(int index, int attempt) {
 	printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
 	printf("-------------------------------------------\n               Question Matrix             \n\n");
+	char color[8];
 	for (int i = 0; i < quizlist.quiz[index].no_of_questions; ++i) {
+		char status=response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status;
+		if (status=='U') {
+			strcpy(color,yellow);
+		}
+		else if (status=='S') {
+			strcpy(color,cyan);
+		}
+		else if (status=='A') {
+			strcpy(color,green);
+		}
 		if (i%5==0) {
 			printf("\n");
 		}
 		if (i+1<10) {
-			printf(" %d) [%c] (%d)   ", i+1, response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
+			printf(" %d) %s[%c]%s (%d)   ", i+1, color, status, normal, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
 		}
 		else {
-			printf("%d) [%c] (%d)   ", i+1, response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
+			printf("%d) %s[%c]%s (%d)   ", i+1, color, status, normal, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
 		}
 	}
-
-	printf("\n\nKey:\n[U] Unattempted            (n) Question is of 'n' marks\n[S] Seen\n[A] Answered\n");
-	printf("\n\nEnter question number you wish to view or '0' to submit quiz,\n");
+	printf("\n\nKey:\n%s[U]%s Unattempted            (p/q) p Marks Obtained Out of q\n", yellow, normal);
+	printf("%s[S]%s Seen\n", cyan, normal);
+	printf("%s[A]%s Attempted\n", green, normal);
 	int num;
 	scanf("%d", &num);
 
