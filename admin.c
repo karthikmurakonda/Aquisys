@@ -35,7 +35,7 @@ void change_max_attempts(int quiz_id){
     response = scanf_int(5,1);
     if (response < quizlist.quiz[quiz_id].no_of_max_attempts){
         for (int i = 0; i < max_users; i++){
-            if(response>quizes_attempted[i][quiz_id].no_attempts){
+            if(response < quizes_attempted[i][quiz_id].no_attempts){
                 printf("Cann't change becouse few users already attempted more than this number\nType enter to go back");
                 wait_for_enter();
                 admin_quizdetails(quiz_id);
@@ -303,6 +303,7 @@ void add_instrucion_page(int quiz_id){
     if(res == 'n'){
         add_instrucion_page(quiz_id);
     }
+    appdata_save(0);
     clearscr();
 }
 
@@ -482,7 +483,7 @@ void response_admin(int quiz_id){
                 return;
             }
             else{
-                printf("User has attempted this quiz %d times\nType an attempt number to veiw responses(greater number implies recent attempt)\n",quizes_attempted[ids[res]][quiz_id].no_attempts);
+                printf("User has attempted this quiz %d times\nType an attempt number to veiw responses(greater number implies recent attempt)\n",quizes_attempted[ids[res-1]][quiz_id].no_attempts);
                 int resp = scanf_int(quizes_attempted[ids[res-1]][quiz_id].no_attempts,1);
                 clearscr();
                 admin_Matrix(ids[res-1],quiz_id,resp-1);
@@ -929,7 +930,7 @@ void add_user(){
                response[no_of_currentusers][qid][ques_id][alt_id].answer[0] = '\0';
             }
         }
-        for(int attempt;attempt < quizlist.quiz[qid].no_of_max_attempts;attempt++){
+        for(int attempt=0;attempt < quizlist.quiz[qid].no_of_max_attempts;attempt++){
             quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.attempted = 0;
             quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.correct = 0;
             quizes_attempted[no_of_currentusers][qid].attempt[attempt].result.incorrect=0;
