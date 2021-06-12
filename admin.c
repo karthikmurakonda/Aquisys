@@ -90,7 +90,7 @@ void change_max_attempts(int quiz_id){
                     if(res == 'y' || res == 'Y'){
                         quizlist.quiz[quiz_id].no_of_max_attempts = response;
                         printf("maximum attempts changed successfully, press any key to continue\n");
-                        appdata_save(1);
+                        appdata_save(0);
                         wait_for_enter();
                         admin_quizdetails(quiz_id);
                         return;
@@ -520,7 +520,6 @@ void change_marks(int quiz_id){
                 for(int i = 0;i <max_alternative_q;i++) question[quiz_id][res-1][i].marks = res2; 
                 appdata_save(0);
                 check2 = 1;
-                appdata_save(0);
             admin_quizdetails(quiz_id);
             }
             else printf("Not a valid response try agian\n");
@@ -661,13 +660,13 @@ void admin_quizdetails(int n){
     }
     if(tagnum == 0) printf("(no tags quiz is open for all users)\n");
     if(quizlist.quiz[n].visible == 0){
-        printf("Availability :\nNot visible to all users\n");
+        printf("Availability :\n%sNot visible to all users%s\n",KRED, KNRM);
     }
     else if(quizlist.quiz[n].visible == 1){
-        printf("Availability :\nOnly Instructions visible\n");
+        printf("Availability :\n%sOnly Instructions visible%s\n", KYEL,KNRM);
     }
     else if(quizlist.quiz[n].visible == 2){
-        printf("Availability :\nAvailable to tagged users\n");
+        printf("Availability :\n%sAvailable to tagged users%s\n", KGRN, KNRM);
     }
     printf("\nType\n r : to view student responses\n m : To change distrubution of marks\n e : To add questions/edit existing questions \n p : to preview whole question paper\n c : to change maximum number of attempts\n d : to delete this quiz\n t : to manage tags for this quiz\n i : to change instructions \n a : to change availabilityof this quiz\n 0 : to go back to quizzes list\n");
     char res;
@@ -676,12 +675,10 @@ void admin_quizdetails(int n){
 	clearBuf();
   	if(res=='r'){
         response_admin(n);
-        appdata_save(1);
         return;
     }
 	else if(res == 'e'){
         edit_questions(n);
-        appdata_save(1);
         return;
 	}
     else if(res == 'm'){
@@ -689,7 +686,6 @@ void admin_quizdetails(int n){
             if(quizlist.quiz[n].visible != 2){
             preveiw_quiz(n);
             change_marks(n);
-            appdata_save(0);
             return;
             }
             else{
@@ -731,13 +727,11 @@ void admin_quizdetails(int n){
     }
     else if (res == 'c'){
         change_max_attempts(n);
-        appdata_save(0);
         return;
     }
     else if(res == 't'){
         if(num !=0){
         tag_quiz(n);
-        appdata_save(0);
         return;
         }
         else{
@@ -767,7 +761,7 @@ void admin_quizdetails(int n){
 }
 
 void showqlist_admin(){
-    appdata_save(0);
+    appdata_read();
     clearscr();
     printf("type a number to veiw/edit quiz or type '0' to create a quiz\npress '-1' to go back to welcome page\n" );
     for (int  i = 0; i < quizlist.no_of_quizes; i++)   printf("%d : %s\t no.of students attempted   %d\n",i+1,quizlist.quiz[i].name,quizlist.quiz[i].no_of_students_attempted);
@@ -794,44 +788,52 @@ void showqlist_admin(){
 }
 
 void delete_user(int id){
-    printf("are you sure to delete this user?(y/n)\n");
-    char res = takeyorno();
-    if(res == 'y'){
-        int auth = authenticate();
-        if(auth == 1){
-            for (int mem = id; mem < no_of_currentusers-1; mem++){
-                userlist[mem] = userlist[mem+1];        //have to change responses too
-                for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++)
-                {
-                    quizes_attempted[mem][quiz_id] = quizes_attempted[mem+1][quiz_id];
-                    for (int ques_id = 0; ques_id < max_q_per_quiz; ques_id++)
+    if(id != 0){
+        printf("are you sure to delete this user?(y/n)\n");
+        char res = takeyorno();
+        if(res == 'y'){
+            int auth = authenticate();
+            if(auth == 1){
+                for (int mem = id; mem < no_of_currentusers-1; mem++){
+                    userlist[mem] = userlist[mem+1];        //have to change responses too
+                    for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++)
                     {
-                        for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
+                        quizes_attempted[mem][quiz_id] = quizes_attempted[mem+1][quiz_id];
+                        for (int ques_id = 0; ques_id < max_q_per_quiz; ques_id++)
                         {
-                            response[mem][quiz_id][ques_id][alt_id] = response[mem+1][quiz_id][ques_id][alt_id];
+                            for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
+                            {
+                                response[mem][quiz_id][ques_id][alt_id] = response[mem+1][quiz_id][ques_id][alt_id];
+                            }
+                            
                         }
                         
                     }
                     
                 }
-                
+                no_of_currentusers--;
+                appdata_save(1);
+                printf("User deleted press any charachter to go back\n");
+                wait_for_enter();
+                clearscr();
+                view_userlist();
+                return;
             }
-            no_of_currentusers--;
-            appdata_save(1);
-            printf("User deleted press any charachter to go back\n");
-            wait_for_enter();
-            clearscr();
-            view_userlist();
-            return;
+            else{
+                clearscr();
+                view_user(id);
+            }
         }
         else{
             clearscr();
-            view_user(id);
+            view_user(id); 
         }
     }
     else{
+        printf("you can't able to delete this account by default\npress enter to continue\n");
+        wait_for_enter();
         clearscr();
-        view_user(id); 
+        view_user(id);
     }
 
 }
@@ -921,7 +923,7 @@ void add_user(){
         for (int ques_id = 0; ques_id < quizlist.quiz[qid].no_of_questions; ques_id++){
             for (int alt_id = 0; alt_id < max_alternative_q; alt_id++)
             {
-               response[no_of_currentusers][qid][ques_id][alt_id].status = response[1][qid][ques_id][alt_id].status;
+               response[no_of_currentusers][qid][ques_id][alt_id].status = response[0][qid][ques_id][alt_id].status;
             }
         }
     }
@@ -1100,14 +1102,15 @@ void add_tag(int id){
         }
     }    
     strcpy(taglist[id],response);
-    printf("tag created press ENTER to continue\n");
-    appdata_save(0);   
+    printf("tag created press ENTER to continue\n"); 
+    appdata_save(0);
     wait_for_enter();
     clearscr();
     manage_tags();
 }
 
 void manage_tags(){
+    appdata_read();
     printf("list of tags :\n\n");
     int tg= 0;      // stores no.of available tags currently present.
     for (int id = 0; id < max_tags; id++){
@@ -1137,7 +1140,6 @@ void manage_tags(){
         if(tg < max_tags){
         clearscr();
         add_tag(tg);
-        appdata_save(0);
         }
         else{
             printf("Can't add tags anymore limit(%d) reached\npress ENTER\n",max_tags);

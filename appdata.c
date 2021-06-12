@@ -39,12 +39,12 @@ void appdata_read() {
 		    for (int  i = 0; i < max_tags; i++) {
         		strcpy(taglist[i],"");
     		}
-    	    strcpy(userlist[0].username,"student");
+    	    strcpy(userlist[0].username,"admin");
 		    strcpy(userlist[0].password,"1");
-		    userlist[0].type=0;
-		    strcpy(userlist[1].username,"admin");
+		    userlist[0].type=1;
+		    strcpy(userlist[1].username,"student");
 		    strcpy(userlist[1].password,"1");
-		    userlist[1].type=1;
+		    userlist[1].type=0;
 		    quizlist.no_of_quizes = 0;
 			no_of_currentusers = 2;
 		    appdata_save(1);
