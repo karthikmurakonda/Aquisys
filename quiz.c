@@ -103,7 +103,7 @@ void qMatrix(int index, int attempt) {
 	}
 		else {            //If not 'n' or y'
 			clearscr();
-		printf("Invalid Input!\n");
+		printf("%sInvalid Input!%s\n", red, normal);
 		qMatrix(index, attempt);
 	}
 }
@@ -113,7 +113,7 @@ else if (num>0&&num<=quizlist.quiz[index].no_of_questions) {
 }
 else {
 	clearscr();
-	printf("Invalid Input!\n");
+	printf("%sInvalid Input!%s\n", red, normal);
 	qMatrix(index, attempt);
 }
 }
@@ -214,7 +214,7 @@ void quizNav(int i, int index, int attempt) {
 	}
 	else {    //neither 'n' nor 'm'
 		clearscr();
-		printf("Invalid Option!\n");
+		printf("%sInvalid Option!%s\n", red, normal);
 		quizNav(i, index, attempt);
 	}
 }
@@ -323,7 +323,7 @@ void view_instructions(int index) {
 		return;
 	}
 	else {
-		printf("Invalid option please try again,\n");
+		printf("%sInvalid option please try again,%s\n", red, normal);
 		goto E;
 	}
 }
