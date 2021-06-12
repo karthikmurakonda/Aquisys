@@ -1026,7 +1026,14 @@ void view_userlist(){
     }
     else if (response == 0){
         clearscr();
+        if(no_of_currentusers < max_users){
         add_user();
+        }
+        else{
+            printf("you can't add add more than %d users\npress ENTER to continue\n",max_users);
+            wait_for_enter();
+            view_userlist();
+        }
     }
     else{
         clearscr();
