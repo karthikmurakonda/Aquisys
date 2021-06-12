@@ -77,6 +77,7 @@ void qMatrix(int index, int attempt) {
 	printf("\n\nKey:\n%s[U]%s Unattempted            (p/q) p Marks Obtained Out of q\n", yellow, normal);
 	printf("%s[S]%s Seen\n", cyan, normal);
 	printf("%s[A]%s Attempted\n", green, normal);
+	printf("\n\nEnter question number you wish to view or '0' to submit quiz,\n");
 	int num;
 	scanf("%d", &num);
 
