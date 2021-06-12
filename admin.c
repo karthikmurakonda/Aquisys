@@ -59,7 +59,7 @@ void change_max_attempts(int quiz_id){
                     admin_quizdetails(quiz_id);   
                     return;
                 }
-                else printf("Invalid response try again\n");
+                else printf("%sInvalid response try again%s\n", red, normal);
             }while(1);
     }
     else{
@@ -99,14 +99,14 @@ void change_max_attempts(int quiz_id){
                         admin_quizdetails(quiz_id);   
                         return;
                     }
-                    else printf("Invalid response try again\n");
+                    else printf("%sInvalid response try again%s\n", red, normal);
                 }while(1);
             }
             else if (res1 == 'n'||res1=='N'){
                 admin_quizdetails(quiz_id);
                 return;
             }
-            else printf("not a valid response try again\n");
+            else printf("%snot a valid response try again%s\n", red, normal);
         }while(1);
     }
 }
@@ -191,7 +191,7 @@ void add_question(int quiz_id,int question_id,int alt_id){
                 check = 'y';
             }
             else if(res == 'n' || res == 'N') continue;
-            else printf("Not a valid response try agian\n");
+            else printf("%sNot a valid response try again%s\n", red, normal);
         }while(res != 'y'&& res != 'Y' && res!= 'n'&&res!='N');
     }
     for(int user = 0; user<max_users;user++)    response[user][quiz_id][question_id][alt_id].status = 'N';   //changing status from E to N if question is filled.
@@ -278,7 +278,7 @@ void addquestions_initial(int questart_id,int quiz_id){
                 diff == 0;
                 res2 = 'n';
             }
-            else printf("not a valid input\n");
+            else printf("%snot a valid input%s\n", red, normal);
 
 	    }while(res2 != 'y'&& res2 != 'Y'  && res2!= 'n'&&res2!='N');
         }   
@@ -321,7 +321,7 @@ void addquiz(){
 	scanf("%d",&res);
 	clearBuf();
 	while(res <= 0 || res >= max_q_per_quiz){
-		printf("invalid response type again(should be a number in range 1 to 200)\n");
+		printf("%sinvalid response type again(should be a number in range 1 to 200)%s\n", red, normal);
 		scanf("%d",&res);
 		clearBuf();
 	}
@@ -331,7 +331,7 @@ void addquiz(){
 	scanf("%d",&res);
 	clearBuf();
 	while(res <= 0 || res >= 6){
-		printf("invalid response type again(should be a number in range 1 to 5)\n");
+		printf("%sinvalid response type again(should be a number in range 1 to 5)%s\n", red, normal);
 		scanf("%d",&res);
 		clearBuf();
 	}
@@ -356,7 +356,7 @@ void addquiz(){
 		quizlist.no_of_quizes = quizlist.no_of_quizes-1;
 		showqlist_admin();
 	}
-    else printf("Not a valid response try agian\n");
+    else printf("%sNot a valid response try agian%s\n", red, normal);
 	}while(res2 != 'n' && res2 != 'y' && res2!= 'N' && res2!='Y');
 }
 
@@ -409,7 +409,7 @@ void admin_Matrix(int stu_id,int index, int attempt) {
   }
   else {
     clearscr();
-    printf("Invalid Input!\n");
+    printf("%sInvalid Input!%s\n", red, normal);
     admin_Matrix(stu_id,index, attempt);
   }
 }
@@ -471,7 +471,7 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
       return;
   }
   else {
-    printf("Invalid option! Please try again,\n");
+    printf("%sInvalid option! Please try again,%s\n", red, normal);
     goto E;
   }
 }
@@ -546,10 +546,10 @@ void change_marks(int quiz_id){
                 check2 = 1;
             admin_quizdetails(quiz_id);
             }
-            else printf("Not a valid response try agian\n");
+            else printf("%sNot a valid response try again%s\n", red, normal);
 	    }while(check2 == 0);
 	}
-    else printf("Not a valid response try agian\n");
+    else printf("%sNot a valid response try again%s\n", red, normal);
 	}while(check == 0);
  }
 
@@ -585,7 +585,7 @@ void delete_quiz(int quiz_id){
             return;
         }
         else{
-            printf("Invalid response please type again!");
+            printf("%sInvalid response please type again!%s", red, normal);
         }
     }while(1);
 }
@@ -598,7 +598,7 @@ void tag_quiz(int quiz_id){
     response = scanf_int(max_tags,0);
     if(taglist[response-1]==""){
         if(quizlist.quiz[quiz_id].tag_ids[response-1]==0);
-            printf("Not a valid response try again\n");
+            printf("%sNot a valid response try again%s\n", red, normal);
             response == -1;
     }
     }while(response==-1);
@@ -654,7 +654,7 @@ void tag_quiz(int quiz_id){
         }
         }
         else{
-            printf("Invalid response press ENTER to continue\n");
+            printf("%sInvalid response press ENTER to continue%s\n", red, normal);
             wait_for_enter();
             admin_quizdetails(quiz_id);
         }
@@ -790,7 +790,7 @@ void admin_quizdetails(int n){
         }
     }
     
-    else printf("Not a valid response try agian\n");
+    else printf("%sNot a valid response try again%s\n", red, normal);
 	}while(1);
 }
 
@@ -813,7 +813,7 @@ void showqlist_admin(){
 	}
     else if(res == -1) return;
     else {
-        printf("Not a valid response try agian\n");
+        printf("%sNot a valid response try again%s\n", red, normal);
         res = -2;
     }
 
@@ -1020,7 +1020,7 @@ char takeyorno(){
     if(c == 'y' || c == 'Y') return 'y';
     else if(c == 'n' ||c == 'N') return 'n';
     else{
-        printf("Invalid response type again(y/n)\n");
+        printf("%sInvalid response type again(y/n)%s\n", red, normal);
         c = takeyorno();
     }
     return c;
@@ -1255,7 +1255,7 @@ void welcomepage_admin(){
             quit = 0;
         } 
         else{
-            printf("Invalid response try again(y or q)\n");
+            printf("%sInvalid response try again(y or q)%s\n", red, normal);
         }
         }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c' && x != 'r');
     }while(quit==0);

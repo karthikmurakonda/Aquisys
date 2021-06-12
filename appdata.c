@@ -57,7 +57,7 @@ void appdata_read() {
 			exit(1);
 		}
 		else {
-			printf("Invalid option!\nPlease try again,");
+			printf("%sInvalid option!\nPlease try again,%s", red, normal);
 			appdata_read();
 		}
 	}

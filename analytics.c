@@ -56,7 +56,7 @@ void aMatrix(int index, int attempt) {
   }
   else {
     clearscr();
-    printf("Invalid Input!\n");
+    printf("%sInvalid Input!%s\n", red, normal);
     aMatrix(index, attempt);
   }
 }
@@ -97,7 +97,7 @@ void analyseQuestion(int i, int index, int attempt) {
     }
   }
   else {
-    printf("Invalid option! Please try again,\n");
+    printf("%sInvalid option! Please try again,%s\n", red, normal);
     goto E;
   }
 }

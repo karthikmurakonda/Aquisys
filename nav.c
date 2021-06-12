@@ -82,7 +82,7 @@ void student_nav() {
         student_nav();
     }
     else {
-        printf("\nInvalid input! Please try again,\n");
+        printf("\n%sInvalid input! Please try again,%s\n", red, normal);
         goto E;
     }
 }
