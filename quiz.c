@@ -291,7 +291,7 @@ void view_instructions(int index) {
 	printf("-------------------------------------------\n\n");
 	printf("%s\n\n", quizlist.quiz[index].instructions);
 	printf("Attempts: %d/%d\n", quizes_attempted[currentuser.ID][index].no_attempts, quizlist.quiz[index].no_of_max_attempts);
-	printf("Max time : %d min\n\n",quizlist.quiz[index].max_time);
+	printf("Max time : %d min\n\n",quizlist.quiz[index].max_time/60);
 	if (quizlist.quiz[index].visible<=1) {
 		printf("\nThis cannot be given currently!\n");
 	}
