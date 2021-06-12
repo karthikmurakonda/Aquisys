@@ -37,20 +37,11 @@ int login(){
             }
             else if (checku == 0 && checkp != 0) 
             {
-                printf("\n\n\n\t\t\tWRONG PASSWORD!");
-                printf("\n\n\t\t(Press 'r' to re-login)\n");
-                char res = getchar();
-                clearBuf();
-                if (res == 'r')
-                {
-                    clearscr();
-                    return login();
-                }
-                else {
-                    printf("%sInvalid response try again,%s\n", red, normal);
-                    clearscr();
-                    goto E;
-                }       
+                printf("\n\n\n\t\t\t%sWrong Password!%s", red, normal);
+                printf("\n\n\t\t(Press ENTER to re-login)\n");
+                wait_for_enter();
+                clearscr();
+                goto E;      
             }
         }
     }
