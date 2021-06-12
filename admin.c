@@ -668,7 +668,7 @@ void admin_quizdetails(int n){
     printf("Quiz name : %s\n",quizlist.quiz[n].name);
     printf("\n*****************************************INSTRUCTIONS*********************************************\n");
     printf("%s",quizlist.quiz[n].instructions);
-    printf("****************************************************************************************************\n");
+    printf("\n****************************************************************************************************\n");
     printf("No.of questions %d\n",quizlist.quiz[n].no_of_questions);
     printf("No.of maximum attempts : %d\n",quizlist.quiz[n].no_of_max_attempts);
     printf("\nTags :\n");
