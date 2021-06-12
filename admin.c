@@ -419,6 +419,7 @@ void quiz_result_admin(int stu_id,int index, int attempt) {
   printf("%s's score is %d \n",userlist[stu_id].username,quizes_attempted[stu_id][index].attempt[attempt].result.score);
   printf("No. of correct answers are %d \n",quizes_attempted[stu_id][index].attempt[attempt].result.correct);
   printf("No. of incorrect answers are %d \n\n",quizes_attempted[stu_id][index].attempt[attempt].result.incorrect);
+  printf("Time taken : %d (in min)\n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60);
 }
 
 void see_response_admin(int stu_id,int i, int index, int attempt) {
@@ -429,7 +430,7 @@ void see_response_admin(int stu_id,int i, int index, int attempt) {
   printf("Solution:\n%s\n\n",question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].solution);
   printf("Response:\n%s\n\n", response[stu_id][index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].answer);
   printf("Score: %d/%d\n\n", quizes_attempted[stu_id][index].attempt[attempt].marks[i-1], question[index][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][0]][quizes_attempted[stu_id][index].attempt[attempt].q_bank[i-1][1]].marks);
-  printf("Time taken : %d (in min)\n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60);
+
   printf("Enter 'e' to exit ,'m' to grade question manually or  'n' to proceed to next question\n");
   char com;
   E:
@@ -1194,58 +1195,59 @@ void manage_tags(){
 void welcomepage_admin(){
     int quit = 0;
     do{
-    appdata_read();
-    for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++){  //reads no_of students attempts from user files.
-        int res = 0;
-        for (int i = 0; i < no_of_currentusers; i++){
-            if(quizes_attempted[i][quiz_id].no_attempts!=0){
-            res++;
+        appdata_read();
+        for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++){  //reads no_of students attempts from user files.
+            int res = 0;
+            for (int i = 0; i < no_of_currentusers; i++){
+                if(quizes_attempted[i][quiz_id].no_attempts!=0){
+                res++;
+                }
             }
+            quizlist.quiz[quiz_id].no_of_students_attempted = res;
         }
-        quizlist.quiz[quiz_id].no_of_students_attempted = res;
-    }
-    appdata_save(0);
-    clearscr();
-    printf("Welcome %s!\n\n",currentuser.username);
-    printf("What would you like to do?\n");
-    printf("- See or manage quizzes (Enter q)\n");
-    printf("- see or add users (a)\n");
-    printf("- see or add tags(t)\n");
-    printf("- Log out (Enter l)\n");
-    printf("- Change password (Enter c)\n");
-    printf("- Reload (Enter r)\n");
+        appdata_save(0);
+        clearscr();
+        printf("Welcome %s!\n\n",currentuser.username);
+        printf("What would you like to do?\n");
+        printf("- See or manage quizzes (Enter q)\n");
+        printf("- see or add users (a)\n");
+        printf("- see or add tags(t)\n");
+        printf("- Log out (Enter l)\n");
+        printf("- Change password (Enter c)\n");
+        printf("- Reload (Enter r)\n");
 
-    int b = 0;
-    char x;
+        int b = 0;
+        char x;
 
-    do{
-        scanf("%c",&x);
-        clearBuf();
-    if (x =='q'){
-        showqlist_admin();  // goes to quizlist
+        do{
+            scanf("%c",&x);
+            clearBuf();
+        if (x =='q'){
+            showqlist_admin();  // goes to quizlist
+            }
+        else if (x=='l'){
+            loginpage();
+            quit = 1;
         }
-    else if (x=='l'){
-        loginpage();
-        quit = 1;
-    }
-    else if(x == 'a'){
-        clearscr();
-        view_userlist();
-    }
-    else if(x == 't'){
-        clearscr();
-        manage_tags();
-    }
-    else if(x == 'c'){
-        change_password();
-        quit = 1;
-    }
-    else if(x == 'r'){
-        quit = 0;
-    } 
-    else{
-        printf("Invalid response try again(y or q)\n");
-    }
-    }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c' && x != 'r');
+        else if(x == 'a'){
+            clearscr();
+            view_userlist();
+        }
+        else if(x == 't'){
+            clearscr();
+            manage_tags();
+        }
+        else if(x == 'c'){
+            clearscr();
+            change_password();
+            quit = 1;
+        }
+        else if(x == 'r'){
+            quit = 0;
+        } 
+        else{
+            printf("Invalid response try again(y or q)\n");
+        }
+        }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c' && x != 'r');
     }while(quit==0);
 }
