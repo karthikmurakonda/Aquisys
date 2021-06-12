@@ -118,60 +118,73 @@ else {
 }
 
 void askQuestion(int i, int index, int attempt) {
-	printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-	printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
-	printf("Question:\n");
-	printf("%s\n\n", question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].statement);
-	//Has the question been answered already?
-	if (response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status=='A') {
-		printf("Your current answer:\n%s\n\n", response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer);
-		printf("Change the answer (enter # to exit without changing answer):\n");
-	}
-	else {
-		printf("Enter the answer (enter # to exit without answering):\n");
-			//Set status to seen
-		response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status='S';
-	}
-	char answer[max_answer_length];
-	//Capture answer
-	smart_fgets(answer, max_answer_length, stdin);
-	// submit time of question
-	record_time(1);
-	// Check for time discrepancies
-	if (cheating()) {
-		quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken =(current-start);
-		clearscr();
+	if (!autosubmit(index)) {
 		printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-		printf("-------------------------------------------\n");
-		printf("Cheating has been detected!!\nThis answer could not be saved!\n");
-		printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
-		wait_for_enter();
-	}
-	else {
-		//time checker
-		if (autosubmit(index)) {
-			// Timeout!
-			//record submit quiz time
+		printf("-------------------------------------------\n             Question %d (%d Marks)\n\n", i+1, question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].marks);
+		printf("Question:\n");
+		printf("%s\n\n", question[index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].statement);
+		//Has the question been answered already?
+		if (response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status=='A') {
+			printf("Your current answer:\n%s\n\n", response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer);
+			printf("Change the answer (enter # to exit without changing answer):\n");
+		}
+		else {
+			printf("Enter the answer (enter # to exit without answering):\n");
+			//Set status to seen
+			response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status='S';
+		}
+		char answer[max_answer_length];
+		//Capture answer
+		smart_fgets(answer, max_answer_length, stdin);
+		// submit time of question
+		record_time(1);
+		// Check for time discrepancies
+		if (cheating()) {
 			quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken =(current-start);
 			clearscr();
 			printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
 			printf("-------------------------------------------\n");
-			printf("Time out!!\nThis answer could not be saved!\n");
+			printf("Cheating has been detected!!\nThis answer could not be saved!\n");
 			printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
 			wait_for_enter();
 		}
 		else {
-			//If # is not the answer
-			if (answer[0]!='#') {
-				//Update response
-				strcpy(response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer, answer);
-				//Mark as attempted
-				response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status='A';
-				appdata_save(0);
+			//time checker
+			if (autosubmit(index)) {
+				// Timeout!
+				//record submit quiz time
+				quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken =(current-start);
+				clearscr();
+				printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+				printf("-------------------------------------------\n");
+				printf("Time out!!\nThis answer could not be saved!\n");
+				printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+				wait_for_enter();
 			}
-			clearscr();
-			quizNav(i, index, attempt);
+			else {
+				//If # is not the answer
+				if (answer[0]!='#') {
+					//Update response
+					strcpy(response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].answer, answer);
+					//Mark as attempted
+					response[currentuser.ID][index][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][0]][quizes_attempted[currentuser.ID][index].attempt[attempt].q_bank[i][1]].status='A';
+					appdata_save(0);
+				}
+				clearscr();
+				quizNav(i, index, attempt);
+			}
 		}
+	}
+	else {
+		// Timeout!
+		//record submit quiz time
+		quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken =(current-start);
+		clearscr();
+		printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
+		printf("-------------------------------------------\n");
+		printf("Time out!!\nThis answer could not be saved!\n");
+		printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
+		wait_for_enter();
 	}
 }
 
