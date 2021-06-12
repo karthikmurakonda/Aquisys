@@ -777,7 +777,7 @@ void showqlist_admin(){
         admin_quizdetails(res-1);
         return;
 	}
-    else if(res == -1) welcomepage_admin();
+    else if(res == -1) return;
     else {
         printf("Not a valid response try agian\n");
         res = -2;
@@ -906,7 +906,7 @@ void add_user(){
         }
     }
     strcpy( userlist[no_of_currentusers].username,resp);
-    printf("type account type(0 for user and 1 for admin\n");
+    printf("type account type(0 for user and 1 for admin)\n");
     userlist[no_of_currentusers].type = scanf_int(1,0);
     for(int i = 0;i < max_tags;i++){
         userlist[no_of_currentusers].tags[i] = 0;   //initializing tags for the new user.
@@ -992,10 +992,9 @@ void view_userlist(){
         if(userlist[id].type == 1)  printf("%d\t\tAdmin\t\t%s\n",id+1,userlist[id].username);
         else if(userlist[id].type == 0)  printf("%d\t\tUser\t\t%s\n",id+1,userlist[id].username);
     }
-    printf("\nType a serial number to view about user\nType 0 is add a user\nType -1 to goback\n");
+    printf("\nType a serial number to view about user\nType 0 to add a user\nType -1 to goback\n");
     int response = scanf_int(no_of_currentusers,-1);
     if (response == -1){
-        welcomepage_admin();
         return;
     }
     else if (response == 0){
@@ -1129,7 +1128,7 @@ void manage_tags(){
     printf("\nType corresponding serial number to view the members list bearing the tag\nType 0 to add a tag\nType -1 to go back\nType -2 delete a tag\n");
     int res = scanf_int(tg,-2);
     if(res == -1){
-        welcomepage_admin();
+        return;
     }
     else if(res == -2){
         printf("Type the number of tag you wish to delete\n");
@@ -1155,6 +1154,8 @@ void manage_tags(){
 }
 
 void welcomepage_admin(){
+    int quit = 0;
+    do{
     appdata_read();
     for (int quiz_id = 0; quiz_id < quizlist.no_of_quizes; quiz_id++){  //reads no_of students attempts from user files.
         int res = 0;
@@ -1186,6 +1187,7 @@ void welcomepage_admin(){
         }
     else if (x=='l'){
         loginpage();
+        quit = 1;
     }
     else if(x == 'a'){
         clearscr();
@@ -1197,12 +1199,14 @@ void welcomepage_admin(){
     }
     else if(x == 'c'){
         change_password();
+        quit = 1;
     }
     else if(x == 'r'){
-        welcomepage_admin();
+        quit = 0;
     } 
     else{
         printf("Invalid response try again(y or q)\n");
     }
     }while (x!='l'&&x!='q'&&x!='t'&&x!= 'a'&& x!='c' && x != 'r');
+    }while(quit==0);
 }
