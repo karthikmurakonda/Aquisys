@@ -9,4 +9,4 @@ debug: ${SRCS}
 	${CC} -g ${SRCS} -o run
 
 clean-appdata:
-	rm -rf .data
+	rm -rf .*.dat
