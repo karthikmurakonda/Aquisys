@@ -858,7 +858,7 @@ void delete_user(int id){
                 }
                 no_of_currentusers--;
                 appdata_save(1);
-                printf("User deleted Type ENTER to charachter to go back\n");
+                printf("User deleted Type ENTER to go back\n");
                 wait_for_enter();
                 clearscr();
                 view_userlist();
