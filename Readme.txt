@@ -49,7 +49,7 @@ Windows: run the included  “run.exe” file
  2. Choose see or add user option
  3. Choose desired option to manage users
 
- ## Additional Libraries (Headers) Used
+## Additional Libraries (Headers) Used
  1. stdio.h
  2. stdlib.h
  3. string.h
