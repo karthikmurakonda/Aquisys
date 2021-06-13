@@ -13,7 +13,7 @@ void preview_all_questions(int quiz_id){     //displays all questions without ed
     printf("Quiz name : %s\n",quizlist.quiz[quiz_id].name);
     for (int i = 0; i < quizlist.quiz[quiz_id].no_of_questions; i++){
         for (int alt = 0; alt < max_alternative_q; alt++){
-            if(response[0][quiz_id][i][alt].status != 'E') {
+            if(question[quiz_id][i][alt].status != 'E') {
                 printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",i+1,alt+1);
                 printf("Marks - %d\n\n",question[quiz_id][i][alt].marks);
                 printf("Statement:\n%s\n",question[quiz_id][i][alt].statement);
@@ -115,7 +115,7 @@ void change_max_attempts(int quiz_id){
 void preview_question(int quiz_id,int ques_id){
     int alts= 0;
     for (int alt = 0; alt < max_alternative_q; alt++){
-            if(response[0][quiz_id][ques_id][alt].status != 'E') {
+            if(question[quiz_id][ques_id][alt].status != 'E') {
                 printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%d.%d~~~~~~~~~~~~~~~~~~~~~~~~\n\n",ques_id+1,alt+1);
                 printf("Marks - %d\n\n",question[quiz_id][ques_id][alt].marks);
                 printf("Statement:\n%s\n",question[quiz_id][ques_id][alt].statement);
@@ -154,7 +154,7 @@ void preveiw_quiz(int quiz_Id){
     for (int qid = 0; qid <quizlist.quiz[quiz_Id].no_of_questions; qid++){
         int no_of_alts= 0;
         for (int i = 0; i < max_alternative_q; i++){
-            if(response[0][quiz_Id][qid][i].status != 'E') no_of_alts++;
+            if(question[quiz_Id][qid][i].status != 'E') no_of_alts++;
         }        
         printf("     %d                           %d                   %d\n",qid+1,no_of_alts,question[quiz_Id][qid][0].marks);    
     }
@@ -275,7 +275,7 @@ void addquestions_initial(int questart_id,int quiz_id){
                 diff--;
             }
             else if ( res2 == 'n'||res2 =='N'){
-                diff == 0;
+                diff = 0;
                 res2 = 'n';
             }
             else printf("%snot a valid input%s\n", red, normal);
@@ -585,7 +585,7 @@ void delete_quiz(int quiz_id){
                 showqlist_admin();
                 return;
         }
-        else if (res = 'n' || res == 'N'){
+        else if (res == 'n' || res == 'N'){
             admin_quizdetails(quiz_id);
             return;
         }
@@ -597,17 +597,16 @@ void delete_quiz(int quiz_id){
 
 void tag_quiz(int quiz_id){
     printf("Type corresponding tag number from above printed taglist to remove tag\n 0 to add a tag\n");
-    int response;
-    if(response != 0){
-    do{
-    response = scanf_int(max_tags,0);
-    if(taglist[response-1]==""){
-        if(quizlist.quiz[quiz_id].tag_ids[response-1]==0);
-            printf("%sNot a valid response try again%s\n", red, normal);
-            response == -1;
-    }
-    }while(response==-1);
-    }
+    int response=-1;
+        do{
+        response = scanf_int(max_tags,0);
+        if(taglist[response-1][0]=='\0'){
+            if(quizlist.quiz[quiz_id].tag_ids[response-1]==0){
+                printf("%sNot a valid response try again%s\n", red, normal);
+                response = -1;
+            }
+        }
+    }while(response==-1);    
     if(response==0){
         clearscr();
         printf("Available tags :\n");
@@ -680,7 +679,7 @@ void admin_quizdetails(int n){
     printf("\nTags :\n");
     int tagnum = 0,num =0;  //tagnum no tags tagged to this quiz , num is no.of totall tags in system at present.
     for(int ti=0; ti < max_tags;ti++){
-        if(taglist[ti] !=""){
+        if(taglist[ti][0] !='\0'){
             if(quizlist.quiz[n].tag_ids[ti] == 1 ){
                 printf("%d)%s\n",ti+1,taglist[ti]);
                 tagnum++;
@@ -859,7 +858,7 @@ void delete_user(int id){
                 }
                 no_of_currentusers--;
                 appdata_save(1);
-                printf("User deleted press any charachter to go back\n");
+                printf("User deleted Type ENTER to charachter to go back\n");
                 wait_for_enter();
                 clearscr();
                 view_userlist();
@@ -1120,15 +1119,22 @@ void delete_tag(int id,int num){ //num is no.of tags present currently.
             strcpy(taglist[i],taglist[i+1]);   //need to change few more 
          strcpy(taglist[i],taglist[i+1]);   //need to change few more 
             strcpy(taglist[i],taglist[i+1]);   //need to change few more 
-            for(int stu_id; stu_id < no_of_currentusers;stu_id++){
-                userlist[stu_id].tags[i] == userlist[stu_id].tags[i+1];
+            for(int stu_id=0; stu_id < no_of_currentusers;stu_id++){
+                userlist[stu_id].tags[i] = userlist[stu_id].tags[i+1];
             }
             for(int qid = 0; qid < quizlist.no_of_quizes;qid++){
                 quizlist.quiz[qid].tag_ids[i] = quizlist.quiz[qid].tag_ids[i+1];
             }
         }
-        appdata_save(1);
+        for (int qid = 0; qid < no_of_currentusers; qid++){
+            quizlist.quiz[qid].tag_ids[num-1]= 0;
+        }
+        for(int stu_id= 0; stu_id < no_of_currentusers;stu_id++){
+            userlist[stu_id].tags[num-1] = 0;
+        }
+        
         taglist[num-1][0] = '\0';
+        appdata_save(1);
         printf("deleted successfully type ENTER to go back\n");
         wait_for_enter();
         clearscr();
