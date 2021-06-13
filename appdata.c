@@ -53,7 +53,7 @@ void appdata_read() {
 			appdata_read();
 		}
 		else if (com=='n'||com=='N') {
-			printf("Error!\nAppdata not found");
+			printf("%sError!\nAppdata not found\n%sIf this error persists try deleting all appdata files and restart Aquisys.\n", red, normal);
 			exit(1);
 		}
 		else {
@@ -92,7 +92,7 @@ void save_userdata(int i) {
 
 	// Check if open
 	if (userdata == NULL) {
-		printf("\nError!\nCould not open userdata\n");
+		printf("\n%sError!\nCould not open userdata%s\nIf this error persists try deleting all appdata files and restart Aquisys.\n", red, normal);
 		exit (1);
 	}
 	
@@ -121,7 +121,7 @@ void read_userdata(int i) {
 
 	// Check if open
 	if (userdata == NULL) {
-		printf("\nError!\nCould not open userdata\n");
+		printf("\n%sError!\nCould not open userdata%s\nIf this error persists try deleting all appdata files and restart Aquisys.\n", red, normal);
 		exit (1);
 	}
 
@@ -141,6 +141,8 @@ void read_userdata(int i) {
 
 int checklock(int type, int i) {
 	// Check if type is common data
+	clearscr();
+	printf("%sSomeone is writting to the appdata!%s\nIf this error persists try deleting all appdata files and restart Aquisys.", red, normal);
 	if (type==0) {
 		FILE *lock;
 		// Check for lock
@@ -216,7 +218,7 @@ void save_quizdata() {
 	//Check if open
 	if (datafile == NULL)
 	{
-		printf("\nError!\nCould not open appdata\n");
+		printf("\n%sError!\nCould not open appdata%s\nIf this error persists try deleting all appdata files and restart Aquisys.\n", red, normal);
 		exit (1);
 	}
 
