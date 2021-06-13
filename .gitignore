@@ -1,6 +1,5 @@
 *.exe
 *.out
 .vscode
-.*.dat
 run
 .data

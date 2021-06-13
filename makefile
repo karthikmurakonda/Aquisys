@@ -8,8 +8,5 @@ build: ${SRCS}
 debug: ${SRCS}
 	${CC} -g ${SRCS} -o run
 
-clean:
-	rm -f *.o run
-
 clean-appdata:
-	rm -f .*.dat
+	rm -rf .data
