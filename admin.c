@@ -805,7 +805,14 @@ void showqlist_admin(){
 	scanf("%d",&res);
 	clearBuf();
   	if(res==0){
+          if(quizlist.no_of_quizes < max_quizes){
           addquiz();
+          }
+          else{
+              printf("can't add more than %d quizzes\ntype ENTER to continue\n",max_quizes);
+              wait_for_enter();
+              showqlist_admin();
+          }
     }
 	else if(res>0 && res <= quizlist.no_of_quizes){
         admin_quizdetails(res-1);
