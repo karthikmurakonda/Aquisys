@@ -38,7 +38,7 @@ void appdata_read() {
 			//Make default appdata
 			system("mkdir .data");
 			#ifdef _WIN32
-      			system("ATTRIB +H /s /d %%cd%%/.*");	//command to hide .data folder in windows os
+      			system("ATTRIB +H /s /d %cd%/.*");	//command to hide .data folder in windows os
 			#endif
 		    for (int  i = 0; i < max_tags; i++) {
         		strcpy(taglist[i],"");
