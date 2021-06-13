@@ -24,7 +24,9 @@ void appdata_read() {
 	FILE *userdata;
 
 	// Read common appdata
+	printf("%sSomeone is writting to the appdata!%s\nIf this error persists try deleting all appdata lock files and restart Aquisys.\n", red, normal);
 	while(checklock(0,0));
+	clearscr();
 	// Open the datafile
 	datafile = fopen(".appdata.dat", "rb");
 
@@ -86,7 +88,9 @@ void save_userdata(int i) {
 	//Open userdata
 	char udatafile[100];
 	sprintf(udatafile, ".appdata-%d.dat", i);
+	printf("%sSomeone is writting to the appdata!%s\nIf this error persists try deleting all appdata lock files and restart Aquisys.\n", red, normal);
 	while (checklock(1,i));
+	clearscr();
 	lock(1,i);
 	userdata = fopen(udatafile, "wb");
 
@@ -116,7 +120,9 @@ void read_userdata(int i) {
 	//Open userdata
 	char udatafile[100];
 	sprintf(udatafile, ".appdata-%d.dat", i);
+	printf("%sSomeone is writting to the appdata!%s\nIf this error persists try deleting all appdata lock files and restart Aquisys.\n", red, normal);
 	while(checklock(1,i));
+	clearscr();
 	userdata = fopen(udatafile, "rb");
 
 	// Check if open
@@ -141,8 +147,6 @@ void read_userdata(int i) {
 
 int checklock(int type, int i) {
 	// Check if type is common data
-	clearscr();
-	printf("%sSomeone is writting to the appdata!%s\nIf this error persists try deleting all appdata files and restart Aquisys.", red, normal);
 	if (type==0) {
 		FILE *lock;
 		// Check for lock
@@ -209,7 +213,9 @@ void unlock(int type, int i) {
 void save_quizdata() {
 	FILE *datafile;
 
+	printf("%sSomeone is writting to the appdata!%s\nIf this error persists try deleting all appdata lock files and restart Aquisys.\n", red, normal);
 	while(checklock(0,0));
+	clearscr();
 	lock(0,0);
 
 	//Open the datafile
