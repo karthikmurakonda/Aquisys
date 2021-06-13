@@ -419,7 +419,12 @@ void quiz_result_admin(int stu_id,int index, int attempt) {
   printf("%s's score is %d \n",userlist[stu_id].username,quizes_attempted[stu_id][index].attempt[attempt].result.score);
   printf("No. of correct answers are %d \n",quizes_attempted[stu_id][index].attempt[attempt].result.correct);
   printf("No. of incorrect answers are %d \n\n",quizes_attempted[stu_id][index].attempt[attempt].result.incorrect);
-  printf("Time taken : %d:%d \n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60,quizes_attempted[stu_id][index].attempt[attempt].time_taken%60);
+  if (quizes_attempted[stu_id][index].attempt[attempt].time_taken%60<9) {
+    printf("Time taken : %d:0%d \n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60,quizes_attempted[stu_id][index].attempt[attempt].time_taken%60);
+  }
+  else {
+    printf("Time taken : %d:%d \n",quizes_attempted[stu_id][index].attempt[attempt].time_taken/60,quizes_attempted[stu_id][index].attempt[attempt].time_taken%60);
+  }
 }
 
 void see_response_admin(int stu_id,int i, int index, int attempt) {

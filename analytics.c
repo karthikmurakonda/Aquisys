@@ -65,9 +65,13 @@ void quiz_result(int index, int attempt) {
   printf("The results are: \n");
   printf("Your score is %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.score);
   printf("No. of correct answers are %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.correct);
-  printf("No. of incorrect answers are %d \n\n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.incorrect);
-  printf("Time taken : %d:%d\n",quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken/60,quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken%60);
-
+  printf("No. of incorrect answers are %d \n",quizes_attempted[currentuser.ID][index].attempt[attempt].result.incorrect);
+  if (quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken%60<10) {
+    printf("Time taken : %d:0%d\n",quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken/60,quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken%60);
+  }
+  else {
+    printf("Time taken : %d:%d\n",quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken/60,quizes_attempted[currentuser.ID][index].attempt[attempt].time_taken%60);
+  }
 }
 
 void analyseQuestion(int i, int index, int attempt) {
