@@ -33,19 +33,3 @@ int cheating() {
         return 0;
     }
 }
-
-/*void check_cheating() {
-    if(user[currentuser.ID][index][attempt].q_start[cheat]<user[currentuser.ID][index][attempt].q_start[cheat-1]){
-    clearscr();
-     //record submit quiz time
-      take_time(index,attempt,"submit");
-      clearscr();
-      printf("-------------------------------------------\n                  %s               \n", quizlist.quiz[index].name);
-      printf("-------------------------------------------\n");
-      //Save data
-      appdata_save();
-      printf("Time out!!\n");
-      printf("Quiz submitted!\nHit ENTER to proceed to main menu,\n");
-      getchar();
-    }
-}*/

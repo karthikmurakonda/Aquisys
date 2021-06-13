@@ -101,34 +101,3 @@ void analyseQuestion(int i, int index, int attempt) {
     goto E;
   }
 }
-
-/*void fetch_result(int index, int attempt)
-{ 
-  int qno,d;
-  printf("Which attempt? \n");
-  scanf("%d",&d);
-  declare_result(index,d);
-  while (index!=-1)
-  { 
-     printf("Enter the question number: \n");
-     scanf("%d",&qno);
-     int a=quizes_attempted[currentuser.ID][index].attempt[d].q_bank[qno][0];
-     int b=quizes_attempted[currentuser.ID][index].attempt[d].q_bank[qno][0];
-     printf("The question is : %s\n",question[index][a][b].statement);
-     printf("The solution is : %s\n",question[index][a][b].solution);
-     printf("Your answer  is : %s\n",question[index][a][b].response[currentuser.ID].answer);
-     int choice;
-    printf("Do you want to select another Quiz or Continue? \n");
-    printf("press 0 [Quiz] or 1 [Continue] \n");
-    scanf("%d",&choice);
-    if (choice==0)
-    { 
-      fetch_result(0, 0);
-      break;
-    }
-    else if(choice==1)
-    {
-      continue;
-    }
-  }
-}*/
