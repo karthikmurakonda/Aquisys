@@ -3,13 +3,13 @@
 #include <string.h>
 #include <time.h>
 
-#define max_users 10
-#define max_quizes 10
+#define max_users 50
+#define max_quizes 20
 #define max_answer_length 200
-#define max_question_length 700
+#define max_question_length 1000
 #define max_alternative_q 5
 #define max_q_per_quiz 200
-#define max_tags 5
+#define max_tags 10
 
 #define normal "\x1b[0m"
 #define black "\x1b[30m"

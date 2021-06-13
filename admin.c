@@ -32,7 +32,7 @@ void change_max_attempts(int quiz_id){
     printf("Quiz : %s\n",quizlist.quiz[quiz_id].name);
     printf("Type new max_attempts\n");
     int response;
-    response = scanf_int(5,1);
+    response = scanf_int(max_alternative_q,1);
     if (response < quizlist.quiz[quiz_id].no_of_max_attempts){
         for (int i = 0; i < max_users; i++){
             if(response < quizes_attempted[i][quiz_id].no_attempts){
@@ -128,12 +128,12 @@ void preview_question(int quiz_id,int ques_id){
     int res;
 	res = scanf_int(alts,-1);
     if(res==0){
-            if(alts != 5){
+            if(alts != max_alternative_q){
             add_question(quiz_id,ques_id,alts);
             appdata_save(1);
             }
-            else if (alts == 5){
-                printf("Can't add alt anymore all 5 alts exists");
+            else if (alts == max_alternative_q){
+                printf("Can't add alt anymore all %d alts exists", max_alternative_q);
             }
             preview_question(quiz_id,ques_id);
         }
@@ -234,7 +234,7 @@ void ques_initialize(int questart_id,int quiz_id){
         for(int tid=0;tid<max_tags;tid++)   quizlist.quiz[quiz_id].tag_ids[tid] = 0;
     }
     for (int i = questart_id; i <= quizlist.quiz[quiz_id].no_of_questions; i++){
-        for(int d=0;d <5;d++){
+        for(int d=0;d <max_alternative_q;d++){
             question[quiz_id][i][d].statement[0] = '\0';
             question[quiz_id][i][d].solution[0] = '\0';
             question[quiz_id][i][d].marks = 0;
@@ -271,7 +271,7 @@ void addquestions_initial(int questart_id,int quiz_id){
 	        scanf("%c",&res2);
 	        clearBuf();
             if(res2 == 'y' || res2 == 'Y'){
-                add_question(quiz_id,i,5-diff);
+                add_question(quiz_id,i,max_alternative_q-diff);
                 diff--;
             }
             else if ( res2 == 'n'||res2 =='N'){
@@ -316,22 +316,22 @@ void addquiz(){
 	strcpy(quizlist.quiz[i].name,x);
 	quizlist.quiz[i].no_of_students_attempted=0;//initialising to zero.
 	//no.of questions.
-	printf("no.of questions?(type number between 1 to 200)\n");
+	printf("no.of questions?(type number between 1 to %d)\n", max_q_per_quiz);
 	int res;
 	scanf("%d",&res);
 	clearBuf();
 	while(res <= 0 || res >= max_q_per_quiz){
-		printf("%sinvalid response type again(should be a number in range 1 to 200)%s\n", red, normal);
+		printf("%sinvalid response type again(should be a number in range 1 to %d)%s\n", red, max_q_per_quiz, normal);
 		scanf("%d",&res);
 		clearBuf();
 	}
 	quizlist.quiz[i].no_of_questions = res;
 	//no_of_max_attempts part.
-	printf("no.of maximum attepts?(type number between 1 to 5)\n");
+	printf("no.of maximum attepts?(type number between 1 to %d)\n", max_alternative_q);
 	scanf("%d",&res);
 	clearBuf();
 	while(res <= 0 || res >= 6){
-		printf("%sinvalid response type again(should be a number in range 1 to 5)%s\n", red, normal);
+		printf("%sinvalid response type again(should be a number in range 1 to %d)%s\n", red, max_alternative_q, normal);
 		scanf("%d",&res);
 		clearBuf();
 	}
