@@ -147,7 +147,7 @@ void preview_question(int quiz_id,int ques_id){
     }
 }
 
-void preveiw_quiz(int quiz_Id){
+void preview_quiz(int quiz_Id){
     clearscr();
     printf("Quiz-%s\n\n",quizlist.quiz[quiz_Id].name);
     printf("~~~QUESTION_NO~~~~~~~~~~~~~~~NO.OF_ALTS~~~~~~~~~~~~~~~Marks\n");
@@ -199,7 +199,7 @@ void add_question(int quiz_id,int question_id,int alt_id){
 }
 
 void edit_questions(int quiz_id){
-    preveiw_quiz(quiz_id);
+    preview_quiz(quiz_id);
     printf("Type ques_number to preview,edit or add alternate question numbers\nType 0 to create questions\nType -1 to exit\n");
     int res;
     res = scanf_int(quizlist.quiz[quiz_id].no_of_questions,-1);
@@ -252,7 +252,7 @@ void ques_initialize(int questart_id,int quiz_id){
 }
 
 void addquestions_initial(int questart_id,int quiz_id){
-    preveiw_quiz(quiz_id);
+    preview_quiz(quiz_id);
     printf("press ENTER to start entering questions\n");
     wait_for_enter();
     for (int i = questart_id; i < quizlist.quiz[quiz_id].no_of_questions; i++){
@@ -713,7 +713,7 @@ void admin_quizdetails(int n){
     else if(res == 'm'){
         if(quizlist.quiz[n].no_of_students_attempted == 0){
             if(quizlist.quiz[n].visible != 2){
-            preveiw_quiz(n);
+            preview_quiz(n);
             change_marks(n);
             return;
             }
