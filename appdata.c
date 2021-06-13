@@ -26,7 +26,7 @@ void appdata_read() {
 	// Read common appdata
 	while(checklock(0,0));
 	// Open the datafile
-	datafile = fopen(".appdata.dat", "rb");
+	datafile = fopen(".data/.appdata.dat", "rb");
 
 	// Check if open
 	if (datafile == NULL) {
@@ -36,6 +36,10 @@ void appdata_read() {
 		clearBuf();
 		if (com=='y'||com=='Y') {
 			//Make default appdata
+			system("mkdir .data");
+			#ifdef _WIN32
+      			system("ATTRIB +H /s /d %%cd%%/.*");	//command to hide .data folder in windows os
+			#endif
 		    for (int  i = 0; i < max_tags; i++) {
         		strcpy(taglist[i],"");
     		}
@@ -85,7 +89,7 @@ void save_userdata(int i) {
 	FILE *userdata;
 	//Open userdata
 	char udatafile[100];
-	sprintf(udatafile, ".appdata-%d.dat", i);
+	sprintf(udatafile, ".data/.appdata-%d.dat", i);
 	while (checklock(1,i));
 	lock(1,i);
 	userdata = fopen(udatafile, "wb");
@@ -115,7 +119,7 @@ void read_userdata(int i) {
 	FILE *userdata;
 	//Open userdata
 	char udatafile[100];
-	sprintf(udatafile, ".appdata-%d.dat", i);
+	sprintf(udatafile, ".data/.appdata-%d.dat", i);
 	while(checklock(1,i));
 	userdata = fopen(udatafile, "rb");
 
@@ -144,7 +148,7 @@ int checklock(int type, int i) {
 	if (type==0) {
 		FILE *lock;
 		// Check for lock
-		lock = fopen(".appdata.dat.lock", "rb");
+		lock = fopen(".data/.appdata.dat.lock", "rb");
 		if (lock == NULL) {
 			return 0;
 		}
@@ -158,7 +162,7 @@ int checklock(int type, int i) {
 		FILE *lock;
 		// Check for lock
 		char udatafilelock[100];
-		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		sprintf(udatafilelock, ".data/.appdata-%d.dat.lock", i);
 		lock = fopen(udatafilelock, "rb");
 		if (lock == NULL) {
 			return 0;
@@ -175,7 +179,7 @@ void lock(int type, int i) {
 	if (type==0) {
 		FILE *lock;
 		// Make lock
-		lock=fopen(".appdata.dat.lock", "wb");
+		lock=fopen(".data/.appdata.dat.lock", "wb");
 		fclose(lock);
 	}
 	// Check if type is student
@@ -183,7 +187,7 @@ void lock(int type, int i) {
 		FILE *lock;
 		// Make lock
 		char udatafilelock[100];
-		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		sprintf(udatafilelock, ".data/.appdata-%d.dat.lock", i);
 		lock=fopen(udatafilelock, "wb");
 		fclose(lock);
 	}
@@ -193,13 +197,13 @@ void unlock(int type, int i) {
 	// Check if type is common data
 	if (type==0) {
 		// Delete lock
-		remove(".appdata.dat.lock");
+		remove(".data/.appdata.dat.lock");
 	}
 	// Check if type is student
 	if (type==1) {
 		// Delete lock
 		char udatafilelock[100];
-		sprintf(udatafilelock, ".appdata-%d.dat.lock", i);
+		sprintf(udatafilelock, ".data/.appdata-%d.dat.lock", i);
 		remove(udatafilelock);
 	}
 }
@@ -211,7 +215,7 @@ void save_quizdata() {
 	lock(0,0);
 
 	//Open the datafile
-	datafile = fopen(".appdata.dat", "wb");
+	datafile = fopen(".data/.appdata.dat", "wb");
 
 	//Check if open
 	if (datafile == NULL)
