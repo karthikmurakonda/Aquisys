@@ -600,11 +600,10 @@ void tag_quiz(int quiz_id){
     int response=-1;
         do{
         response = scanf_int(max_tags,0);
-        if(taglist[response-1][0]=='\0'){
-            if(quizlist.quiz[quiz_id].tag_ids[response-1]==0){
-                printf("%sNot a valid response try again%s\n", red, normal);
-                response = -1;
-            }
+        if(response == 0)   break;
+        if(taglist[response-1][0]=='\0'){   
+            printf("%sNot a valid response try again%s\n", red, normal);
+            response = -1;
         }
     }while(response==-1);    
     if(response==0){
